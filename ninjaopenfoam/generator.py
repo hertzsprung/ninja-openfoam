@@ -4,6 +4,7 @@ from .paths import Paths
 import datetime
 import os
 import sys
+from pkg_resources import resource_filename
 
 class Generator:
     def __init__(self, out):
@@ -58,4 +59,12 @@ class Generator:
                 implicit=implicit,
                 variables={"source": case}
         )
+        self.w.newline()
+
+    def scriptRule(self, name, command, description=None):
+        script, args = command.split(' ', 1)
+        self.w.rule(
+                name,
+                resource_filename('ninjaopenfoam', script) + ' ' + args,
+                description)
         self.w.newline()

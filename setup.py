@@ -49,7 +49,7 @@ setup(
         'test': ['coverage'],
     },
 
-    package_data={'ninjaopenfoam': ['data/*']},
+    package_data={'ninjaopenfoam': ['scripts/*']},
     data_files=[],
     entry_points={},
 )
