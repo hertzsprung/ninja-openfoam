@@ -27,3 +27,20 @@ class Case:
     def __str__(self):
         return self.root
 
+class CopyCase:
+    def __init__(self, name, source, target, files=[]):
+        self.name = name
+        self.sourceCase = Case(name, prefix=source)
+        self.targetCase = Case(name, prefix=target)
+        self.files = files
+
+    def write(self, generator):
+        g = generator
+
+        g.copyAll(Paths.polyMesh, self.sourceCase, self.targetCase)
+
+        for f in self.files:
+            g.copy(self.sourceCase.path(f), self.targetCase.path(f))
+
+    def __str__(self):
+        return self.name

@@ -1,11 +1,11 @@
 from .blockMesh import BlockMesh
 from .build import Build
-from .case import Case
+from .case import Case, CopyCase
 from .deformationSphere import DeformationSphereBuilder
 from .generator import Generator
 from .geodesicHexMesh import GeodesicHexMesh
 from .gnuplot import Gnuplot
-from .gmtplot import GmtPlot
+from .gmtplot import GmtPlot, GmtPlotCopyCase
 from .paths import Paths
 from .pdflatex import PDFLaTeX
 from .schaerAdvect import SchaerAdvect
