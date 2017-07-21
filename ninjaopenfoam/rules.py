@@ -28,6 +28,21 @@ class Rules:
                 description='geodesicHexPatch $case')
 
         g.scriptRule(
+                'gnuplot',
+                'scripts/gnuplot.sh $in $out',
+                description='gnuplot $in $out')
+
+        g.scriptRule(
+                'gmtFoam',
+                'scripts/gmtFoam.sh $in $case $time',
+                description='gmtFoam $in $case $time')
+
+        g.scriptRule(
+                'pdflatex',
+                'scripts/pdflatex.sh $in $out',
+                description='pdflatex $in $out')
+
+        g.scriptRule(
                 's3-upload',
                 'scripts/s3-upload.sh $source $s3uri > $out',
                 description='s3upload $source')
