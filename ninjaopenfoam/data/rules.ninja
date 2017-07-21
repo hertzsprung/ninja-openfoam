@@ -1,0 +1,36 @@
+rule blockMesh
+    command = blockMesh -case $case
+
+rule cp
+    command = cp $in $out                                                       
+
+rule gen-controlDict
+    description = gen-controlDict $out
+    command = ninja/gen-controlDict.sh $endTime $writeInterval $timestep < $in > $out
+
+rule gen-decomposeParDict
+    description = gen-decomposeParDict $out
+    command = ninja/gen-decomposeParDict.sh $solver_parallel_tasks < $in > $out
+
+rule geodesicHexMesh
+    description = geodesicHexMesh $case
+    command = ninja/geodesicHexMesh.sh $case
+
+rule geodesicHexPatch
+    description = geodesicHexPatch $case
+    command = ninja/geodesicHexPatch.sh $case $refinement
+
+rule s3-upload
+    description = s3-upload $source
+    command = ninja/s3-upload.sh $source $s3uri > $out
+
+rule setInitialTracerField
+    command = setInitialTracerField -case $case
+
+rule setVelocityField
+    command = setVelocityField -case $case -time 0
+
+rule terrainFollowingMesh
+    description = terrainFollowingMesh $terrainFollowingMeshCase
+    command = ninja/terrainFollowingMesh.sh $blockMeshCase $terrainFollowingMeshCase
+
