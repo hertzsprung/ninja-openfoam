@@ -61,10 +61,11 @@ class Generator:
         )
         self.w.newline()
 
-    def scriptRule(self, name, command, description=None):
+    def scriptRule(self, name, command, description=None, pool=None):
         script, args = command.split(' ', 1)
         self.w.rule(
                 name,
                 resource_filename('ninjaopenfoam', script) + ' ' + args,
-                description)
+                description=description,
+                pool=pool)
         self.w.newline()

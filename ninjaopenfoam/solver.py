@@ -10,9 +10,9 @@ class SolverRule:
         description = "{name} $case".format(name=self.name)
 
         if self.parallel:
-            g.w.rule(
+            g.scriptRule(
                     self.name,
-                    'ninja/openfoam-solve.sh $case $solver_parallel_tasks "{command} -parallel"'.format(command=self.command),
+                    'scripts/openfoam-solve.sh $case $solver_parallel_tasks "{command} -parallel"'.format(command=self.command),
                     description=description)
         else:
             g.w.rule(self.name, self.command, description=description)

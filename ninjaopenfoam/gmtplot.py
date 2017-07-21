@@ -3,6 +3,9 @@ from .paths import Paths
 
 import os
 
+# FIXME: GmtPlot should be given the target case, not the source case
+# a separate CopyCase should be used to copy the necessary files from
+# $atmostests_builddir to $builddir
 class GmtPlot:
     def __init__(self, name, plot, case, time, data=[]):
         self.name = name

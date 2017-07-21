@@ -32,10 +32,13 @@ class Rules:
                 'scripts/gnuplot.sh $in $out',
                 description='gnuplot $in $out')
 
+        g.w.pool('gmtFoam_pool', 1)
+
         g.scriptRule(
                 'gmtFoam',
                 'scripts/gmtFoam.sh $in $case $time',
-                description='gmtFoam $in $case $time')
+                description='gmtFoam $in $case $time',
+                pool='gmtFoam_pool')
 
         g.scriptRule(
                 'pdflatex',
