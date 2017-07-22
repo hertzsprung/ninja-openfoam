@@ -8,6 +8,16 @@ class Rules:
         g.w.newline()
 
         g.scriptRule(
+                'averageCellCentreDistance',
+                'scripts/averageCellCentreDistance.sh $case > $out',
+                description='averageCellCentreDistance $case')
+
+        g.scriptRule(
+                'averageEquatorialSpacing',
+                'scripts/averageEquatorialSpacing.sh < $in > $out',
+                description='averageEquatorialSpacing $out')
+
+        g.scriptRule(
                 'gen-controlDict',
                 'scripts/gen-controlDict.sh $endTime $writeInterval $timestep < $in > $out',
                 description='gen-controlDict $out')

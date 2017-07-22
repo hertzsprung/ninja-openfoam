@@ -23,6 +23,21 @@ class GeodesicHexMesh:
         case = self.case
 
         g.w.build(
+                outputs=case.averageEquatorialSpacing,
+                rule="averageEquatorialSpacing",
+                inputs=case.averageCellCentreDistance,
+        )
+        g.w.newline()
+
+        g.w.build(
+                outputs=case.averageCellCentreDistance,
+                rule="averageCellCentreDistance",
+                implicit=case.polyMesh + case.systemFiles,
+                variables={"case": case}
+        )
+        g.w.newline()
+
+        g.w.build(
                 outputs=case.polyMesh,
                 rule="geodesicHexMesh",
                 inputs=case.path("patch.obj"),

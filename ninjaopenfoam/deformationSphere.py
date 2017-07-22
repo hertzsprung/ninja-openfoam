@@ -74,6 +74,7 @@ class DeformationSphere:
         g.copyMesh(source=self.mesh.case, target=case)
         g.copy(self.fvSchemes, case.fvSchemes)
         g.copy(os.path.join("src", "fvSolution"), case.fvSolution)
+        g.copy(self.mesh.case.averageEquatorialSpacing, case.averageEquatorialSpacing)
         g.controlDict(case, self.timing)
 
         g.s3upload(
