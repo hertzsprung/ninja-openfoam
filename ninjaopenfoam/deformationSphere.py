@@ -1,3 +1,4 @@
+import collections
 import os
 
 from .case import Case
@@ -10,6 +11,11 @@ class DeformationSphereBuilder:
         self.fast = fast
         self.fastMesh = fastMesh
 
+    def collated(self, name, fvSchemes, tracerFieldDict, tests):
+        tests = [self.test(t.name, t.mesh, t.timestep, fvSchemes, tracerFieldDict)
+                for t in tests]
+        return DeformationSphereCollated(name, tests)
+
     def test(self, name, mesh, timestep, fvSchemes, tracerFieldDict):
         if self.fast:
             mesh = self.fastMesh
@@ -17,6 +23,20 @@ class DeformationSphereBuilder:
             fvSchemes = os.path.join('src', 'schaerAdvect', 'linearUpwind')
 
         return DeformationSphere(name, mesh, timestep, fvSchemes, tracerFieldDict, self.parallel)
+
+class DeformationSphereCollated:
+    Test = collections.namedtuple('DeformationSphereCollatedTest', ['name', 'mesh', 'timestep'])
+
+    def __init__(self, name, tests):
+        self.name = name
+        self.tests = tests
+
+    def write(self, generator):
+        for t in self.tests:
+            t.write(generator)
+        
+    def __str__(self):
+        return self.name
 
 class DeformationSphere:
     def __init__(self, name, mesh, timestep, fvSchemes, tracerFieldDict, parallel):
