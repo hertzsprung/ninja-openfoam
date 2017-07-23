@@ -8,7 +8,7 @@ class Case:
         self.root = os.path.join(prefix, name)
         self.advectionDict = self.path("system/advectionDict")
         self.averageCellCentreDistance = self.path("averageCellCentreDistance.txt")
-        self.averageEquatorialSpacing = self.path("averageEquatorialSpacing.txt")
+        self.averageEquatorialSpacing = self.path(Paths.averageEquatorialSpacing)
         self.blockMeshDict = self.path("system/blockMeshDict")
         self.controlDict = self.path("system/controlDict")
         self.decomposeParDict = self.path("system/decomposeParDict")

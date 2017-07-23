@@ -2,6 +2,7 @@ import collections
 import os
 
 from .case import Case
+from .paths import Paths
 from .solver import SolverExecution
 from .timing import Timing
 
@@ -20,7 +21,7 @@ class DeformationSphereBuilder:
         if self.fast:
             mesh = self.fastMesh
             timestep = 6400
-            fvSchemes = os.path.join('src', 'schaerAdvect', 'linearUpwind')
+            fvSchemes = os.path.join('src/schaerAdvect/linearUpwind')
 
         return DeformationSphere(name, mesh, timestep, fvSchemes, tracerFieldDict, self.parallel)
 
@@ -28,15 +29,30 @@ class DeformationSphereCollated:
     Test = collections.namedtuple('DeformationSphereCollatedTest', ['name', 'mesh', 'timestep'])
 
     def __init__(self, name, tests):
-        self.name = name
+        self.case = Case(name)
         self.tests = tests
 
     def write(self, generator):
+        g = generator
+
+        g.w.build(
+                outputs=self.case.path('1036800/l2errorT.txt'),
+                rule='collate',
+                implicit=[t.case.averageEquatorialSpacing for t in self.tests]
+                        + [t.case.path('1036800/l2errorT.txt') for t in self.tests],
+                variables={
+                    "cases": [t.case.name for t in self.tests],
+                    "independent": Paths.averageEquatorialSpacing,
+                    "dependent": '1036800/l2errorT.txt'
+                }
+        )
+        g.w.newline()
+
         for t in self.tests:
-            t.write(generator)
+            t.write(g)
         
     def __str__(self):
-        return self.name
+        return self.case.name
 
 class DeformationSphere:
     def __init__(self, name, mesh, timestep, fvSchemes, tracerFieldDict, parallel):
@@ -51,11 +67,13 @@ class DeformationSphere:
         g = generator
         case = self.case
 
+        self.l2error(g)
+
         solver = SolverExecution(
                 g,
                 case,
                 self.parallel,
-                os.path.join("src", "deformationSphere", "decomposeParDict.template")
+                os.path.join("src/deformationSphere/decomposeParDict.template")
         )
         solver.solve(
                 outputs=[case.path(str(self.timing.endTime), "T"),
@@ -67,10 +85,10 @@ class DeformationSphere:
         g.initialTracer(
                 case,
                 self.tracerFieldDict,
-                os.path.join("src", "deformationSphere", "T_init")
+                os.path.join("src/deformationSphere/T_init")
         )
 
-        g.copy(os.path.join("src", "deformationSphere", "nonDivergent"), case.advectionDict)
+        g.copy(os.path.join("src/deformationSphere/nonDivergent"), case.advectionDict)
         g.copyMesh(source=self.mesh.case, target=case)
         g.copy(self.fvSchemes, case.fvSchemes)
         g.copy(os.path.join("src", "fvSolution"), case.fvSolution)
@@ -82,6 +100,67 @@ class DeformationSphere:
                 [case.path(str(self.timing.endTime), "T"),
                  case.path(str(self.timing.endTime//2), "T"),
                  case.path("0", "T")])
+
+    def l2error(self, generator):
+        g = generator
+        case = self.case
+
+        endTime = str(self.timing.endTime)
+
+        diff = case.path(endTime, 'l2errorT_diff.txt')
+        analytic = case.path(endTime, 'l2errorT_analytic.txt')
+
+        g.w.build(
+                outputs=case.path(str(self.timing.endTime), 'l2errorT.txt'),
+                rule='lperror',
+                implicit=[diff, analytic],
+                variables={
+                    "diff": diff,
+                    "analytic": analytic
+                }
+        )
+        g.w.newline()
+
+        g.w.build(
+                outputs=case.path(endTime, 'l2errorT_diff.txt'),
+                rule='extractStat',
+                inputs=[case.path(endTime, 'globalSumT_diff.dat')],
+                variables={"column": 3}
+        )
+        g.w.newline()
+
+        g.w.build(
+                outputs=case.path(endTime, 'l2errorT_analytic.txt'),
+                rule='extractStat',
+                inputs=[case.path(endTime, 'globalSumT_diff.dat')],
+                variables={"column": 3}
+        )
+        g.w.newline()
+
+        g.w.build(
+                outputs=case.path(endTime, 'globalSumT_diff.dat'),
+                rule='globalSum',
+                implicit=[case.path(endTime, 'T_diff')],
+                variables={
+                    "case": case,
+                    "time": endTime,
+                    "field": 'T_diff'
+                }
+        )
+        g.w.newline()
+
+        g.w.build(
+                outputs=case.path(endTime, 'T_diff'),
+                rule='sumFields',
+                implicit=[case.path('0/T'), case.path(endTime, 'T')],
+                variables={
+                    "case": case,
+                    "analyticTime": '0',
+                    "analyticField": 'T',
+                    "numericTime": endTime,
+                    "numericField": 'T'
+                }
+        )
 
     def __str__(self):
         return self.case.name

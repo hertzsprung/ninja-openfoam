@@ -18,6 +18,16 @@ class Rules:
                 description='averageEquatorialSpacing $out')
 
         g.scriptRule(
+                'collate',
+                'scripts/collate.sh $independent $dependent $cases > $out',
+                description='collate $out')
+
+        g.scriptRule(
+                'extractStat',
+                'scripts/extractStat.sh $in $column > $out',
+                description='extractStat $out')
+
+        g.scriptRule(
                 'gen-controlDict',
                 'scripts/gen-controlDict.sh $endTime $writeInterval $timestep < $in > $out',
                 description='gen-controlDict $out')
@@ -38,6 +48,11 @@ class Rules:
                 description='geodesicHexPatch $case')
 
         g.scriptRule(
+                'globalSum',
+                'scripts/globalSum.sh $case $time $field > $out',
+                description='globalSum $out')
+
+        g.scriptRule(
                 'gnuplot',
                 'scripts/gnuplot.sh $in $out',
                 description='gnuplot $in $out')
@@ -51,6 +66,11 @@ class Rules:
                 pool='gmtFoam_pool')
 
         g.scriptRule(
+                'lperror',
+                'scripts/lperror.sh $diff $analytic > $out',
+                description='lperror $out')
+
+        g.scriptRule(
                 'pdflatex',
                 'scripts/pdflatex.sh $in $out',
                 description='pdflatex $in $out')
@@ -62,8 +82,14 @@ class Rules:
 
         g.w.rule('setInitialTracerField', 'setInitialTracerField -case $case')
         g.w.newline()
+
         g.w.rule('setVelocityField', 'setVelocityField -case $case -time 0')
         g.w.newline()
+
+        g.scriptRule(
+                'sumFields',
+                'scripts/sumFields.sh $case $analyticTime $analyticField $numericTime $numericField',
+                description='sumFields $out')
 
         g.scriptRule(
                 'terrainFollowingMesh',
