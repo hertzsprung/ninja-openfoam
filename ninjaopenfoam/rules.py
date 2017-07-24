@@ -49,8 +49,11 @@ class Rules:
 
         g.scriptRule(
                 'globalSum',
-                'scripts/globalSum.sh $case $time $field > $out',
-                description='globalSum $out')
+                'scripts/globalSum.sh $case $time $field',
+                description='globalSum $out',
+                pool='globalSum_pool')
+
+        g.w.pool('globalSum_pool', 1)
 
         g.scriptRule(
                 'gnuplot',
@@ -88,7 +91,7 @@ class Rules:
 
         g.scriptRule(
                 'sumFields',
-                'scripts/sumFields.sh $case $analyticTime $analyticField $numericTime $numericField',
+                'scripts/sumFields.sh $case $time $field',
                 description='sumFields $out')
 
         g.scriptRule(

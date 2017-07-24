@@ -152,15 +152,15 @@ class DeformationSphere:
         g.w.build(
                 outputs=case.path(endTime, 'T_diff'),
                 rule='sumFields',
-                implicit=[case.path('0/T'), case.path(endTime, 'T')],
+                implicit=[case.path(endTime, 'T_analytic'), case.path(endTime, 'T')],
                 variables={
                     "case": case,
-                    "analyticTime": '0',
-                    "analyticField": 'T',
-                    "numericTime": endTime,
-                    "numericField": 'T'
+                    "time": endTime,
+                    "field": 'T'
                 }
         )
+
+        g.copy(case.path('0/T'), case.path(endTime, 'T_analytic'))
 
     def __str__(self):
         return self.case.name
