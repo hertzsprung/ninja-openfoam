@@ -2,6 +2,7 @@ import collections
 import os
 
 from .case import Case
+from .errors import Errors
 from .paths import Paths
 from .solver import SolverExecution
 from .timing import Timing
@@ -67,7 +68,7 @@ class DeformationSphere:
         g = generator
         case = self.case
 
-        self.l2error(g)
+        self.lperrors(g)
 
         solver = SolverExecution(
                 g,
@@ -101,14 +102,14 @@ class DeformationSphere:
                  case.path(str(self.timing.endTime//2), "T"),
                  case.path("0", "T")])
 
-    def l2error(self, generator):
-        g = generator
-        case = self.case
+    def lperrors(self, generator):
         endTime = str(self.timing.endTime)
 
-        g.l2error(case, endTime)
-        g.diff(case, endTime)
-        g.copy(case.path('0/T'), case.path(endTime, 'T_analytic'))
+        errors = Errors(self.case, endTime)
+        errors.diff(generator)
+        errors.l2(generator)
+
+        generator.copy(self.case.path('0/T'), self.case.path(endTime, 'T_analytic'))
 
     def __str__(self):
         return self.case.name
