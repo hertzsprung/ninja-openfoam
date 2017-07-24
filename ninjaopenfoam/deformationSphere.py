@@ -41,7 +41,7 @@ class DeformationSphereCollated:
                 implicit=[t.case.averageEquatorialSpacing for t in self.tests]
                         + [t.case.path('1036800/l2errorT.txt') for t in self.tests],
                 variables={
-                    "cases": [t.case.name for t in self.tests],
+                    "cases": [t.case.root for t in self.tests],
                     "independent": Paths.averageEquatorialSpacing,
                     "dependent": '1036800/l2errorT.txt'
                 }
