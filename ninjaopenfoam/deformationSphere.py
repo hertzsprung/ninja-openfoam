@@ -132,7 +132,7 @@ class DeformationSphere:
         g.w.build(
                 outputs=case.path(endTime, 'l2errorT_analytic.txt'),
                 rule='extractStat',
-                inputs=[case.path(endTime, 'globalSumT_diff.dat')],
+                inputs=[case.path(endTime, 'globalSumT_analytic.dat')],
                 variables={"column": 3}
         )
         g.w.newline()
@@ -145,6 +145,18 @@ class DeformationSphere:
                     "case": case,
                     "time": endTime,
                     "field": 'T_diff'
+                }
+        )
+        g.w.newline()
+
+        g.w.build(
+                outputs=case.path(endTime, 'globalSumT_analytic.dat'),
+                rule='globalSum',
+                implicit=[case.path(endTime, 'T_analytic')],
+                variables={
+                    "case": case,
+                    "time": endTime,
+                    "field": 'T_analytic'
                 }
         )
         g.w.newline()
