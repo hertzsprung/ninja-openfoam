@@ -104,74 +104,10 @@ class DeformationSphere:
     def l2error(self, generator):
         g = generator
         case = self.case
-
         endTime = str(self.timing.endTime)
 
-        diff = case.path(endTime, 'l2errorT_diff.txt')
-        analytic = case.path(endTime, 'l2errorT_analytic.txt')
-
-        g.w.build(
-                outputs=case.path(str(self.timing.endTime), 'l2errorT.txt'),
-                rule='lperror',
-                implicit=[diff, analytic],
-                variables={
-                    "diff": diff,
-                    "analytic": analytic
-                }
-        )
-        g.w.newline()
-
-        g.w.build(
-                outputs=case.path(endTime, 'l2errorT_diff.txt'),
-                rule='extractStat',
-                inputs=[case.path(endTime, 'globalSumT_diff.dat')],
-                variables={"column": 3}
-        )
-        g.w.newline()
-
-        g.w.build(
-                outputs=case.path(endTime, 'l2errorT_analytic.txt'),
-                rule='extractStat',
-                inputs=[case.path(endTime, 'globalSumT_analytic.dat')],
-                variables={"column": 3}
-        )
-        g.w.newline()
-
-        g.w.build(
-                outputs=case.path(endTime, 'globalSumT_diff.dat'),
-                rule='globalSum',
-                implicit=[case.path(endTime, 'T_diff')],
-                variables={
-                    "case": case,
-                    "time": endTime,
-                    "field": 'T_diff'
-                }
-        )
-        g.w.newline()
-
-        g.w.build(
-                outputs=case.path(endTime, 'globalSumT_analytic.dat'),
-                rule='globalSum',
-                implicit=[case.path(endTime, 'T_analytic')],
-                variables={
-                    "case": case,
-                    "time": endTime,
-                    "field": 'T_analytic'
-                }
-        )
-        g.w.newline()
-
-        g.w.build(
-                outputs=case.path(endTime, 'T_diff'),
-                rule='sumFields',
-                implicit=[case.path(endTime, 'T_analytic'), case.path(endTime, 'T')],
-                variables={
-                    "case": case,
-                    "time": endTime,
-                    "field": 'T'
-                }
-        )
-
+        g.l2error(case, endTime)
+        g.diff(case, endTime)
         g.copy(case.path('0/T'), case.path(endTime, 'T_analytic'))
 
     def __str__(self):
