@@ -8,10 +8,9 @@ from .solver import SolverExecution
 from .timing import Timing
 
 class DeformationSphereBuilder:
-    def __init__(self, parallel, fast, fastMesh):
+    def __init__(self, parallel, fast):
         self.parallel = parallel
         self.fast = fast
-        self.fastMesh = fastMesh
 
     def collated(self, name, fvSchemes, tracerFieldDict, tests):
         tests = [self.test(t.name, t.mesh, t.timestep, fvSchemes, tracerFieldDict)
@@ -20,7 +19,6 @@ class DeformationSphereBuilder:
 
     def test(self, name, mesh, timestep, fvSchemes, tracerFieldDict):
         if self.fast:
-            mesh = self.fastMesh
             timestep = 6400
             fvSchemes = os.path.join('src/schaerAdvect/linearUpwind')
 
@@ -36,21 +34,25 @@ class DeformationSphereCollated:
     def write(self, generator):
         g = generator
 
-        g.w.build(
-                outputs=self.case.path('1036800/l2errorT.txt'),
-                rule='collate',
-                implicit=[t.case.averageEquatorialSpacing for t in self.tests]
-                        + [t.case.path('1036800/l2errorT.txt') for t in self.tests],
-                variables={
-                    "cases": [t.case.root for t in self.tests],
-                    "independent": Paths.averageEquatorialSpacing,
-                    "dependent": '1036800/l2errorT.txt'
-                }
-        )
-        g.w.newline()
+        self.collateErrors(generator, 'l2errorT.txt')
+        self.collateErrors(generator, 'linferrorT.txt')
 
         for t in self.tests:
             t.write(g)
+
+    def collateErrors(self, generator, file):
+        generator.w.build(
+                outputs=self.case.path('1036800', file),
+                rule='collate',
+                implicit=[t.case.averageEquatorialSpacing for t in self.tests]
+                        + [t.case.path('1036800', file) for t in self.tests],
+                variables={
+                    "cases": [t.case.root for t in self.tests],
+                    "independent": Paths.averageEquatorialSpacing,
+                    "dependent": os.path.join('1036800', file)
+                }
+        )
+        generator.w.newline()
         
     def __str__(self):
         return self.case.name
@@ -106,8 +108,7 @@ class DeformationSphere:
         endTime = str(self.timing.endTime)
 
         errors = Errors(self.case, endTime)
-        errors.diff(generator)
-        errors.l2(generator)
+        errors.write(generator)
 
         generator.copy(self.case.path('0/T'), self.case.path(endTime, 'T_analytic'))
 

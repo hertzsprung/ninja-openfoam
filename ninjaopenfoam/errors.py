@@ -4,6 +4,15 @@ class Errors:
         self.time = str(time)
         self.field = field
 
+    def write(self, generator):
+        self.diff(generator)
+
+        self.globalSum(generator, self.field + '_diff')
+        self.globalSum(generator, self.field + '_analytic')
+
+        self.l2(generator)
+        self.linf(generator)
+
     def diff(self, generator):
         case = self.case 
         time = self.time
@@ -28,14 +37,26 @@ class Errors:
         generator.w.newline()
 
     def l2(self, generator):
+        self.lp(generator, 'l2error{field}'.format(field=self.field))
+
+        self.extractL2Error(generator, self.field + '_diff')
+        self.extractL2Error(generator, self.field + '_analytic')
+
+    def linf(self, generator):
+        self.lp(generator, 'linferror{field}'.format(field=self.field))
+
+        self.extractLinfError(generator, self.field + '_diff')
+        self.extractLinfError(generator, self.field + '_analytic')
+
+    def lp(self, generator, errorField):
         case = self.case
         time = self.time
 
-        diff = case.path(time, 'l2error{field}_diff.txt'.format(field=self.field))
-        analytic = case.path(time, 'l2error{field}_analytic.txt'.format(field=self.field))
+        diff = case.path(time, errorField + '_diff.txt')
+        analytic = case.path(time, errorField + '_analytic.txt')
 
         generator.w.build(
-                outputs=case.path(time, 'l2error{field}.txt'.format(field=self.field)),
+                outputs=case.path(time, errorField + '.txt'),
                 rule='lperror',
                 implicit=[diff, analytic],
                 variables={
@@ -45,17 +66,11 @@ class Errors:
         )
         generator.w.newline()
 
-#        self.globalSum(field + '_diff')
-#        self.globalSum(field + '_analytic')
-
-#        self.extractL2Error(field + '_diff')
-#        self.extractL2Error(field + '_analytic')
-
-    def globalSum(self, field):
+    def globalSum(self, generator, field):
         case = self.case
         time = self.time
 
-        self.w.build(
+        generator.w.build(
                 outputs=case.path(time, 'globalSum{field}.dat'.format(field=field)),
                 rule='globalSum',
                 implicit=[case.path(time, field)],
@@ -65,16 +80,19 @@ class Errors:
                     "field": field
                 }
         )
-        self.w.newline()
+        generator.w.newline()
 
-    def extractL2Error(self, field):
-        self.extractStat(field, column=3, output='l2error')
+    def extractL2Error(self, generator, field):
+        self.extractStat(generator, field, column=3, output='l2error')
 
-    def extractStat(self, field, column, output):
+    def extractLinfError(self, generator, field):
+        self.extractStat(generator, field, column=4, output='linferror')
+
+    def extractStat(self, generator, field, column, output):
         case = self.case
         time = self.time
 
-        self.w.build(
+        generator.w.build(
                 outputs=case.path(time, '{output}{field}.txt'.format(
                     output=output,
                     field=field
@@ -83,4 +101,4 @@ class Errors:
                 inputs=[case.path(time, 'globalSum{field}.dat'.format(field=field))],
                 variables={"column": column}
         )
-        self.w.newline()
+        generator.w.newline()

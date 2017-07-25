@@ -7,12 +7,16 @@ class GeodesicHexMesh:
             self,
             name,
             refinement,
+            fast,
             extrudeMeshDict=os.path.join("src", "deformationSphere", "extrudeFromSurface"),
             fvSchemes=os.path.join("src", "fvSchemes"),
             fvSolution=os.path.join("src", "fvSolution"),
             controlDict=os.path.join("src", "controlDict")):
         self.case = Case(name)
-        self.refinement = refinement
+        if fast:
+            self.refinement = 3
+        else:
+            self.refinement = refinement
         self.extrudeMeshDict = extrudeMeshDict
         self.fvSchemes = fvSchemes
         self.fvSolution = fvSolution
