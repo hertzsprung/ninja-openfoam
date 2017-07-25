@@ -22,7 +22,7 @@ class DeformationSphereBuilder:
             timestep = 6400
             fvSchemes = os.path.join('src/schaerAdvect/linearUpwind')
 
-        return DeformationSphere(name, mesh, timestep, fvSchemes, tracerFieldDict, self.parallel)
+        return DeformationSphere(name, mesh, timestep, fvSchemes, tracerFieldDict, self.parallel, self.fast)
 
 class DeformationSphereCollated:
     Test = collections.namedtuple('DeformationSphereCollatedTest', ['name', 'mesh', 'timestep'])
@@ -63,13 +63,14 @@ class DeformationSphereCollated:
         return self.case.name
 
 class DeformationSphere:
-    def __init__(self, name, mesh, timestep, fvSchemes, tracerFieldDict, parallel):
+    def __init__(self, name, mesh, timestep, fvSchemes, tracerFieldDict, parallel, fast):
         self.case = Case(name)
         self.mesh = mesh
         self.timing = Timing(1036800, 172800, timestep)
         self.fvSchemes = fvSchemes
         self.tracerFieldDict = tracerFieldDict
         self.parallel = parallel
+        self.fast = fast
 
     def write(self, generator):
         g = generator
@@ -103,11 +104,12 @@ class DeformationSphere:
         g.copy(self.mesh.case.averageEquatorialSpacing, case.averageEquatorialSpacing)
         g.controlDict(case, self.timing)
 
-        g.s3upload(
-                case,
-                [case.path(str(self.timing.endTime), "T"),
-                 case.path(str(self.timing.endTime//2), "T"),
-                 case.path("0", "T")])
+        if not self.fast:
+            g.s3upload(
+                    case,
+                    [case.path(str(self.timing.endTime), "T"),
+                     case.path(str(self.timing.endTime//2), "T"),
+                     case.path("0", "T")])
 
     def lperrors(self, generator):
         endTime = str(self.timing.endTime)
