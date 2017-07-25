@@ -2,7 +2,7 @@
 set -e
 
 display_usage() {
-	echo -e "Usage: gmtFoam.ninja.sh <gmtDict> <case> <time>\n"
+	echo -e "Usage: gmtFoam.sh <gmtDict> <case> <time>\n"
 }
 
 if [ $# -le 2 ]

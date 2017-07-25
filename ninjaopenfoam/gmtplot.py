@@ -4,11 +4,12 @@ from .paths import Paths
 import os
 
 class GmtPlot:
-    def __init__(self, name, plot, case, time, data=[]):
+    def __init__(self, name, plot, case, time, data=[], colorBar=None):
         self.name = name
         self.case = case
         self.time = str(time)
         self.data = data
+        self.colorBar = colorBar
 
         self.targetPlot = self.case.path('constant/gmtDicts', plot)
         self.output = self.case.path(self.time, plot) + '.pdf'
@@ -27,8 +28,19 @@ class GmtPlot:
                 variables={'case': self.case, 'time': self.time})
         g.w.newline()
 
+        if self.colorBar:
+            g.w.build(
+                self.case.path(self.name + '-colorBar.eps'),
+                'gmtFoam-colorBar',
+                self.colorBar,
+                implicit=self.output)
+            g.w.newline()
+
     def outputs(self):
-        return [self.output]
+        o = [self.output]
+        if self.colorBar:
+            o += [self.case.path(self.name + '-colorBar.eps')]
+        return o
 
     def __str__(self):
         return self.name

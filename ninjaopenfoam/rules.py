@@ -69,6 +69,12 @@ class Rules:
                 pool='gmtFoam_pool')
 
         g.scriptRule(
+                'gmtFoam-colorBar',
+                'scripts/gmtFoam-colorBar.sh < $in > $out',
+                description='gmtFoam-colorBar $out',
+                pool='gmtFoam_pool')
+
+        g.scriptRule(
                 'lperror',
                 'scripts/lperror.sh $diff $analytic > $out',
                 description='lperror $out')
