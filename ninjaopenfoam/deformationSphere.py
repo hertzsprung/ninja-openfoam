@@ -15,7 +15,7 @@ class DeformationSphereBuilder:
     def collated(self, name, fvSchemes, tracerFieldDict, tests):
         tests = [self.test(t.name, t.mesh, t.timestep, fvSchemes, tracerFieldDict)
                 for t in tests]
-        return DeformationSphereCollated(name, tests)
+        return DeformationSphereCollated(name, tests, self.fast)
 
     def test(self, name, mesh, timestep, fvSchemes, tracerFieldDict):
         if self.fast:
@@ -27,9 +27,10 @@ class DeformationSphereBuilder:
 class DeformationSphereCollated:
     Test = collections.namedtuple('DeformationSphereCollatedTest', ['name', 'mesh', 'timestep'])
 
-    def __init__(self, name, tests):
+    def __init__(self, name, tests, fast):
         self.case = Case(name)
         self.tests = tests
+        self.fast = fast
 
     def write(self, generator):
         g = generator
@@ -37,21 +38,25 @@ class DeformationSphereCollated:
         self.collateErrors(generator, 'l2errorT.txt')
         self.collateErrors(generator, 'linferrorT.txt')
 
-        for t in self.tests:
-            t.write(g)
-
     def collateErrors(self, generator, file):
-        generator.w.build(
-                outputs=self.case.path('1036800', file),
-                rule='collate',
-                implicit=[t.case.averageEquatorialSpacing for t in self.tests]
-                        + [t.case.path('1036800', file) for t in self.tests],
-                variables={
-                    "cases": [t.case.root for t in self.tests],
-                    "independent": Paths.averageEquatorialSpacing,
-                    "dependent": os.path.join('1036800', file)
-                }
-        )
+        if self.fast:
+            generator.w.build(
+                    outputs=self.case.path('1036800', file),
+                    rule='cp',
+                    inputs=os.path.join('src/deformationSphere/collatedErrors.dummy'))
+        else:
+            generator.w.build(
+                    outputs=self.case.path('1036800', file),
+                    rule='collate',
+                    implicit=[t.case.averageEquatorialSpacing for t in self.tests]
+                            + [t.case.path('1036800', file) for t in self.tests],
+                    variables={
+                        "cases": [t.case.root for t in self.tests],
+                        "independent": Paths.averageEquatorialSpacing,
+                        "dependent": os.path.join('1036800', file)
+                    }
+            )
+
         generator.w.newline()
         
     def __str__(self):

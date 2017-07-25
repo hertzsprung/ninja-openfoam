@@ -13,6 +13,9 @@ class Build:
     def add(self, case):
         self.cases.append(case)
 
+    def addAll(self, cases):
+        self.cases = self.cases + cases
+
     def write(self):
         self.makegendir()
 
