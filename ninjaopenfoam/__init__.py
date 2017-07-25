@@ -11,6 +11,7 @@ from .paths import Paths
 from .pdflatex import PDFLaTeX
 from .schaerAdvect import SchaerAdvect
 from .shortcuts import Shortcuts
+from . import siunitx
 from .solver import SolverExecution, SolverRule
 from . import syntax
 from .terrainFollowingMesh import TerrainFollowingMesh

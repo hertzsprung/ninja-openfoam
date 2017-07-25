@@ -90,6 +90,11 @@ class Rules:
         g.w.newline()
 
         g.scriptRule(
+                'siunitx-ang',
+                'scripts/siunitx-ang.sh < $in > $out',
+                description='siunitx-ang $out')
+
+        g.scriptRule(
                 'sumFields',
                 'scripts/sumFields.sh $case $time $field',
                 description='sumFields $out')
