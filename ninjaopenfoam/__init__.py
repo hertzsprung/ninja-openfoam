@@ -1,6 +1,7 @@
 from .blockMesh import BlockMesh
 from .build import Build
 from .case import Case, CopyCase
+from .cubedSphereMesh import CubedSphereMesh
 from .deformationSphere import DeformationSphereBuilder, DeformationSphereCollated
 from .errors import Errors
 from .generator import Generator

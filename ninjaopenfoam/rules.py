@@ -23,6 +23,21 @@ class Rules:
                 description='collate $out')
 
         g.scriptRule(
+                'cubedSphereMesh',
+                'scripts/cubedSphereMesh.sh $case $blockMeshCase',
+                description='cubedSphereMesh $case')
+
+        g.scriptRule(
+                'gen-cubedSphere-blockMeshDict',
+                'scripts/gen-cubedSphere-blockMeshDict.sh $nxPerPatch < $in > $out',
+                description='gen-cubedSphere-blockMeshDict $out')
+
+        g.scriptRule(
+                'gen-cubedSphere-extrudeMeshDict',
+                'scripts/gen-cubedSphere-extrudeMeshDict.sh $blockMeshCase < $in > $out',
+                description='gen-cubedSphere-extrudeMeshDict $out')
+
+        g.scriptRule(
                 'extractStat',
                 'scripts/extractStat.sh $in $column > $out',
                 description='extractStat $out')
