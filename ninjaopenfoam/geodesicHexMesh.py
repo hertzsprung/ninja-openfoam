@@ -1,6 +1,7 @@
 import os
 
 from .case import Case
+from .sphericalMesh import SphericalMesh
 
 class GeodesicHexMesh:
     def __init__(
@@ -26,20 +27,7 @@ class GeodesicHexMesh:
         g = generator
         case = self.case
 
-        g.w.build(
-                outputs=case.averageEquatorialSpacing,
-                rule="averageEquatorialSpacing",
-                inputs=case.averageCellCentreDistance,
-        )
-        g.w.newline()
-
-        g.w.build(
-                outputs=case.averageCellCentreDistance,
-                rule="averageCellCentreDistance",
-                implicit=case.polyMesh + case.systemFiles,
-                variables={"case": case}
-        )
-        g.w.newline()
+        SphericalMesh(case).write(generator)
 
         g.w.build(
                 outputs=case.polyMesh,

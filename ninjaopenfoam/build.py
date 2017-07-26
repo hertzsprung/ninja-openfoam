@@ -12,6 +12,7 @@ class Build:
 
     def add(self, case):
         self.cases.append(case)
+        return case
 
     def addAll(self, cases):
         self.cases = self.cases + cases

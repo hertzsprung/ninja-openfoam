@@ -14,6 +14,7 @@ from .schaerAdvect import SchaerAdvect
 from .shortcuts import Shortcuts
 from . import siunitx
 from .solver import SolverExecution, SolverRule
+from .sphericalMesh import SphericalMesh
 from . import syntax
 from .terrainFollowingMesh import TerrainFollowingMesh
 from .timing import Timing

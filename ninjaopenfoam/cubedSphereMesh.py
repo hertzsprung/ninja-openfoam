@@ -2,6 +2,7 @@ import os
 
 from .blockMesh import BlockMesh
 from .case import Case
+from .sphericalMesh import SphericalMesh
 
 class CubedSphereMesh:
     def __init__(
@@ -26,6 +27,8 @@ class CubedSphereMesh:
         blockMesh = self.blockMesh
 
         blockMesh.write(generator)
+
+        SphericalMesh(case).write(generator)
 
         g.w.build(
                 case.blockMeshDict,
@@ -56,6 +59,7 @@ class CubedSphereMesh:
         g.copy(self.fvSchemes, blockMesh.case.fvSchemes)
         g.copy(self.fvSolution, blockMesh.case.fvSolution)
         g.copy(self.fvSchemes, case.fvSchemes)
+        g.copy(self.fvSolution, case.fvSolution)
         g.copy(self.controlDict, case.controlDict)
 
     def __str__(self):
