@@ -12,6 +12,7 @@ class Case:
         self.blockMeshDict = self.path("system/blockMeshDict")
         self.controlDict = self.path("system/controlDict")
         self.decomposeParDict = self.path("system/decomposeParDict")
+        self.dx = self.path(Paths.dx)
         self.extrudeMeshDict = self.path("system/extrudeMeshDict")
         self.fvSchemes = self.path("system/fvSchemes")
         self.fvSolution = self.path("system/fvSolution")

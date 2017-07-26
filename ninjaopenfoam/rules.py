@@ -27,6 +27,14 @@ class Rules:
                 'scripts/cubedSphereMesh.sh $case $blockMeshCase',
                 description='cubedSphereMesh $case')
 
+        g.w.rule('echo', 'echo $string > $out')
+        g.w.newline()
+
+        g.scriptRule(
+                'extractStat',
+                'scripts/extractStat.sh $in $column > $out',
+                description='extractStat $out')
+
         g.scriptRule(
                 'gen-cubedSphere-blockMeshDict',
                 'scripts/gen-cubedSphere-blockMeshDict.sh $nxPerPatch < $in > $out',
@@ -36,11 +44,6 @@ class Rules:
                 'gen-cubedSphere-extrudeMeshDict',
                 'scripts/gen-cubedSphere-extrudeMeshDict.sh $blockMeshCase < $in > $out',
                 description='gen-cubedSphere-extrudeMeshDict $out')
-
-        g.scriptRule(
-                'extractStat',
-                'scripts/extractStat.sh $in $column > $out',
-                description='extractStat $out')
 
         g.scriptRule(
                 'gen-controlDict',
@@ -103,6 +106,9 @@ class Rules:
                 's3-upload',
                 'scripts/s3-upload.sh $source $s3uri > $out',
                 description='s3upload $source')
+
+        g.w.rule('setAnalyticTracerField', 'setAnalyticTracerField -case $case -time $time')
+        g.w.newline()
 
         g.w.rule('setInitialTracerField', 'setInitialTracerField -case $case')
         g.w.newline()

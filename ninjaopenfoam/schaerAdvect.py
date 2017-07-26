@@ -2,8 +2,10 @@ import collections
 import os
 
 from .case import Case
+from .errors import Errors
 from .timing import Timing
 from .solver import SolverExecution
+from .paths import Paths
 
 class SchaerAdvectBuilder:
     def __init__(self, parallel, fast, fastMesh):
@@ -12,20 +14,20 @@ class SchaerAdvectBuilder:
         self.fastMesh = fastMesh
 
     def collated(self, name, fvSchemes, tests):
-        tests = [self.test(t.name, t.mesh, t.timestep, fvSchemes)
+        tests = [self.test(t.name, t.dx, t.mesh, t.timestep, fvSchemes)
                 for t in tests]
         return SchaerAdvectCollated(name, tests, self.fast)
 
-    def test(self, name, mesh, timestep, fvSchemes):
+    def test(self, name, dx, mesh, timestep, fvSchemes):
         if self.fast:
             mesh = self.fastMesh
             timestep = 40
             fvSchemes = os.path.join('src/schaerAdvect/linearUpwind')
 
-        return SchaerAdvect(name, mesh, timestep, fvSchemes, self.parallel, self.fast)
+        return SchaerAdvect(name, dx, mesh, timestep, fvSchemes, self.parallel, self.fast)
 
 class SchaerAdvectCollated:
-    Test = collections.namedtuple('SchaerAdvectCollatedTest', ['name', 'mesh', 'timestep'])
+    Test = collections.namedtuple('SchaerAdvectCollatedTest', ['name', 'dx', 'mesh', 'timestep'])
 
     def __init__(self, name, tests, fast):
         self.case = Case(name)
@@ -47,18 +49,17 @@ class SchaerAdvectCollated:
                     rule='cp',
                     inputs=os.path.join('src/schaerAdvect/collatedErrors.dummy'))
         else:
-            print("IMPLEMENTME!")
-#            generator.w.build(
-#                    outputs=self.case.path(endTime, file),
-#                    rule='collate',
-#                    implicit=[t.case.averageEquatorialSpacing for t in self.tests]
-#                            + [t.case.path(endTime, file) for t in self.tests],
-#                    variables={
-#                        "cases": [t.case.root for t in self.tests],
-#                        "independent": Paths.averageEquatorialSpacing,
-#                        "dependent": os.path.join(endTime, file)
-#                    }
-#            )
+            generator.w.build(
+                    outputs=self.case.path(endTime, file),
+                    rule='collate',
+                    implicit=[t.case.dx for t in self.tests]
+                            + [t.case.path(endTime, file) for t in self.tests],
+                    variables={
+                        "cases": [t.case.root for t in self.tests],
+                        "independent": Paths.dx,
+                        "dependent": os.path.join(endTime, file)
+                    }
+            )
 
         generator.w.newline()
         
@@ -66,8 +67,9 @@ class SchaerAdvectCollated:
         return self.case.name
 
 class SchaerAdvect:
-    def __init__(self, name, mesh, timestep, fvSchemes, parallel, fast):
+    def __init__(self, name, dx, mesh, timestep, fvSchemes, parallel, fast):
         self.case = Case(name)
+        self.dx = dx
         self.mesh = mesh
         self.timing = Timing(10000, 5000, timestep)
         self.fvSchemes = fvSchemes
@@ -77,6 +79,8 @@ class SchaerAdvect:
     def write(self, generator):
         g = generator
         case = self.case
+
+        self.lperrors(g)
 
         solver = SolverExecution(
                 g,
@@ -118,6 +122,30 @@ class SchaerAdvect:
                     [case.path(str(self.timing.endTime), "T"),
                      case.path(str(self.timing.writeInterval), "T"),
                      case.path("0/T")])
+
+    def lperrors(self, generator):
+        g = generator
+        case = self.case
+        endTime = str(self.timing.endTime)
+
+        errors = Errors(self.case, endTime)
+        errors.write(g)
+
+        g.w.build(
+                self.case.path(endTime, 'T_analytic'),
+                'setAnalyticTracerField',
+                implicit=case.polyMesh + case.systemFiles + \
+                        [case.velocityFieldDict, case.tracerFieldDict],
+                variables={'case': case, 'time': endTime}
+        )
+        g.w.newline()
+
+        g.w.build(
+                self.case.dx,
+                'echo',
+                variables={'string': str(self.dx)}
+        )
+        g.w.newline()
 
     def __str__(self):
         return self.case.name
