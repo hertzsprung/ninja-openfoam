@@ -6,8 +6,9 @@ from .rules import Rules
 from pkg_resources import resource_filename
 
 class Build:
-    def __init__(self):
+    def __init__(self, generators=[]):
         self.gendir = 'build.ninja.generated'
+        self.generators = generators
         self.cases = []
 
     def add(self, case):
@@ -34,10 +35,13 @@ class Build:
             g.w.variable('gendir', self.gendir)
 
             g.w.rule('generate', command='./generate.py', generator=True)
-            g.w.build('build.ninja', 'generate', implicit='generate.py')
+            g.w.build(
+                    'build.ninja',
+                    'generate',
+                    implicit=['generate.py'] + [os.path.join(g) for g in self.generators])
 
             g.w.include('build.properties')
-            g.w.include('$gendir/rules.ninja')#resource_filename('ninjaopenfoam', 'data/rules.ninja'))
+            g.w.include('$gendir/rules.ninja')
 
             for case in self.cases:
                 g.w.include('$gendir/{case}.build.ninja'.format(case=case))
