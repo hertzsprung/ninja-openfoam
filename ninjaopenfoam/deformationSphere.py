@@ -39,21 +39,23 @@ class DeformationSphereCollated:
         self.collateErrors(generator, 'linferrorT.txt')
 
     def collateErrors(self, generator, file):
+        endTime = '1036800'
+
         if self.fast:
             generator.w.build(
-                    outputs=self.case.path('1036800', file),
+                    outputs=self.case.path(endTime, file),
                     rule='cp',
                     inputs=os.path.join('src/deformationSphere/collatedErrors.dummy'))
         else:
             generator.w.build(
-                    outputs=self.case.path('1036800', file),
+                    outputs=self.case.path(endTime, file),
                     rule='collate',
                     implicit=[t.case.averageEquatorialSpacing for t in self.tests]
-                            + [t.case.path('1036800', file) for t in self.tests],
+                            + [t.case.path(endTime, file) for t in self.tests],
                     variables={
                         "cases": [t.case.root for t in self.tests],
                         "independent": Paths.averageEquatorialSpacing,
-                        "dependent": os.path.join('1036800', file)
+                        "dependent": os.path.join(endTime, file)
                     }
             )
 

@@ -16,7 +16,12 @@ class CubedSphereMesh:
             controlDict=os.path.join("src", "controlDict")):
         self.case = Case(name)
         self.blockMesh = BlockMesh(name + '-block', self.case.blockMeshDict)
-        self.nxPerPatch = nxPerPatch
+
+        if fast:
+            self.nxPerPatch = 8
+        else:
+            self.nxPerPatch = nxPerPatch
+
         self.fvSchemes = fvSchemes
         self.fvSolution = fvSolution
         self.controlDict = controlDict
