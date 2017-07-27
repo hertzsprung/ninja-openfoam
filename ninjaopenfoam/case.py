@@ -11,6 +11,7 @@ class Case:
         self.averageCellCentreDistance = self.path("averageCellCentreDistance.txt")
         self.averageEquatorialSpacing = self.path(Paths.averageEquatorialSpacing)
         self.blockMeshDict = self.path("system/blockMeshDict")
+        self.collapseDict = self.path("system/collapseDict")
         self.controlDict = self.path("system/controlDict")
         self.createPatchDict = self.path("system/createPatchDict")
         self.decomposeParDict = self.path("system/decomposeParDict")

@@ -14,6 +14,7 @@ from .pdflatex import PDFLaTeX
 from .schaerAdvect import SchaerAdvectBuilder, SchaerAdvectCollated
 from .shortcuts import Shortcuts
 from . import siunitx
+from .slantedCellMesh import SlantedCellMesh
 from .solver import SolverExecution, SolverRule
 from .sphericalMesh import SphericalMesh
 from . import syntax

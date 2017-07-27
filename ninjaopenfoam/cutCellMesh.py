@@ -9,7 +9,7 @@ class CutCellMesh:
             asamGridFile,
             createPatchDict,
             extrudeMeshDict=os.path.join('src/cutCellMesh/extrudeMeshDict'),
-            meshQualityDict=os.path.join('src/cutCellMesh/meshQualityDict'),
+            meshQualityDict=os.path.join('src/mesh/meshQualityDict'),
             patchSets=os.path.join('src/cutCellMesh/patchSets'),
             controlDict=os.path.join('src/controlDict')):
         self.case = Case(name)
@@ -34,7 +34,8 @@ class CutCellMesh:
                     case.controlDict,
                     case.extrudeMeshDict,
                     case.meshQualityDict,
-                    case.createPatchDict
+                    case.createPatchDict,
+                    self.patchSets
                 ],
                 variables={'case': case, 'patchSets': self.patchSets}
         )

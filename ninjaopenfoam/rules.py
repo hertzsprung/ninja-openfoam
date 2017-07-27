@@ -132,6 +132,11 @@ class Rules:
                 description='siunitx-ang $out')
 
         g.scriptRule(
+                'slantedCellMesh',
+                'scripts/slantedCellMesh.sh $blockMeshCase $slantedCellMeshCase $removeTinyCells',
+                description='slantedCellMesh $slantedCellMeshCase')
+
+        g.scriptRule(
                 'sumFields',
                 'scripts/sumFields.sh $case $time $field',
                 description='sumFields $out')

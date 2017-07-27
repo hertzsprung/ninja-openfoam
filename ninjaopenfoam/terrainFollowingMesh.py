@@ -18,7 +18,10 @@ class TerrainFollowingMesh:
                 rule="terrainFollowingMesh",
                 inputs=case.mountainDict,
                 implicit=self.blockMesh.case.polyMesh + [case.controlDict],
-                variables={"blockMeshCase": self.blockMesh.case, "terrainFollowingMeshCase": case}
+                variables={
+                    "blockMeshCase": self.blockMesh.case,
+                    "terrainFollowingMeshCase": case
+                }
         )
         g.w.newline()
 
