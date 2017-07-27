@@ -5,16 +5,16 @@ from .advect import Advect
 from .case import Case
 from .paths import Paths
 
-class SchaerAdvectBuilder:
+class MountainAdvectBuilder:
     def __init__(self, parallel, fast, fastMesh):
         self.parallel = parallel
         self.fast = fast
         self.fastMesh = fastMesh
 
-    def collated(self, name, mountainHeight, fvSchemes, tests):
-        tests = [self.test(t.name, t.dx, mountainHeight, t.mesh, t.timestep, fvSchemes)
+    def collated(self, name, dx, fvSchemes, tests):
+        tests = [self.test(t.name, dx, t.mountainHeight, t.mesh, t.timestep, fvSchemes)
                 for t in tests]
-        return SchaerAdvectCollated(name, tests, self.fast)
+        return MountainAdvectCollated(name, tests, self.fast)
 
     def test(self, name, dx, mountainHeight, mesh, timestep, fvSchemes):
         if self.fast:
@@ -23,12 +23,12 @@ class SchaerAdvectBuilder:
             fvSchemes = os.path.join('src/schaerAdvect/linearUpwind')
 
         return Advect(name, dx, mountainHeight, mesh, 
-                os.path.join('src/schaerAdvect/tracerField'),
-                os.path.join('src/schaerAdvect/velocityField'),
+                os.path.join('src/mountainAdvect/tracerField'),
+                os.path.join('src/mountainAdvect/velocityField'),
                 timestep, fvSchemes, self.parallel, self.fast)
 
-class SchaerAdvectCollated:
-    Test = collections.namedtuple('SchaerAdvectCollatedTest', ['name', 'dx', 'mesh', 'timestep'])
+class MountainAdvectCollated:
+    Test = collections.namedtuple('MountainAdvectCollatedTest', ['name', 'mountainHeight', 'mesh', 'timestep'])
 
     def __init__(self, name, tests, fast):
         self.case = Case(name)
@@ -37,9 +37,7 @@ class SchaerAdvectCollated:
 
     def write(self, generator):
         g = generator
-
         self.collateErrors(generator, 'l2errorT.txt')
-        self.collateErrors(generator, 'linferrorT.txt')
 
     def collateErrors(self, generator, file):
         endTime = '10000'
@@ -48,16 +46,16 @@ class SchaerAdvectCollated:
             generator.w.build(
                     outputs=self.case.path(endTime, file),
                     rule='cp',
-                    inputs=os.path.join('src/schaerAdvect/collatedErrors.dummy'))
+                    inputs=os.path.join('src/mountainAdvect/collatedErrors.mountainHeight.dummy'))
         else:
             generator.w.build(
                     outputs=self.case.path(endTime, file),
                     rule='collate',
-                    implicit=[t.case.dx for t in self.tests]
+                    implicit=[t.case.mountainHeight for t in self.tests]
                             + [t.case.path(endTime, file) for t in self.tests],
                     variables={
                         "cases": [t.case.root for t in self.tests],
-                        "independent": Paths.dx,
+                        "independent": Paths.mountainHeight,
                         "dependent": os.path.join(endTime, file)
                     }
             )

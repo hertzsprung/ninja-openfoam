@@ -1,3 +1,4 @@
+from .advect import Advect
 from .blockMesh import BlockMesh
 from .build import Build
 from .case import Case, CopyCase
@@ -9,6 +10,7 @@ from .generator import Generator
 from .geodesicHexMesh import GeodesicHexMesh
 from .gnuplot import Gnuplot
 from .gmtplot import GmtPlot, GmtPlotCopyCase
+from .mountainAdvect import MountainAdvectBuilder, MountainAdvectCollated
 from .paths import Paths
 from .pdflatex import PDFLaTeX
 from .schaerAdvect import SchaerAdvectBuilder, SchaerAdvectCollated

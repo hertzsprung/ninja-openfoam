@@ -21,6 +21,7 @@ class Case:
         self.fvSolution = self.path("system/fvSolution")
         self.meshQualityDict = self.path("system/meshQualityDict")
         self.mountainDict = self.path("system/mountainDict")
+        self.mountainHeight = self.path(Paths.mountainHeight)
         self.T_init = self.path("constant/T_init")
         self.tracerFieldDict = self.path("system/tracerFieldDict")
         self.velocityFieldDict = self.path("system/velocityFieldDict")
