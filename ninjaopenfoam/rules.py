@@ -103,6 +103,11 @@ class Rules:
                 pool='gmtFoam_pool')
 
         g.scriptRule(
+                'latex-substitute',
+                'scripts/latex-substitute.sh < $in > $out',
+                description='latex-substitute $out')
+
+        g.scriptRule(
                 'lperror',
                 'scripts/lperror.sh $diff $analytic > $out',
                 description='lperror $out')
