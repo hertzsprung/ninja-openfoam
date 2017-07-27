@@ -2,7 +2,7 @@
 set -e
 
 display_usage() {
-	echo -e "Usage: terrainFollowingMesh.ninja.sh <blockMeshCase> <terrainFollowingMeshCase>\n"
+	echo -e "Usage: terrainFollowingMesh.sh <blockMeshCase> <terrainFollowingMeshCase>\n"
 }
 
 if [ $# -le 1 ]

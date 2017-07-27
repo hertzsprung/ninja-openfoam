@@ -13,7 +13,8 @@ class Ang:
         generator.w.build(
                 outputs=self.targetFile,
                 rule='siunitx-ang',
-                inputs=self.sourceFile)
+                inputs=self.sourceFile
+        )
         generator.w.newline()
 
     def outputs(self):

@@ -53,6 +53,10 @@ class Advect:
         )
         g.w.newline()
 
+        g.w.build(self.case.dx, 'echo', variables={'string': str(self.dx)})
+        g.w.build(self.case.mountainHeight, 'echo', variables={'string': str(self.mountainHeight)})
+        g.w.build(self.case.timestep, 'echo', variables={'string': str(self.timing.timestep)})
+
         g.copyMesh(source=self.mesh.case, target=case)
         g.copy(self.velocityFieldDict, case.velocityFieldDict)
         g.copy(self.fvSchemes, case.fvSchemes)
@@ -81,10 +85,6 @@ class Advect:
                         [case.velocityFieldDict, case.tracerFieldDict],
                 variables={'case': case, 'time': endTime}
         )
-        g.w.newline()
-
-        g.w.build(self.case.dx, 'echo', variables={'string': str(self.dx)})
-        g.w.build(self.case.mountainHeight, 'echo', variables={'string': str(self.mountainHeight)})
         g.w.newline()
 
     def __str__(self):
