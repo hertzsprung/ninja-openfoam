@@ -2,6 +2,7 @@ from .advect import Advect
 from .blockMesh import BlockMesh
 from .build import Build
 from .case import Case, CopyCase
+from .collator import Collator
 from .cubedSphereMesh import CubedSphereMesh
 from .cutCellMesh import CutCellMesh
 from .deformationSphere import DeformationSphereBuilder, DeformationSphereCollated

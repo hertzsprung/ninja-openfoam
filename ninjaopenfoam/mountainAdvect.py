@@ -3,6 +3,7 @@ import os
 
 from .advect import Advect
 from .case import Case
+from .collator import Collator
 from .paths import Paths
 
 class MountainAdvectBuilder:
@@ -33,35 +34,12 @@ class MountainAdvectCollated:
     def __init__(self, name, tests, fast):
         self.case = Case(name)
         self.tests = tests
-        self.fast = fast
+        self.collator = Collator(self.case, Paths.mountainHeight, tests, fast,
+                dummy=os.path.join('src/mountainAdvect/collatedErrors.mountainHeight.dummy'))
 
     def write(self, generator):
-        g = generator
-        self.collateErrors(generator, 'l2errorT.txt')
+        self.collator.write(generator, os.path.join('10000/l2errorT.txt'))
 
-    def collateErrors(self, generator, file):
-        endTime = '10000'
-
-        if self.fast:
-            generator.w.build(
-                    outputs=self.case.path(endTime, file),
-                    rule='cp',
-                    inputs=os.path.join('src/mountainAdvect/collatedErrors.mountainHeight.dummy'))
-        else:
-            generator.w.build(
-                    outputs=self.case.path(endTime, file),
-                    rule='collate',
-                    implicit=[t.case.mountainHeight for t in self.tests]
-                            + [t.case.path(endTime, file) for t in self.tests],
-                    variables={
-                        "cases": [t.case.root for t in self.tests],
-                        "independent": Paths.mountainHeight,
-                        "dependent": os.path.join(endTime, file)
-                    }
-            )
-
-        generator.w.newline()
-        
     def __str__(self):
         return self.case.name
 
