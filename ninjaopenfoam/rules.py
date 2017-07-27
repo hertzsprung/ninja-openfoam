@@ -27,6 +27,16 @@ class Rules:
                 'scripts/cubedSphereMesh.sh $case $blockMeshCase',
                 description='cubedSphereMesh $case')
 
+        g.scriptRule(
+                'cutCellMesh',
+                'scripts/cutCellMesh.sh $case $patchSets',
+                description='cutCellMesh $case')
+
+        g.scriptRule(
+                'cutCellPatch',
+                'scripts/cutCellPatch.sh $case',
+                description='cutCellPatch $case')
+
         g.w.rule('echo', 'echo $string > $out')
         g.w.newline()
 
