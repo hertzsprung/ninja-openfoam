@@ -11,7 +11,7 @@ class Collator:
             generator.w.build(
                     outputs=self.case.path(dependent),
                     rule='cp',
-                    inputs=dummy)
+                    inputs=self.dummy)
         else:
             generator.w.build(
                     outputs=self.case.path(dependent),
