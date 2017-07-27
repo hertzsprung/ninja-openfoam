@@ -2,6 +2,7 @@ import collections
 import os
 
 from .case import Case
+from .collator import Collator
 from .errors import Errors
 from .paths import Paths
 from .solver import SolverExecution
@@ -30,36 +31,12 @@ class DeformationSphereCollated:
     def __init__(self, name, tests, fast):
         self.case = Case(name)
         self.tests = tests
-        self.fast = fast
+        self.collator = Collator(self.case, Paths.averageEquatorialSpacing, tests, fast,
+                dummy=os.path.join('src/deformationSphere/collatedErrors.dummy'))
 
     def write(self, generator):
-        g = generator
-
-        self.collateErrors(generator, 'l2errorT.txt')
-        self.collateErrors(generator, 'linferrorT.txt')
-
-    def collateErrors(self, generator, file):
-        endTime = '1036800'
-
-        if self.fast:
-            generator.w.build(
-                    outputs=self.case.path(endTime, file),
-                    rule='cp',
-                    inputs=os.path.join('src/deformationSphere/collatedErrors.dummy'))
-        else:
-            generator.w.build(
-                    outputs=self.case.path(endTime, file),
-                    rule='collate',
-                    implicit=[t.case.averageEquatorialSpacing for t in self.tests]
-                            + [t.case.path(endTime, file) for t in self.tests],
-                    variables={
-                        "cases": [t.case.root for t in self.tests],
-                        "independent": Paths.averageEquatorialSpacing,
-                        "dependent": os.path.join(endTime, file)
-                    }
-            )
-
-        generator.w.newline()
+        self.collator.write(generator, os.path.join('1036800/l2errorT.txt'))
+        self.collator.write(generator, os.path.join('1036800/linferrorT.txt'))
         
     def __str__(self):
         return self.case.name
