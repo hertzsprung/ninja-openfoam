@@ -9,9 +9,9 @@ class Resting:
         self.case = Case(name)
         self.mesh = mesh
         if fast:
-            self.timing = Timing(500, 500, 100)
+            self.timing = Timing(500, 500, 25)
         else:
-            self.timing = Timing(21600, 10800, 100)
+            self.timing = Timing(21600, 10800, 25)
         self.initialUf = os.path.join('src/resting/Uf')
         self.thetaInit = os.path.join('src/resting/theta_init')
         self.exnerInit = os.path.join('src/resting/Exner_init')
