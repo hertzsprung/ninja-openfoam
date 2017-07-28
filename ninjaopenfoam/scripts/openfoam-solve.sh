@@ -18,3 +18,9 @@ solver=$3
 decomposePar -force -constant -case $(realpath $case) # https://bugs.openfoam.org/view.php?id=2610
 mpirun -np $taskCount $solver -parallel
 reconstructPar -case $case
+if [ -e $case/processor0/energy.dat ]; then
+	cp $case/processor0/energy.dat $case/
+fi
+if [ -e $case/processor0/courant.dat ]; then
+	cp $case/processor0/courant.dat $case/
+fi
