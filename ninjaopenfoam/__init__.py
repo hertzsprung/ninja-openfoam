@@ -15,6 +15,7 @@ from .latexSubstitution import LaTeXSubstitution
 from .mountainAdvect import MountainAdvectBuilder, MountainAdvectCollated
 from .paths import Paths
 from .pdflatex import PDFLaTeX
+from .resting import Resting
 from .schaerAdvect import SchaerAdvectBuilder, SchaerAdvectCollated
 from .shortcuts import Shortcuts
 from . import siunitx

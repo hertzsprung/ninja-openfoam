@@ -6,6 +6,7 @@ class Case:
     def __init__(self, name, prefix='$builddir'):
         self.name = name
         self.root = os.path.join(prefix, name)
+
         self.advectionDict = self.path("system/advectionDict")
         self.asamGrid = self.path("asam.grid")
         self.averageCellCentreDistance = self.path("averageCellCentreDistance.txt")
@@ -16,13 +17,19 @@ class Case:
         self.createPatchDict = self.path("system/createPatchDict")
         self.decomposeParDict = self.path("system/decomposeParDict")
         self.dx = self.path(Paths.dx)
+        self.energy = self.path('energy.dat')
+        self.environmentalProperties = self.path("constant/environmentalProperties")
+        self.exnerInit = self.path("constant/Exner_init")
         self.extrudeMeshDict = self.path("system/extrudeMeshDict")
         self.fvSchemes = self.path("system/fvSchemes")
         self.fvSolution = self.path("system/fvSolution")
         self.meshQualityDict = self.path("system/meshQualityDict")
         self.mountainDict = self.path("system/mountainDict")
         self.mountainHeight = self.path(Paths.mountainHeight)
+        self.sponge = self.path("constant/muSponge")
         self.T_init = self.path("constant/T_init")
+        self.thermophysicalProperties = self.path("constant/thermophysicalProperties")
+        self.thetaInit = self.path("constant/theta_init")
         self.timestep = self.path("timestep.txt")
         self.tracerFieldDict = self.path("system/tracerFieldDict")
         self.velocityFieldDict = self.path("system/velocityFieldDict")

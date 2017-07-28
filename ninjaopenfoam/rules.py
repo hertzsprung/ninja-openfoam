@@ -4,6 +4,7 @@ class Rules:
 
         g.w.rule('blockMesh', 'blockMesh -case $case')
         g.w.newline()
+
         g.w.rule('cp', 'cp $in $out')
         g.w.newline()
 
@@ -16,6 +17,9 @@ class Rules:
                 'averageEquatorialSpacing',
                 'scripts/averageEquatorialSpacing.sh < $in > $out',
                 description='averageEquatorialSpacing $out')
+
+        g.w.rule('createSpongeLayer', 'createSpongeLayer -case $case')
+        g.w.newline()
 
         g.scriptRule(
                 'collate',
@@ -125,7 +129,13 @@ class Rules:
         g.w.rule('setAnalyticTracerField', 'setAnalyticTracerField -case $case -time $time')
         g.w.newline()
 
+        g.w.rule('setExnerBalancedH', 'setExnerBalancedH -case $case')
+        g.w.newline()
+
         g.w.rule('setInitialTracerField', 'setInitialTracerField -case $case')
+        g.w.newline()
+
+        g.w.rule('setTheta', 'setTheta -case $case')
         g.w.newline()
 
         g.w.rule('setVelocityField', 'setVelocityField -case $case -time 0')
