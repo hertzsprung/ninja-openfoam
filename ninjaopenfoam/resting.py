@@ -87,5 +87,8 @@ class Resting:
         g.copy(self.fvSolution, case.fvSolution)
         g.controlDict(case, self.timing)
 
+        if not self.fast:
+            g.s3upload(case, [case.energy])
+
     def __str__(self):
         return self.case.name
