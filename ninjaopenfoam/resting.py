@@ -20,6 +20,7 @@ class Resting:
         self.fvSchemes = os.path.join('src/resting/fvSchemes')
         self.fvSolution = os.path.join('src/resting/fvSolution')
         self.parallel = parallel
+        self.fast = fast
 
     def write(self, generator):
         g = generator
