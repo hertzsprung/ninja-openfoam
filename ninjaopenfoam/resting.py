@@ -5,7 +5,7 @@ from .timing import Timing
 import os
 
 class Resting:
-    def __init__(self, name, mesh, parallel, fast):
+    def __init__(self, name, mesh, fvSchemes, parallel, fast):
         self.case = Case(name)
         self.mesh = mesh
         if fast:
@@ -17,7 +17,7 @@ class Resting:
         self.exnerInit = os.path.join('src/resting/Exner_init')
         self.environmentalProperties = os.path.join('src/resting/environmentalProperties')
         self.thermophysicalProperties = os.path.join('src/resting/thermophysicalProperties')
-        self.fvSchemes = os.path.join('src/resting/fvSchemes')
+        self.fvSchemes = fvSchemes
         self.fvSolution = os.path.join('src/resting/fvSolution')
         self.parallel = parallel
         self.fast = fast
