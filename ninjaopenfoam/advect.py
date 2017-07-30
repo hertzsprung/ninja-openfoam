@@ -53,6 +53,14 @@ class Advect:
         )
         g.w.newline()
 
+        g.w.build(
+                outputs=case.courantNumber,
+                rule='courantNumber',
+                implicit=case.polyMesh + case.systemFiles + [case.path('0/phi')],
+                variables={'case': self.case}
+        )
+        g.w.newline()
+
         g.w.build(self.case.dx, 'echo', variables={'string': str(self.dx)})
         g.w.build(self.case.mountainHeight, 'echo', variables={'string': str(self.mountainHeight)})
         g.w.build(self.case.timestep, 'echo', variables={'string': str(self.timing.timestep)})

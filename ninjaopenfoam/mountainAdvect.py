@@ -12,12 +12,17 @@ class MountainAdvectBuilder:
         self.fast = fast
         self.fastMesh = fastMesh
 
-    def collated(self, name, dx, fvSchemes, tests):
-        tests = [self.test(t.name, dx, t.mountainHeight, t.mesh, t.timestep, fvSchemes)
+    def collateByMountainHeight(self, name, dx, fvSchemes, tests):
+        tests = [self.test(t.name, dx, t.mountainHeight, t.mesh, t.velocityField, t.timestep, fvSchemes)
                 for t in tests]
-        return MountainAdvectCollated(name, tests, self.fast)
+        return MountainAdvectCollatedByMountainHeight(name, tests, self.fast)
 
-    def test(self, name, dx, mountainHeight, mesh, timestep, fvSchemes):
+    def collateByMeshSpacing(self, name, mountainHeight, velocityField, fvSchemes, tests):
+        tests = [self.test(t.name, t.dx, mountainHeight, t.mesh, velocityField, t.timestep, fvSchemes)
+                for t in tests]
+        return MountainAdvectCollatedByMeshSpacing(name, tests, self.fast)
+
+    def test(self, name, dx, mountainHeight, mesh, velocityField, timestep, fvSchemes):
         if self.fast:
             mesh = self.fastMesh
             timestep = 40
@@ -25,11 +30,11 @@ class MountainAdvectBuilder:
 
         return Advect(name, dx, mountainHeight, mesh, 
                 os.path.join('src/mountainAdvect/tracerField'),
-                os.path.join('src/mountainAdvect/velocityField'),
+                velocityField,
                 timestep, fvSchemes, self.parallel, self.fast)
 
-class MountainAdvectCollated:
-    Test = collections.namedtuple('MountainAdvectCollatedTest', ['name', 'mountainHeight', 'mesh', 'timestep'])
+class MountainAdvectCollatedByMountainHeight:
+    Test = collections.namedtuple('MountainAdvectCollatedByMountainHeightTest', ['name', 'mountainHeight', 'mesh', 'velocityField', 'timestep'])
 
     def __init__(self, name, tests, fast):
         self.case = Case(name)
@@ -43,3 +48,18 @@ class MountainAdvectCollated:
     def __str__(self):
         return self.case.name
 
+class MountainAdvectCollatedByMeshSpacing:
+    Test = collections.namedtuple('MountainAdvectCollatedByMeshSpacingTest', ['name', 'dx', 'mesh', 'timestep'])
+
+    def __init__(self, name, tests, fast):
+        self.case = Case(name)
+        self.tests = tests
+        self.collator = Collator(self.case, Paths.dx, tests, fast,
+                dummy=os.path.join('src/mountainAdvect/collatedErrors.meshSpacing.dummy'))
+
+    def write(self, generator):
+        self.collator.write(generator, Paths.timestep)
+        self.collator.write(generator, Paths.courantNumber)
+
+    def __str__(self):
+        return self.case.name

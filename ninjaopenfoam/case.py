@@ -14,6 +14,7 @@ class Case:
         self.blockMeshDict = self.path("system/blockMeshDict")
         self.collapseDict = self.path("system/collapseDict")
         self.controlDict = self.path("system/controlDict")
+        self.courantNumber = self.path(Paths.courantNumber)
         self.createPatchDict = self.path("system/createPatchDict")
         self.decomposeParDict = self.path("system/decomposeParDict")
         self.dx = self.path(Paths.dx)
@@ -30,7 +31,7 @@ class Case:
         self.T_init = self.path("constant/T_init")
         self.thermophysicalProperties = self.path("constant/thermophysicalProperties")
         self.thetaInit = self.path("constant/theta_init")
-        self.timestep = self.path("timestep.txt")
+        self.timestep = self.path(Paths.timestep)
         self.tracerFieldDict = self.path("system/tracerFieldDict")
         self.velocityFieldDict = self.path("system/velocityFieldDict")
 

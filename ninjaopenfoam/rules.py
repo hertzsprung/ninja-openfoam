@@ -18,13 +18,16 @@ class Rules:
                 'scripts/averageEquatorialSpacing.sh < $in > $out',
                 description='averageEquatorialSpacing $out')
 
-        g.w.rule('createSpongeLayer', 'createSpongeLayer -case $case')
-        g.w.newline()
-
         g.scriptRule(
                 'collate',
                 'scripts/collate.sh $independent $dependent $cases > $out',
                 description='collate $out')
+        
+        g.w.rule(
+                'courantNumber',
+                "courantNumber -case $case | tail -n1 | cut -d' ' -f6 > $out",
+                description='courantNumber $out')
+        g.w.newline()
 
         g.scriptRule(
                 'cubedSphereMesh',
@@ -40,6 +43,9 @@ class Rules:
                 'cutCellPatch',
                 'scripts/cutCellPatch.sh $case',
                 description='cutCellPatch $case')
+
+        g.w.rule('createSpongeLayer', 'createSpongeLayer -case $case')
+        g.w.newline()
 
         g.w.rule('echo', 'echo $string > $out')
         g.w.newline()
