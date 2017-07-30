@@ -27,6 +27,6 @@ if [ -e $case/constant/polyMesh/sets/wrongOrientedFaces ]; then
 	collapseEdges -case $case -constant -overwrite
 fi
 checkMesh -case $case -constant
-if [ -e $1/constant/polyMesh/sets/zeroAreaFaces ]; then
+if [ -e $case/constant/polyMesh/sets/zeroAreaFaces ]; then
 	collapseEdges -case $case -constant -overwrite -collapseFaceSet zeroAreaFaces
 fi
