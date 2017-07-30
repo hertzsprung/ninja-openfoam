@@ -153,6 +153,11 @@ class Rules:
                 description='siunitx-ang $out')
 
         g.scriptRule(
+                'siunitx-num',
+                'scripts/siunitx-num.sh < $in > $out',
+                description='siunitx-num $out')
+
+        g.scriptRule(
                 'slantedCellMesh',
                 'scripts/slantedCellMesh.sh $blockMeshCase $slantedCellMeshCase $removeTinyCells',
                 description='slantedCellMesh $slantedCellMeshCase')
