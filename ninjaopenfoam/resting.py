@@ -30,7 +30,7 @@ class Resting:
                 g,
                 case,
                 self.parallel,
-                os.path.join("src/schaerAdvect/decomposeParDict.template")
+                os.path.join("src/advect/decomposeParDict.template")
         )
         solver.solve(
                 outputs=case.energy,
