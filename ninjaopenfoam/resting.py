@@ -89,7 +89,7 @@ class Resting:
         g.controlDict(case, self.timing)
 
         if not self.fast:
-            g.s3upload(case, [case.energy])
+            g.s3uploadCase(case, [case.energy])
 
     def __str__(self):
         return self.case.name

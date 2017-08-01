@@ -43,7 +43,9 @@ class MountainAdvectCollatedByMountainHeight:
                 dummy=os.path.join('src/mountainAdvect/collatedErrors.mountainHeight.dummy'))
 
     def write(self, generator):
-        self.collator.write(generator, os.path.join('10000/l2errorT.txt'))
+        l2 = os.path.join('10000/l2errorT.txt')
+        self.collator.write(generator, l2)
+        self.collator.s3upload(generator, [l2])
 
     def __str__(self):
         return self.case.name
@@ -60,6 +62,7 @@ class MountainAdvectCollatedByMeshSpacing:
     def write(self, generator):
         self.collator.write(generator, Paths.timestep)
         self.collator.write(generator, Paths.courantNumber)
+        self.collator.s3upload(generator, [Paths.timestep, Paths.courantNumber])
 
     def __str__(self):
         return self.case.name

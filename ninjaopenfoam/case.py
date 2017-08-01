@@ -27,6 +27,7 @@ class Case:
         self.meshQualityDict = self.path("system/meshQualityDict")
         self.mountainDict = self.path("system/mountainDict")
         self.mountainHeight = self.path(Paths.mountainHeight)
+        self.s3Uploaded = self.path("s3.uploaded")
         self.sponge = self.path("constant/muSponge")
         self.T_init = self.path("constant/T_init")
         self.thermophysicalProperties = self.path("constant/thermophysicalProperties")

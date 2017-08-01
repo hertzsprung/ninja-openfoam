@@ -38,8 +38,12 @@ class SchaerAdvectCollated:
                 dummy=os.path.join('src/schaerAdvect/collatedErrors.dummy'))
 
     def write(self, generator):
-        self.collator.write(generator, os.path.join('10000/l2errorT.txt'))
-        self.collator.write(generator, os.path.join('10000/linferrorT.txt'))
+        l2 = os.path.join('10000/l2errorT.txt')
+        linf = os.path.join('10000/linferrorT.txt')
+
+        self.collator.write(generator, l2)
+        self.collator.write(generator, linf)
+        self.collator.s3upload(generator, [l2, linf])
         
     def __str__(self):
         return self.case.name

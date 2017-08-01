@@ -35,8 +35,12 @@ class DeformationSphereCollated:
                 dummy=os.path.join('src/deformationSphere/collatedErrors.dummy'))
 
     def write(self, generator):
-        self.collator.write(generator, os.path.join('1036800/l2errorT.txt'))
-        self.collator.write(generator, os.path.join('1036800/linferrorT.txt'))
+        l2 = os.path.join('1036800/l2errorT.txt')
+        linf = os.path.join('1036800/linferrorT.txt')
+
+        self.collator.write(generator, l2)
+        self.collator.write(generator, linf)
+        self.collator.s3upload(generator, [l2, linf])
         
     def __str__(self):
         return self.case.name
@@ -84,7 +88,7 @@ class DeformationSphere:
         g.controlDict(case, self.timing)
 
         if not self.fast:
-            g.s3upload(
+            g.s3uploadCase(
                     case,
                     [case.path(str(self.timing.endTime), "T"),
                      case.path(str(self.timing.endTime//2), "T"),

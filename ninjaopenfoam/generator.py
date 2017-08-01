@@ -51,10 +51,12 @@ class Generator:
         self.copy(T_init, case.T_init)
         self.w.newline()
 
+    def s3uploadCase(self, case, implicit=[]):
+        self.s3upload(case, implicit + case.polyMesh + case.systemFiles)
+
     def s3upload(self, case, implicit=[]):
-        implicit += case.polyMesh + case.systemFiles
         self.w.build(
-                outputs=case.path("s3.uploaded"),
+                outputs=case.s3Uploaded,
                 rule="s3-upload",
                 implicit=implicit,
                 variables={"source": case}

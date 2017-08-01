@@ -72,7 +72,7 @@ class Advect:
         g.controlDict(case, self.timing)
 
         if not self.fast:
-            g.s3upload(
+            g.s3uploadCase(
                     case,
                     [case.path(str(self.timing.endTime), "T"),
                      case.path(str(self.timing.writeInterval), "T"),
