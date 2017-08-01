@@ -33,8 +33,7 @@ class Advect:
                 os.path.join("src/advect/decomposeParDict.template")
         )
         solver.solve(
-                outputs=[case.path(str(self.timing.endTime), "T"),
-                         case.path(str(self.timing.writeInterval), "T")],
+                outputs=[case.path(str(self.timing.endTime), "T")],
                 rule="advectionFoam",
                 implicit=[case.path("0/T"), case.path("0/phi")]
         )
@@ -75,7 +74,6 @@ class Advect:
             g.s3uploadCase(
                     case,
                     [case.path(str(self.timing.endTime), "T"),
-                     case.path(str(self.timing.writeInterval), "T"),
                      case.path("0/T")])
 
     def lperrors(self, generator):
