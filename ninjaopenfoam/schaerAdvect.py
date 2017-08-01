@@ -7,25 +7,27 @@ from .collator import Collator
 from .paths import Paths
 
 class SchaerAdvectBuilder:
-    def __init__(self, parallel, fast, fastMesh):
+    def __init__(self, mountainHeight, velocityField, parallel, fast, fastMesh):
+        self.mountainHeight = mountainHeight
+        self.velocityField = velocityField
         self.parallel = parallel
         self.fast = fast
         self.fastMesh = fastMesh
 
-    def collated(self, name, mountainHeight, fvSchemes, tests):
-        tests = [self.test(t.name, t.dx, mountainHeight, t.mesh, t.timestep, fvSchemes)
+    def collated(self, name, fvSchemes, tests):
+        tests = [self.test(t.name, t.dx, t.mesh, t.timestep, fvSchemes)
                 for t in tests]
         return SchaerAdvectCollated(name, tests, self.fast)
 
-    def test(self, name, dx, mountainHeight, mesh, timestep, fvSchemes):
+    def test(self, name, dx, mesh, timestep, fvSchemes):
         if self.fast:
             mesh = self.fastMesh
             timestep = 40
             fvSchemes = os.path.join('src/schaerAdvect/linearUpwind')
 
-        return Advect(name, dx, mountainHeight, mesh, 
+        return Advect(name, dx, self.mountainHeight, mesh, 
                 os.path.join('src/schaerAdvect/tracerField'),
-                os.path.join('src/schaerAdvect/velocityField'),
+                self.velocityField,
                 timestep, fvSchemes, self.parallel, self.fast)
 
 class SchaerAdvectCollated:
