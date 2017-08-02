@@ -122,6 +122,12 @@ class Rules:
                 'scripts/lperror.sh $diff $analytic > $out',
                 description='lperror $out')
 
+        g.w.rule(
+                'maxw',
+                "tr -s ' ' < $in | cut -d' ' -f6 | sort -g | tail -n1 > $out",
+                description='maxw $out')
+        g.w.newline()
+
         g.scriptRule(
                 'pdflatex',
                 'scripts/pdflatex.sh $in $out',

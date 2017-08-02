@@ -26,6 +26,13 @@ class Resting:
         g = generator
         case = self.case
 
+        g.w.build(
+                outputs=case.maxw,
+                rule='maxw',
+                inputs=case.energy
+        )
+        g.w.newline()
+
         solver = SolverExecution(
                 g,
                 case,
