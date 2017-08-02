@@ -1,17 +1,57 @@
 from .case import Case
+from .collator import Collator
+from .paths import Paths
 from .solver import SolverExecution
 from .timing import Timing
 
+import collections
 import os
 
-class Resting:
-    def __init__(self, name, mesh, fvSchemes, parallel, fast):
+class RestingBuilder:
+    def __init__(self, parallel, fast, fastMesh):
+        self.parallel = parallel
+        self.fast = fast
+        self.fastMesh = fastMesh
+
+    def collateByMountainHeight(self, name, fvSchemes, tests):
+        tests = [self.test(t.name, t.mountainHeight, t.mesh, t.timestep, fvSchemes)
+                for t in tests]
+        return RestingCollated(name, tests, self.fast)
+
+    def test(self, name, mountainHeight, mesh, timestep, fvSchemes):
+        if self.fast:
+            mesh = self.fastMesh
+            timestep = 50
+            fvSchemes = os.path.join('src/schaerAdvect/linearUpwind')
+
+        return Resting(name, mountainHeight, mesh, 
+                timestep, fvSchemes, self.parallel, self.fast)
+
+class RestingCollated:
+    Test = collections.namedtuple('RestingCollated', ['name', 'mountainHeight', 'mesh', 'timestep'])
+
+    def __init__(self, name, tests, fast):
         self.case = Case(name)
+        self.tests = tests
+        self.collator = Collator(self.case, Paths.mountainHeight, tests, fast,
+                dummy=os.path.join('src/resting/collatedErrors.dummy'))
+
+    def write(self, generator):
+        self.collator.write(generator, Paths.maxw)
+        self.collator.s3upload(generator, [Paths.maxw])
+
+    def __str__(self):
+        return self.case.name
+
+class Resting:
+    def __init__(self, name, mountainHeight, mesh, timestep, fvSchemes, parallel, fast):
+        self.case = Case(name)
+        self.mountainHeight = mountainHeight
         self.mesh = mesh
         if fast:
-            self.timing = Timing(500, 500, 25)
+            self.timing = Timing(500, 500, timestep)
         else:
-            self.timing = Timing(21600, 10800, 25)
+            self.timing = Timing(21600, 10800, timestep)
         self.initialUf = os.path.join('src/resting/Uf')
         self.thetaInit = os.path.join('src/resting/theta_init')
         self.exnerInit = os.path.join('src/resting/Exner_init')
@@ -85,6 +125,7 @@ class Resting:
 #        )
 #        g.w.newline()
 
+        g.w.build(self.case.mountainHeight, 'echo', variables={'string': str(self.mountainHeight)})
         g.copyMesh(source=self.mesh.case, target=case)
         g.copy(self.initialUf, case.path('0/Uf'))
         g.copy(self.thetaInit, case.thetaInit)
@@ -96,7 +137,7 @@ class Resting:
         g.controlDict(case, self.timing)
 
         if not self.fast:
-            g.s3uploadCase(case, [case.energy])
+            g.s3uploadCase(case, [case.maxw])
 
     def __str__(self):
         return self.case.name

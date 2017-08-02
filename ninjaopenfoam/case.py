@@ -24,7 +24,7 @@ class Case:
         self.extrudeMeshDict = self.path("system/extrudeMeshDict")
         self.fvSchemes = self.path("system/fvSchemes")
         self.fvSolution = self.path("system/fvSolution")
-        self.maxw = self.path("maxw.txt")
+        self.maxw = self.path(Paths.maxw)
         self.meshQualityDict = self.path("system/meshQualityDict")
         self.mountainDict = self.path("system/mountainDict")
         self.mountainHeight = self.path(Paths.mountainHeight)
