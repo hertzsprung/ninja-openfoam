@@ -1,2 +1,2 @@
 #!/bin/bash
-sed -e 's/F0/F4/2g'
+sed -e 's/200 F0/200 F4/'
