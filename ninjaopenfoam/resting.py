@@ -34,7 +34,7 @@ class RestingCollated:
         self.case = Case(name)
         self.tests = tests
         self.collator = Collator(self.case, Paths.mountainHeight, tests, fast,
-                dummy=os.path.join('src/resting/collatedErrors.dummy'))
+                dummy=os.path.join('src/resting/collatedMaxW.dummy'))
 
     def write(self, generator):
         self.collator.write(generator, Paths.maxw)
