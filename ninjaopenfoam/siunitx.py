@@ -3,9 +3,9 @@ import os
 from .case import Case
 
 class Ang:
-    def __init__(self, case, file):
-        self.name = os.path.basename(case)
-        self.targetCase = Case(self.name)
+    def __init__(self, name, case, file):
+        self.name = name
+        self.targetCase = Case(os.path.basename(case))
         self.sourceFile = os.path.join(case, file)
         self.targetFile = self.targetCase.path(os.path.splitext(file)[0] + '.tex')
 
@@ -24,9 +24,9 @@ class Ang:
         return self.name
 
 class Num:
-    def __init__(self, case, file):
-        self.name = os.path.basename(case)
-        self.targetCase = Case(self.name)
+    def __init__(self, name, case, file):
+        self.name = name
+        self.targetCase = Case(os.path.basename(case))
         self.sourceFile = os.path.join(case, file)
         self.targetFile = self.targetCase.path(os.path.splitext(file)[0] + '.tex')
 

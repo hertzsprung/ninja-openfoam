@@ -10,13 +10,18 @@ class Build:
         self.gendir = 'build.ninja.generated'
         self.generators = generators
         self.cases = []
+        self.names = set()
 
     def add(self, case):
+        if str(case) in self.names:
+            raise ValueError("duplicate case name '{case}'".format(case=case))
+        self.names.add(str(case))
         self.cases.append(case)
         return case
 
     def addAll(self, cases):
-        self.cases = self.cases + cases
+        for case in cases:
+            self.add(case)
 
     def write(self):
         self.makegendir()
