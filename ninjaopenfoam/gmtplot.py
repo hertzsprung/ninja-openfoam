@@ -16,9 +16,13 @@ class GmtPlot:
 
     def write(self, generator):
         g = generator
+
+        outputs = [self.output]
+        if self.colorBar:
+            outputs += [self.colorBar]
         
         g.w.build(
-                self.output,
+                outputs,
                 'gmtFoam',
                 self.targetPlot,
                 implicit=['gmt.conf']
