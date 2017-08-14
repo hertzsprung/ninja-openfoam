@@ -32,5 +32,5 @@ class Collator:
     def s3upload(self, g, inputs):
         if not self.fast:
             g.s3upload(self.case, 
-                    [self.case.path(i) for i in inputs] + [t.case.s3Uploaded for t in self.tests])
+                    [self.case.path(i) for i in inputs])
 
