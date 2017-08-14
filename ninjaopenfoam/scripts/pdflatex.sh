@@ -2,7 +2,7 @@
 set -e
 
 display_usage() {
-	echo -e "Usage: pdflatex.ninja.sh <in> <out>\n"
+	echo -e "Usage: pdflatex.sh <in> <out>\n"
 }
 
 if [ $# -le 1 ]
@@ -11,7 +11,6 @@ then
 	exit 1
 fi
 
-srcdir=$(dirname $1)
 builddir=$(dirname $2)
 document=$(basename $1 .tex)
 pdflatex="pdflatex -interaction=nonstopmode -halt-on-error -output-directory=$builddir"

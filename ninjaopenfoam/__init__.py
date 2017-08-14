@@ -15,7 +15,7 @@ from .latexSubstitution import LaTeXSubstitution
 from .mountainAdvect import MountainAdvectBuilder, \
         MountainAdvectCollatedByMountainHeight, MountainAdvectCollatedByMeshSpacing
 from .paths import Paths
-from .pdflatex import PDFLaTeX
+from .pdflatex import PDFLaTeX, PDFLaTeXFigure
 from .resting import RestingBuilder, RestingCollated
 from .schaerAdvect import SchaerAdvectBuilder, SchaerAdvectCollated
 from .shortcuts import Shortcuts

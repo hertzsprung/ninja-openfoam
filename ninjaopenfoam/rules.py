@@ -137,7 +137,12 @@ class Rules:
         g.scriptRule(
                 'pdflatex',
                 'scripts/pdflatex.sh $in $out',
-                description='pdflatex $in $out')
+                description='pdflatex $out')
+
+        g.scriptRule(
+                'pdflatex-figure',
+                'scripts/pdflatex-figure.sh $in $out',
+                description='pdflatex-figure $out')
 
         g.scriptRule(
                 's3-upload',
