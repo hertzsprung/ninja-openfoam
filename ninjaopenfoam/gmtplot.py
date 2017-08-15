@@ -9,7 +9,7 @@ class GmtPlot:
         self.case = case
         self.time = str(time)
         self.data = data
-        self.colorBar = colorBar
+        self.colorBar = None if colorBar is None else case.path(colorBar)
 
         self.targetPlot = self.case.path('constant/gmtDicts', plot)
         self.output = self.case.path(self.time, plot) + '.pdf'
@@ -25,7 +25,7 @@ class GmtPlot:
                 outputs,
                 'gmtFoam',
                 self.targetPlot,
-                implicit=['gmt.conf']
+                implicit=[self.case.gmtConf]
                         + [self.case.path(d) for d in self.data]
                         + self.case.polyMesh
                         + self.case.systemFiles,
@@ -70,6 +70,8 @@ class GmtPlotCopyCase:
             targetPlot = self.targetCase.path('constant/gmtDicts', plotBasename)
 
             g.copy(sourcePlot, targetPlot)
+
+        g.copy('src/gmt.conf', self.targetCase.gmtConf)
 
     def __str__(self):
         return self.name

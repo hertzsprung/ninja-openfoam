@@ -12,7 +12,7 @@ then
 fi
 
 gmtDict=$(basename $1)
-ofCase=$2
+case=$2
 
 if [ $3 = "constant" ]
 then
@@ -21,4 +21,5 @@ else
 	ofTime="-time $3"
 fi
 
-gmtFoam -case $ofCase $ofTime $gmtDict
+cd $case
+gmtFoam $ofTime $gmtDict
