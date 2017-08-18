@@ -49,11 +49,12 @@ class Case:
         return self.root
 
 class CopyCase:
-    def __init__(self, name, source, target, files=[]):
+    def __init__(self, name, source, target, files=[], renamedFiles={}):
         self.name = name
         self.sourceCase = Case(name, prefix=source)
         self.targetCase = Case(name, prefix=target)
         self.files = files
+        self.renamedFiles = renamedFiles
 
     def write(self, generator):
         g = generator
@@ -62,6 +63,12 @@ class CopyCase:
 
         for f in self.files:
             g.copy(self.sourceCase.path(f), self.targetCase.path(f))
+
+        for sourceFile, targetFile in self.renamedFiles.items():
+            g.copy(
+                    self.sourceCase.path(sourceFile),
+                    self.targetCase.path(targetFile)
+            )
 
     def __str__(self):
         return self.name

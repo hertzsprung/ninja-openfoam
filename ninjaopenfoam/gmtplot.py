@@ -50,9 +50,9 @@ class GmtPlot:
         return self.name
 
 class GmtPlotCopyCase:
-    def __init__(self, name, source, target, plots, files=[]):
+    def __init__(self, name, source, target, plots, files=[], renamedFiles={}):
         self.name = name
-        self.copyCase = CopyCase(name, source, target, files + ['system/controlDict'])
+        self.copyCase = CopyCase(name, source, target, files + ['system/controlDict'], renamedFiles)
         self.targetCase = Case(name, prefix=target)
         self.plots = plots
 
