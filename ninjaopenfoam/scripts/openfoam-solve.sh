@@ -2,7 +2,7 @@
 set -e
 
 display_usage() {
-	echo -e "Usage: openfoam-solve.sh <case> <taskCount> <solver>\n"
+	echo -e "Usage: openfoam-solve.sh <case> <taskCount> <maxTaskCount> <solver>\n"
 }
 
 if [ $# -lt 3 ]
@@ -12,8 +12,12 @@ then
 fi
 
 case=$1
+
 taskCount=$2
-solver=$3
+maxTaskCount=$3
+taskCount=$([ $taskCount -le $maxTaskCount ] && echo "$taskCount" || echo "$maxTaskCount")
+
+solver=$4
 
 decomposePar -force -constant -time 0 -case $(realpath $case) # https://bugs.openfoam.org/view.php?id=2610
 mpirun -np $taskCount $solver -parallel

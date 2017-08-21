@@ -12,8 +12,9 @@ class SolverRule:
         if self.parallel:
             g.scriptRule(
                     self.name,
-                    'scripts/openfoam-solve.sh $case $solver_parallel_tasks "{command} -parallel"'.format(command=self.command),
-                    description=description)
+                    'scripts/openfoam-solve.sh $case $solver_parallel_tasks $maxTaskCount "{command} -parallel"'.format(command=self.command),
+                    description=description
+            )
         else:
             g.w.rule(self.name, self.command, description=description)
 
@@ -33,6 +34,7 @@ class SolverExecution:
         implicit += self.case.polyMesh + self.case.systemFiles
         if self.parallel:
             implicit += [self.case.decomposeParDict]
+            variables['maxTaskCount'] = str(self.maxTasks) if self.maxTasks else '$solver_parallel_tasks'
 
         variables["case"] = self.case
         variables["pool"] = "console"
@@ -43,7 +45,7 @@ class SolverExecution:
 
         if self.parallel:
             parallelVariables = {}
-            parallelVariables['maxTaskCount'] = str(self.maxTasks) if self.maxTasks else '$solver_parallel_tasks'
+            parallelVariables['maxTaskCount'] = variables['maxTaskCount']
 
             self.g.w.build(
                     outputs=self.case.decomposeParDict,
