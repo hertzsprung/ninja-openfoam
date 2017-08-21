@@ -10,6 +10,7 @@ class CubedSphereMesh:
             name,
             nxPerPatch,
             fast,
+            maxTasks=None,
             extrudeMeshDict=os.path.join("src", "deformationSphere", "extrudeFromPatch"),
             fvSchemes=os.path.join("src", "fvSchemes"),
             fvSolution=os.path.join("src", "fvSolution"),
@@ -21,6 +22,8 @@ class CubedSphereMesh:
             self.nxPerPatch = 8
         else:
             self.nxPerPatch = nxPerPatch
+
+        self.maxTasks = maxTasks
 
         self.fvSchemes = fvSchemes
         self.fvSolution = fvSolution

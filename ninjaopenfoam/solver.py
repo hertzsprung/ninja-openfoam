@@ -21,11 +21,12 @@ class SolverRule:
         return self.name
 
 class SolverExecution:
-    def __init__(self, generator, case, parallel=False, decomposeParDict=None):
+    def __init__(self, generator, case, parallel=False, decomposeParDict=None, maxTasks=None):
         self.g = generator
         self.case = case
         self.parallel = parallel
         self.decomposeParDict = decomposeParDict
+        self.maxTasks = maxTasks
 
     def solve(self, outputs, rule, inputs=None, implicit=[], order_only=None,
               variables={}, implicit_outputs=None):
@@ -41,10 +42,14 @@ class SolverExecution:
         self.g.w.newline() 
 
         if self.parallel:
+            parallelVariables = {}
+            parallelVariables['maxTaskCount'] = str(self.maxTasks) if self.maxTasks else '$solver_parallel_tasks'
+
             self.g.w.build(
                     outputs=self.case.decomposeParDict,
                     rule="gen-decomposeParDict",
-                    inputs=self.decomposeParDict
+                    inputs=self.decomposeParDict,
+                    variables=parallelVariables
             )
             self.g.w.newline() 
 
