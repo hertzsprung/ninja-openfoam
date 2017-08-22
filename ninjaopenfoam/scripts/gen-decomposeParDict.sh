@@ -2,18 +2,15 @@
 set -e
 
 display_usage() {
-	echo -e "Usage: gen-decomposeParDict.sh <taskCount> <maxTaskCount>\n"
+	echo -e "Usage: gen-decomposeParDict.sh <taskCount>\n"
 }
 
-if [ $# -lt 2 ]
+if [ $# -lt 1 ]
 then
 	display_usage
 	exit 1
 fi
 
-taskCount=$1
-maxTaskCount=$2
-
-export taskCount=$([ $taskCount -le $maxTaskCount ] && echo "$taskCount" || echo "$maxTaskCount")
+export taskCount=$1
 
 envsubst <&0 >&1

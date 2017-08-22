@@ -65,8 +65,7 @@ class DeformationSphere:
                 g,
                 case,
                 self.parallel,
-                os.path.join("src/deformationSphere/decomposeParDict.template"),
-                self.mesh.maxTasks
+                os.path.join("src/deformationSphere/decomposeParDict.template")
         )
         solver.solve(
                 outputs=[case.path(str(self.timing.endTime), "T"),

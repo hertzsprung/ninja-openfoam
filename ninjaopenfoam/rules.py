@@ -72,7 +72,7 @@ class Rules:
 
         g.scriptRule(
                 'gen-decomposeParDict',
-                'scripts/gen-decomposeParDict.sh $solver_parallel_tasks $maxTaskCount < $in > $out',
+                'scripts/gen-decomposeParDict.sh $solver_parallel_tasks < $in > $out',
                 description='gen-decomposeParDict $out')
 
         g.scriptRule(
