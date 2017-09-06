@@ -6,6 +6,7 @@ from .collator import Collator
 from .cubedSphereMesh import CubedSphereMesh
 from .cutCellMesh import CutCellMesh
 from .deformationSphere import DeformationSphereBuilder, DeformationSphereCollated
+from .dynamics import DynamicsExecution
 from .errors import Errors
 from .generator import Generator
 from .geodesicHexMesh import GeodesicHexMesh
@@ -18,6 +19,7 @@ from .paths import Paths
 from .pdflatex import PDFLaTeX, PDFLaTeXFigure
 from .resting import RestingBuilder, RestingCollated
 from .schaerAdvect import SchaerAdvectBuilder, SchaerAdvectCollated
+from .schaerWaves import SchaerWaves
 from .shortcuts import Shortcuts
 from . import siunitx
 from .slantedCellMesh import SlantedCellMesh
