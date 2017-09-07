@@ -15,6 +15,7 @@ class DynamicsExecution:
             thermophysicalProperties,
             fvSchemes,
             fvSolution,
+            sponge,
             parallel):
         self.case = case
         self.mesh = mesh
@@ -26,6 +27,7 @@ class DynamicsExecution:
         self.thermophysicalProperties = thermophysicalProperties
         self.fvSchemes = fvSchemes
         self.fvSolution = fvSolution
+        self.sponge = sponge
         self.parallel = parallel
 
     def write(self, generator):
@@ -39,16 +41,22 @@ class DynamicsExecution:
                 self.parallel,
                 os.path.join("src/advect/decomposeParDict.template")
         )
+
+        implicit = case.polyMesh + case.systemFiles + [
+            case.path('0/Uf'),
+            case.path('0/theta'),
+            case.path('0/Exner'),
+            case.environmentalProperties,
+            case.thermophysicalProperties
+        ]
+
+        if self.sponge:
+            implicit += [case.sponge]
+
         solver.solve(
                 outputs=[case.energy, case.path(endTime, 'theta')],
                 rule='exnerFoamH',
-                implicit=case.polyMesh + case.systemFiles + [
-                    case.path('0/Uf'),
-                    case.path('0/theta'),
-                    case.path('0/Exner'),
-                    case.environmentalProperties,
-                    case.thermophysicalProperties
-                ]
+                implicit=implicit
         )
 
         g.w.build(
@@ -75,6 +83,16 @@ class DynamicsExecution:
                 variables={'case': case}
         )
         g.w.newline()
+
+        if self.sponge:
+            g.w.build(
+                    outputs=case.sponge,
+                    rule='createSpongeLayer',
+                    implicit=case.polyMesh + case.systemFiles + \
+                        [case.environmentalProperties],
+                    variables={'case': case}
+            )
+            g.w.newline()
 
         g.copy(self.initialUf, case.path('0/Uf'))
         g.copy(self.thetaInit, case.thetaInit)

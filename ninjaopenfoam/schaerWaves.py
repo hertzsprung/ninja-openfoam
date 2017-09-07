@@ -23,22 +23,14 @@ class SchaerWaves:
                 os.path.join('src/schaerWaves/thermophysicalProperties'),
                 fvSchemes,
                 os.path.join('src/schaerWaves/fvSolution'),
-                parallel)
+                sponge=True,
+                parallel=parallel)
 
     def write(self, generator):
         g = generator
         case = self.case
 
         self.dynamicsExecution.write(generator)
-
-        g.w.build(
-                outputs=case.sponge,
-                rule='createSpongeLayer',
-                implicit=case.polyMesh + case.systemFiles + \
-                    [case.environmentalProperties],
-                variables={'case': case}
-        )
-        g.w.newline()
         
         # TODO: theta_diff
         # TODO: s3upload

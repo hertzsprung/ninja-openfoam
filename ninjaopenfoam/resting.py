@@ -66,7 +66,8 @@ class Resting:
                 os.path.join('src/resting/thermophysicalProperties'),
                 fvSchemes,
                 os.path.join('src/resting/fvSolution'),
-                parallel)
+                sponge=False,
+                parallel=parallel)
 
     def write(self, generator):
         g = generator

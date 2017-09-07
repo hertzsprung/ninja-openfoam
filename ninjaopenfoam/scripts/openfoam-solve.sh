@@ -15,7 +15,7 @@ case=$1
 taskCount=$2
 solver=$3
 
-decomposePar -force -constant -time 0 -case $(realpath $case) # https://bugs.openfoam.org/view.php?id=2610
+decomposePar -force -time 0 -case $(realpath $case) # https://bugs.openfoam.org/view.php?id=2610
 mpirun -np $taskCount $solver -parallel
 reconstructPar -case $case
 if [ -e $case/processor0/energy.dat ]; then
