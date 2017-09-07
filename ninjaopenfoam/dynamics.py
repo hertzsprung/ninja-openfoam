@@ -54,7 +54,11 @@ class DynamicsExecution:
             implicit += [case.sponge]
 
         solver.solve(
-                outputs=[case.energy, case.path(endTime, 'theta')],
+                outputs=[
+                    case.energy,
+                    case.path(endTime, 'theta'),
+                    case.path(endTime, 'Uf')
+                ],
                 rule='exnerFoamH',
                 implicit=implicit
         )
