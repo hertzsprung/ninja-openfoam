@@ -8,8 +8,9 @@ import os
 class SchaerWaves:
     def __init__(self, name, mesh, timestep, fvSchemes, parallel, fast, fastMesh):
         self.case = Case(name)
+        self.fast = fast
 
-        if fast:
+        if self.fast:
             fvSchemes = os.path.join('src/schaerWaves/linearUpwind')
             mesh = fastMesh
             timestep = 120
@@ -42,7 +43,10 @@ class SchaerWaves:
 
         generator.copy(self.case.path('0/theta'), self.case.path(endTime, 'theta_analytic'))
         
-        # TODO: s3upload
+        if not self.fast:
+            g.s3uploadCase(
+                    case,
+                    [case.path(endTime, 'theta_diff')])
 
     def __str__(self):
         return self.case.name
