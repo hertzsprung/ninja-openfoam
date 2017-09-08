@@ -15,7 +15,14 @@ case=$1
 taskCount=$2
 solver=$3
 
-decomposePar -force -time 0 -case $(realpath $case) # https://bugs.openfoam.org/view.php?id=2610
+decomposePar -case $case -force -time 0
+
+if [ -e $case/constant/muSponge ]; then
+	# Exner_init is malformed and can't be decomposed
+	mv $case/constant/Exner_init $case/Exner_init
+	decomposePar -case $case -constant -fields -time -1:-1
+	mv $case/Exner_init $case/constant/Exner_init
+fi
 
 if [ -e $case/0/Uf ]; then
 	for processorCase in $case/processor*; do
