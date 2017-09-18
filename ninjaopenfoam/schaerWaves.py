@@ -1,6 +1,7 @@
 from .case import Case
 from .errors import Errors
 from .dynamics import DynamicsExecution
+from .sample import Sample
 from .timing import Timing
 
 import os
@@ -16,6 +17,7 @@ class SchaerWaves:
             timestep = 120
 
         self.timing = Timing(18000, 3600, timestep)
+        self.sampleDict = os.path.join('src/schaerWaves/sampleLine')
 
         self.dynamicsExecution = DynamicsExecution(
                 self.case,
@@ -40,6 +42,8 @@ class SchaerWaves:
 
         errors = Errors(self.case, self.timing.endTime, 'theta')
         errors.diff(generator)
+
+        Sample(self.case, endTime, 'theta_diff', self.sampleDict).write(generator)
 
         generator.copy(self.case.path('0/theta'), self.case.path(endTime, 'theta_analytic'))
         

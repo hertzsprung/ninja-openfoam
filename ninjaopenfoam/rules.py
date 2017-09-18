@@ -149,6 +149,9 @@ class Rules:
                 'scripts/s3-upload.sh $source $s3uri > $out',
                 description='s3upload $source')
 
+        g.w.rule('sample', 'postProcess -case $case -time $time -func sampleDict')
+        g.w.newline()
+
         g.w.rule('setAnalyticTracerField', 'setAnalyticTracerField -case $case -time $time')
         g.w.newline()
 

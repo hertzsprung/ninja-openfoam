@@ -18,6 +18,7 @@ from .mountainAdvect import MountainAdvectBuilder, \
 from .paths import Paths
 from .pdflatex import PDFLaTeX, PDFLaTeXFigure
 from .resting import RestingBuilder, RestingCollated
+from .sample import Sample
 from .schaerAdvect import SchaerAdvectBuilder, SchaerAdvectCollated
 from .schaerWaves import SchaerWaves
 from .shortcuts import Shortcuts
