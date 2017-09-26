@@ -7,14 +7,15 @@ import os
 
 class Advect:
     def __init__(self, name, dx, mountainHeight, mesh, 
-            tracerFieldDict, velocityFieldDict, timestep, fvSchemes, parallel, fast):
+            tracerFieldDict, velocityFieldDict, timing,
+            fvSchemes, parallel, fast):
         self.case = Case(name)
         self.dx = dx
         self.mountainHeight = mountainHeight
         self.mesh = mesh
         self.tracerFieldDict = tracerFieldDict
         self.velocityFieldDict = velocityFieldDict
-        self.timing = Timing(10000, 5000, timestep)
+        self.timing = timing
         self.fvSchemes = fvSchemes
         self.fvSolution = os.path.join('src/fvSolution')
         self.parallel = parallel

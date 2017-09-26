@@ -5,6 +5,7 @@ from .advect import Advect
 from .case import Case
 from .collator import Collator
 from .paths import Paths
+from .timing import Timing
 
 class MountainAdvectBuilder:
     def __init__(self, parallel, fast, fastMesh):
@@ -31,7 +32,8 @@ class MountainAdvectBuilder:
         return Advect(name, dx, mountainHeight, mesh, 
                 os.path.join('src/mountainAdvect/tracerField'),
                 velocityField,
-                timestep, fvSchemes, self.parallel, self.fast)
+                Timing(10000, 5000, timestep),
+                fvSchemes, self.parallel, self.fast)
 
 class MountainAdvectCollatedByMountainHeight:
     Test = collections.namedtuple('MountainAdvectCollatedByMountainHeightTest', ['name', 'mountainHeight', 'mesh', 'velocityField', 'timestep'])

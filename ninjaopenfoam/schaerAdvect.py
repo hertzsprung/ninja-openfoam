@@ -5,6 +5,7 @@ from .advect import Advect
 from .case import Case
 from .collator import Collator
 from .paths import Paths
+from .timing import Timing
 
 class SchaerAdvectBuilder:
     def __init__(self, mountainHeight, velocityField, parallel, fast, fastMesh):
@@ -28,7 +29,8 @@ class SchaerAdvectBuilder:
         return Advect(name, dx, self.mountainHeight, mesh, 
                 os.path.join('src/schaerAdvect/tracerField'),
                 self.velocityField,
-                timestep, fvSchemes, self.parallel, self.fast)
+                Timing(10000, 5000, timestep),
+                fvSchemes, self.parallel, self.fast)
 
 class SchaerAdvectCollated:
     Test = collections.namedtuple('SchaerAdvectCollatedTest', ['name', 'dx', 'mesh', 'timestep'])
