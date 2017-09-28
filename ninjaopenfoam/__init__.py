@@ -28,4 +28,5 @@ from .solver import SolverExecution, SolverRule
 from .sphericalMesh import SphericalMesh
 from . import syntax
 from .terrainFollowingMesh import TerrainFollowingMesh
+from .thermalAdvect import ThermalAdvect
 from .timing import Timing
