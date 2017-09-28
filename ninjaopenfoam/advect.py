@@ -7,7 +7,7 @@ import os
 
 class Advect:
     def __init__(self, name, dx, mountainHeight, mesh, 
-            tracerFieldDict, velocityFieldDict, timing,
+            tracerFieldDict, velocityFieldDict, T_init, timing,
             fvSchemes, parallel, fast):
         self.case = Case(name)
         self.dx = dx
@@ -15,6 +15,7 @@ class Advect:
         self.mesh = mesh
         self.tracerFieldDict = tracerFieldDict
         self.velocityFieldDict = velocityFieldDict
+        self.T_init = T_init
         self.timing = timing
         self.fvSchemes = fvSchemes
         self.fvSolution = os.path.join('src/fvSolution')
@@ -42,7 +43,7 @@ class Advect:
         g.initialTracer(
                 case,
                 self.tracerFieldDict,
-                os.path.join("src/schaerAdvect/T_init")
+                self.T_init
         )
 
         g.w.build(

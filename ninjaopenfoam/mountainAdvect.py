@@ -32,6 +32,7 @@ class MountainAdvectBuilder:
         return Advect(name, dx, mountainHeight, mesh, 
                 os.path.join('src/mountainAdvect/tracerField'),
                 velocityField,
+                os.path.join('src/schaerAdvect/T_init'),
                 Timing(10000, 5000, timestep),
                 fvSchemes, self.parallel, self.fast)
 
