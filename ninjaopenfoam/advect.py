@@ -90,7 +90,11 @@ class Advect:
                 self.case.path(endTime, 'T_analytic'),
                 'setAnalyticTracerField',
                 implicit=case.polyMesh + case.systemFiles + \
-                        [case.velocityFieldDict, case.tracerFieldDict],
+                [
+                    case.velocityFieldDict,
+                    case.tracerFieldDict,
+                    case.T_init
+                ],
                 variables={'case': case, 'time': endTime}
         )
         g.w.newline()
