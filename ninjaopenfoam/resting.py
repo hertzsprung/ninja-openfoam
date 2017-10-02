@@ -22,7 +22,7 @@ class RestingBuilder:
         if self.fast:
             mesh = self.fastMesh
             timestep = 50
-            fvSchemes = os.path.join('src/schaerAdvect/linearUpwind')
+            fvSchemes = os.path.join('src/resting/linearUpwind')
 
         return Resting(name, mountainHeight, mesh, 
                 timestep, fvSchemes, self.parallel, self.fast)
