@@ -7,8 +7,14 @@ class Lorenz:
     exnerRule = 'setExnerBalancedH'
     thetaRule = 'setTheta'
 
-    def thetaInit(self, case):
-        return case.thetaInit
+    def __init__(self, thetaInit):
+        self.thetaInit = thetaInit
+
+    def thetaInits(self, case):
+        return [case.thetaInit]
+
+    def copyThetaInits(self, generator, case):
+        generator.copy(self.thetaInit, case.thetaInit)
 
 class CharneyPhillips:
     theta = 'thetaf'
@@ -19,5 +25,13 @@ class CharneyPhillips:
     exnerRule = 'setExnerBalancedCP'
     thetaRule = 'setThetaCP'
 
-    def thetaInit(self, case):
-        return case.thetafInit
+    def __init__(self, thetaInit, thetafInit):
+        self.thetaInit = thetaInit
+        self.thetafInit = thetafInit
+
+    def thetaInits(self, case):
+        return [case.thetaInit, case.thetafInit]
+
+    def copyThetaInits(self, generator, case):
+        generator.copy(self.thetaInit, case.thetaInit)
+        generator.copy(self.thetafInit, case.thetafInit)

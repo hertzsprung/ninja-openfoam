@@ -2,23 +2,28 @@ from .case import Case
 from .errors import Errors
 from .dynamics import DynamicsExecution
 from .sample import Sample
-from .staggering import Lorenz
+from .staggering import CharneyPhillips, Lorenz
 from .timing import Timing
 
 import os
 
 class SchaerWaves:
-    def __init__(self, name, mesh, timestep, fvSchemes, parallel, fast, fastMesh):
+    charneyPhillips = CharneyPhillips(
+            os.path.join('src/schaerWaves/theta_init'),
+            os.path.join('src/schaerWavesCP/thetaf_init'))
+    lorenz = Lorenz(os.path.join('src/schaerWaves/theta_init'))
+
+    def __init__(self, name, mesh, timestep, staggering, fvSchemes, parallel, fast, fastMesh):
         self.case = Case(name)
         self.fast = fast
 
         if self.fast:
-            fvSchemes = os.path.join('src/schaerWaves/linearUpwind')
+            fvSchemes = os.path.join('src/schaerWaves/linearUpwindFast')
             mesh = fastMesh
             timestep = 120
 
         self.timing = Timing(18000, 3600, timestep)
-        self.staggering = Lorenz()
+        self.staggering = staggering
         self.sampleDict = os.path.join('src/schaerWaves/sampleLine')
 
         self.dynamicsExecution = DynamicsExecution(
@@ -27,7 +32,6 @@ class SchaerWaves:
                 self.timing,
                 self.staggering,
                 os.path.join('src/schaerWaves/Uf'),
-                os.path.join('src/schaerWaves/theta_init'),
                 os.path.join('src/schaerWaves/Exner_init'),
                 os.path.join('src/schaerWaves/environmentalProperties'),
                 os.path.join('src/schaerWaves/thermophysicalProperties'),

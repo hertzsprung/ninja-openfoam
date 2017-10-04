@@ -10,7 +10,6 @@ class DynamicsExecution:
             timing,
             staggering,
             initialUf,
-            thetaInit,
             exnerInit,
             environmentalProperties,
             thermophysicalProperties,
@@ -23,7 +22,6 @@ class DynamicsExecution:
         self.timing = timing
         self.staggering = staggering
         self.initialUf = initialUf
-        self.thetaInit = thetaInit
         self.exnerInit = exnerInit
         self.environmentalProperties = environmentalProperties
         self.thermophysicalProperties = thermophysicalProperties
@@ -69,8 +67,8 @@ class DynamicsExecution:
         g.w.build(
                 outputs=case.path('0', staggering.theta),
                 rule=staggering.thetaRule,
-                implicit=case.polyMesh + case.systemFiles + [
-                    staggering.thetaInit(case),
+                implicit=case.polyMesh + case.systemFiles + \
+                    staggering.thetaInits(case) + [
                     case.environmentalProperties,
                     case.thermophysicalProperties
                 ],
@@ -102,7 +100,7 @@ class DynamicsExecution:
             g.w.newline()
 
         g.copy(self.initialUf, case.path('0/Uf'))
-        g.copy(self.thetaInit, staggering.thetaInit(case))
+        staggering.copyThetaInits(g, case)
         g.copy(self.exnerInit, case.exnerInit)
         g.copy(self.environmentalProperties, case.environmentalProperties)
         g.copy(self.thermophysicalProperties, case.thermophysicalProperties)
