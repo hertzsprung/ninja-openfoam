@@ -8,6 +8,7 @@ class DynamicsExecution:
             case,
             mesh,
             timing,
+            staggering,
             initialUf,
             thetaInit,
             exnerInit,
@@ -20,6 +21,7 @@ class DynamicsExecution:
         self.case = case
         self.mesh = mesh
         self.timing = timing
+        self.staggering = staggering
         self.initialUf = initialUf
         self.thetaInit = thetaInit
         self.exnerInit = exnerInit
@@ -32,6 +34,7 @@ class DynamicsExecution:
 
     def write(self, generator):
         case = self.case
+        staggering = self.staggering
         g = generator
         endTime = str(self.timing.endTime)
 
@@ -44,7 +47,7 @@ class DynamicsExecution:
 
         implicit = case.polyMesh + case.systemFiles + [
             case.path('0/Uf'),
-            case.path('0/theta'),
+            case.path('0', staggering.theta),
             case.path('0/Exner'),
             case.environmentalProperties,
             case.thermophysicalProperties
@@ -56,18 +59,18 @@ class DynamicsExecution:
         solver.solve(
                 outputs=[
                     case.energy,
-                    case.path(endTime, 'theta'),
+                    case.path(endTime, staggering.theta),
                     case.path(endTime, 'Uf')
                 ],
-                rule='exnerFoamH',
+                rule=staggering.solverRule,
                 implicit=implicit
         )
 
         g.w.build(
-                outputs=case.path('0/theta'),
-                rule='setTheta',
+                outputs=case.path('0', staggering.theta),
+                rule=staggering.thetaRule,
                 implicit=case.polyMesh + case.systemFiles + [
-                    case.thetaInit,
+                    staggering.thetaInit(case),
                     case.environmentalProperties,
                     case.thermophysicalProperties
                 ],
@@ -77,10 +80,10 @@ class DynamicsExecution:
 
         g.w.build(
                 outputs=case.path('0/Exner'),
-                rule='setExnerBalancedH',
+                rule=staggering.exnerRule,
                 implicit=case.polyMesh + case.systemFiles + [
                     case.exnerInit,
-                    case.path('0/theta'),
+                    case.path('0', staggering.theta),
                     case.environmentalProperties,
                     case.thermophysicalProperties
                 ],
@@ -99,7 +102,7 @@ class DynamicsExecution:
             g.w.newline()
 
         g.copy(self.initialUf, case.path('0/Uf'))
-        g.copy(self.thetaInit, case.thetaInit)
+        g.copy(self.thetaInit, staggering.thetaInit(case))
         g.copy(self.exnerInit, case.exnerInit)
         g.copy(self.environmentalProperties, case.environmentalProperties)
         g.copy(self.thermophysicalProperties, case.thermophysicalProperties)

@@ -2,6 +2,7 @@ from .case import Case
 from .collator import Collator
 from .dynamics import DynamicsExecution
 from .paths import Paths
+from .staggering import Lorenz
 from .timing import Timing
 
 import collections
@@ -59,6 +60,7 @@ class Resting:
                 self.case,
                 mesh,
                 timing,
+                Lorenz(),
                 os.path.join('src/resting/Uf'),
                 os.path.join('src/resting/theta_init'),
                 os.path.join('src/resting/Exner_init'),

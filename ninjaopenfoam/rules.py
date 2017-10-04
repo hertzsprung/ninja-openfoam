@@ -158,10 +158,16 @@ class Rules:
         g.w.rule('setExnerBalancedH', 'setExnerBalancedH -case $case')
         g.w.newline()
 
+        g.w.rule('setExnerBalancedCP', 'setExnerBalancedH -case $case -noInterpolate')
+        g.w.newline()
+
         g.w.rule('setInitialTracerField', 'setInitialTracerField -case $case')
         g.w.newline()
 
         g.w.rule('setTheta', 'setTheta -case $case')
+        g.w.newline()
+
+        g.w.rule('setThetaCP', 'setTheta -case $case -CP')
         g.w.newline()
 
         g.w.rule('setVelocityField', 'setVelocityField -case $case -time 0')

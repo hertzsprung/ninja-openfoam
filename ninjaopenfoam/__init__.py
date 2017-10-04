@@ -26,6 +26,7 @@ from . import siunitx
 from .slantedCellMesh import SlantedCellMesh
 from .solver import SolverExecution, SolverRule
 from .sphericalMesh import SphericalMesh
+from .staggering import CharneyPhillips, Lorenz
 from . import syntax
 from .terrainFollowingMesh import TerrainFollowingMesh
 from .thermalAdvect import ThermalAdvect
