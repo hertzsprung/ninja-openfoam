@@ -50,17 +50,17 @@ class SchaerWaves:
 
         self.dynamicsExecution.write(generator)
 
-        errors = Errors(self.case, self.timing.endTime, staggering.theta)
+        errors = Errors(self.case, self.timing.endTime, 'theta')
         errors.diff(generator)
 
-        Sample(self.case, endTime, staggering.thetaDiff, self.sampleDict).write(generator)
+        Sample(self.case, endTime, 'theta_diff', self.sampleDict).write(generator)
 
-        generator.copy(self.case.path('0', staggering.theta), self.case.path(endTime, staggering.thetaAnalytic))
+        generator.copy(self.case.path('0/theta'), self.case.path(endTime, 'theta_analytic'))
         
         if not self.fast:
             g.s3uploadCase(
                     case,
-                    [case.path(endTime, staggering.thetaDiff)])
+                    [case.path(endTime, 'theta_diff')])
 
     def __str__(self):
         return self.case.name

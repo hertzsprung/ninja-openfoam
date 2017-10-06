@@ -14,7 +14,9 @@ class ArakawaKonor:
 
     def __init__(self, name, mesh, staggering, fvSchemes, parallel, fast, fastMesh):
         self.case = Case(name)
-        if fast:
+        self.fast = fast
+
+        if self.fast:
             mesh = fastMesh
             self.timing = Timing(172800, 43200, 400);
         else:
@@ -37,14 +39,10 @@ class ArakawaKonor:
                 os.path.join('src/schaerWaves/fvSolution'),
                 sponge=True,
                 parallel=parallel)
-        
-#        if not self.fast:
-#            g.s3uploadCase(
-#                    case,
-#                    [case.path(endTime, 'theta_diff')])
 
     def write(self, generator):
         case = self.case
+        g = generator
         endTime = str(self.timing.endTime)
 
         self.dynamicsExecution.write(generator)
@@ -52,7 +50,15 @@ class ArakawaKonor:
         errors = Errors(case, endTime, self.staggering.theta)
         errors.diff(generator)
 
-        generator.copy(case.path('0/theta.background'), case.path(endTime, 'theta_analytic'))
+        g.copy(case.path('0/theta.background'), case.path(endTime, 'theta_analytic'))
+        
+        if not self.fast:
+            g.s3uploadCase(
+                    case,
+                    [
+                        case.path(endTime, 'theta_diff'),
+                        case.path('0/theta_diff'),
+                    ])
 
     def __str__(self):
         return self.case.name

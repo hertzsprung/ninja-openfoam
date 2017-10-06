@@ -2,7 +2,7 @@ class StratifiedThermalField:
     def write(self, generator, case, staggering):
         g = generator
         g.w.build(
-                outputs=case.path('0', staggering.theta),
+                outputs=[case.path('0', theta) for theta in staggering.thetaOutputs()],
                 rule=staggering.stratifiedThetaRule,
                 implicit=case.polyMesh + case.systemFiles + \
                     staggering.thetaInits(case) + [
