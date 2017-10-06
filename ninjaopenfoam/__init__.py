@@ -31,4 +31,5 @@ from .staggering import CharneyPhillips, Lorenz
 from . import syntax
 from .terrainFollowingMesh import TerrainFollowingMesh
 from .thermalAdvect import ThermalAdvect
+from .thermalField import PerturbedThermalField, StratifiedThermalField
 from .timing import Timing

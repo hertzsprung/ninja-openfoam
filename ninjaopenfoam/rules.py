@@ -170,6 +170,11 @@ class Rules:
         g.w.rule('setThetaCP', 'setTheta -case $case -CP')
         g.w.newline()
 
+        g.scriptRule(
+                'setPerturbedTheta',
+                'scripts/setPerturbedTheta.sh $case',
+                description='setPerturbedTheta $case')
+
         g.w.rule('setVelocityField', 'setVelocityField -case $case -time 0')
         g.w.newline()
 

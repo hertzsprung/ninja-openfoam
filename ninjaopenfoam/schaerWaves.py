@@ -4,6 +4,7 @@ from .dynamics import DynamicsExecution
 from .sample import Sample
 from .staggering import CharneyPhillips, Lorenz
 from .timing import Timing
+from .thermalField import StratifiedThermalField
 
 import os
 
@@ -31,6 +32,7 @@ class SchaerWaves:
                 mesh,
                 self.timing,
                 self.staggering,
+                StratifiedThermalField(),
                 os.path.join('src/schaerWaves/Uf'),
                 os.path.join('src/schaerWaves/Exner_init'),
                 os.path.join('src/schaerWaves/environmentalProperties'),

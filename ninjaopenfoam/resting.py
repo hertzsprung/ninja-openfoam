@@ -4,6 +4,7 @@ from .dynamics import DynamicsExecution
 from .paths import Paths
 from .staggering import Lorenz
 from .timing import Timing
+from .thermalField import StratifiedThermalField
 
 import collections
 import os
@@ -61,6 +62,7 @@ class Resting:
                 mesh,
                 timing,
                 Lorenz(os.path.join('src/resting/theta_init')),
+                StratifiedThermalField(),
                 os.path.join('src/resting/Uf'),
                 os.path.join('src/resting/Exner_init'),
                 os.path.join('src/resting/environmentalProperties'),

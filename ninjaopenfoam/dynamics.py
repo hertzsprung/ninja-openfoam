@@ -9,6 +9,7 @@ class DynamicsExecution:
             mesh,
             timing,
             staggering,
+            thermalField,
             initialUf,
             exnerInit,
             environmentalProperties,
@@ -21,6 +22,7 @@ class DynamicsExecution:
         self.mesh = mesh
         self.timing = timing
         self.staggering = staggering
+        self.thermalField = thermalField
         self.initialUf = initialUf
         self.exnerInit = exnerInit
         self.environmentalProperties = environmentalProperties
@@ -64,17 +66,7 @@ class DynamicsExecution:
                 implicit=implicit
         )
 
-        g.w.build(
-                outputs=case.path('0', staggering.theta),
-                rule=staggering.thetaRule,
-                implicit=case.polyMesh + case.systemFiles + \
-                    staggering.thetaInits(case) + [
-                    case.environmentalProperties,
-                    case.thermophysicalProperties
-                ],
-                variables={'case': case}
-        )
-        g.w.newline()
+        self.thermalField.write(generator, case, staggering)
 
         g.w.build(
                 outputs=case.path('0/Exner'),
