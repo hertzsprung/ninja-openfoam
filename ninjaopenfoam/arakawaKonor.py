@@ -12,9 +12,14 @@ class ArakawaKonor:
             os.path.join('src/arakawaKonor/theta_init'),
             os.path.join('src/arakawaKonor/T_init'))
 
-    def __init__(self, name, mesh, staggering, fvSchemes, parallel, fast):
+    def __init__(self, name, mesh, staggering, fvSchemes, parallel, fast, fastMesh):
         self.case = Case(name)
-        self.timing = Timing(172800, 43200, 25);
+        if fast:
+            mesh = fastMesh
+            self.timing = Timing(172800, 43200, 400);
+        else:
+            self.timing = Timing(172800, 43200, 25);
+
         self.staggering = staggering
 
         thetaPerturbation = os.path.join('src/arakawaKonor/thetaPerturbation')
@@ -32,6 +37,11 @@ class ArakawaKonor:
                 os.path.join('src/schaerWaves/fvSolution'),
                 sponge=True,
                 parallel=parallel)
+        
+#        if not self.fast:
+#            g.s3uploadCase(
+#                    case,
+#                    [case.path(endTime, 'theta_diff')])
 
     def write(self, generator):
         case = self.case
