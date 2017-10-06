@@ -21,6 +21,6 @@ setInitialTracerField -case $case
 mv $case/0/T $case/0/theta.perturbation
 
 setTheta -case $case
-mv $case/0/theta $case/0/theta.bg
+mv $case/0/theta $case/0/theta.background
 
-sumFields -case $case -scale0 1 -scale1 1 0 theta 0 theta.bg 0 theta.perturbation
+sumFields -case $case -scale0 1 -scale1 1 0 theta 0 theta.background 0 theta.perturbation

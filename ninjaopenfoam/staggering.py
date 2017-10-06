@@ -15,6 +15,9 @@ class Lorenz:
     def thetaInits(self, case):
         return [case.thetaInit]
 
+    def thetaOutputs(self):
+        return ['theta']
+
     def T_inits(self, case):
         return [case.T_init]
 
@@ -42,6 +45,9 @@ class CharneyPhillips:
 
     def thetaInits(self, case):
         return [case.thetaInit, case.thetafInit]
+
+    def thetaOutputs(self):
+        return ['theta', 'thetaf']
 
     def copyThetaInits(self, generator, case):
         generator.copy(self.thetaInit, case.thetaInit)

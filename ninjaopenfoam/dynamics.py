@@ -57,13 +57,13 @@ class DynamicsExecution:
             implicit += [case.sponge]
 
         solver.solve(
-                outputs=[
-                    case.energy,
-                    case.path(endTime, staggering.theta),
-                    case.path(endTime, 'Uf')
-                ],
-                rule=staggering.solverRule,
-                implicit=implicit
+            outputs=[
+                case.energy,
+                case.path(endTime, 'Uf')
+            ] + \
+            [case.path(endTime, theta) for theta in staggering.thetaOutputs()],
+            rule=staggering.solverRule,
+            implicit=implicit
         )
 
         self.thermalField.write(generator, case, staggering)

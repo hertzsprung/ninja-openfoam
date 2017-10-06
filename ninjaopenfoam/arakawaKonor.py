@@ -1,5 +1,6 @@
 from .case import Case
 from .dynamics import DynamicsExecution
+from .errors import Errors
 from .staggering import CharneyPhillips, Lorenz
 from .timing import Timing
 from .thermalField import PerturbedThermalField
@@ -13,14 +14,15 @@ class ArakawaKonor:
 
     def __init__(self, name, mesh, staggering, fvSchemes, parallel, fast):
         self.case = Case(name)
-        timing = Timing(172800, 43200, 25);
+        self.timing = Timing(172800, 43200, 25);
+        self.staggering = staggering
 
         thetaPerturbation = os.path.join('src/arakawaKonor/thetaPerturbation')
         self.dynamicsExecution = DynamicsExecution(
                 self.case,
                 mesh,
-                timing,
-                staggering,
+                self.timing,
+                self.staggering,
                 PerturbedThermalField(thetaPerturbation),
                 os.path.join('src/arakawaKonor/Uf'),
                 os.path.join('src/arakawaKonor/Exner_init'),
@@ -32,7 +34,15 @@ class ArakawaKonor:
                 parallel=parallel)
 
     def write(self, generator):
+        case = self.case
+        endTime = str(self.timing.endTime)
+
         self.dynamicsExecution.write(generator)
+
+        errors = Errors(case, endTime, self.staggering.theta)
+        errors.diff(generator)
+
+        generator.copy(case.path('0/theta.background'), case.path(endTime, 'theta_analytic'))
 
     def __str__(self):
         return self.case.name
