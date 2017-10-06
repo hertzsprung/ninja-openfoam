@@ -14,7 +14,9 @@ class GeodesicHexMesh:
             fvSolution=os.path.join("src", "fvSolution"),
             controlDict=os.path.join("src", "controlDict")):
         self.case = Case(name)
-        if fast:
+        self.fast = fast
+
+        if self.fast:
             self.refinement = 3
         else:
             self.refinement = refinement
@@ -53,6 +55,11 @@ class GeodesicHexMesh:
         g.copy(self.controlDict, case.controlDict)
         g.copy(self.fvSchemes, case.fvSchemes)
         g.copy(self.fvSolution, case.fvSolution)
+
+        if not self.fast:
+            g.s3uploadCase(
+                    case,
+                    case.polyMesh)
 
     def __str__(self):
         return self.case.name
