@@ -1,4 +1,5 @@
 from .advect import Advect
+from .arakawaKonor import ArakawaKonor
 from .blockMesh import BlockMesh
 from .build import Build
 from .case import Case, CopyCase
