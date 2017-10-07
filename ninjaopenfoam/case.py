@@ -34,6 +34,7 @@ class Case:
         self.sampleDict = self.path("system/sampleDict")
         self.sponge = self.path("constant/muSponge")
         self.T_init = self.path("constant/T_init")
+        self.Tf_init = self.path("constant/Tf_init")
         self.thermophysicalProperties = self.path("constant/thermophysicalProperties")
         self.thetaInit = self.path("constant/theta_init")
         self.thetafInit = self.path("constant/thetaf_init")

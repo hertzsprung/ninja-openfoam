@@ -12,6 +12,12 @@ class ArakawaKonor:
             os.path.join('src/arakawaKonor/theta_init'),
             os.path.join('src/arakawaKonor/T_init'))
 
+    charneyPhillips = CharneyPhillips(
+            os.path.join('src/arakawaKonor/theta_init'),
+            os.path.join('src/arakawaKonor/thetaf_init'),
+            os.path.join('src/arakawaKonor/T_init'),
+            os.path.join('src/arakawaKonor/Tf_init'))
+
     def __init__(self, name, mesh, staggering, fvSchemes, parallel, fast, fastMesh):
         self.case = Case(name)
         self.fast = fast
@@ -47,7 +53,7 @@ class ArakawaKonor:
 
         self.dynamicsExecution.write(generator)
 
-        errors = Errors(case, endTime, self.staggering.theta)
+        errors = Errors(case, endTime, 'theta')
         errors.diff(generator)
 
         g.copy(case.path('0/theta.background'), case.path(endTime, 'theta_analytic'))
