@@ -128,6 +128,12 @@ class Rules:
                 description='maxw $out')
         g.w.newline()
 
+        g.w.rule(
+                'maxKE',
+                "tr -s ' ' < $in | cut -d' ' -f2 | sort -g | tail -n1 > $out",
+                description='maxKE $out')
+        g.w.newline()
+
         g.scriptRule(
                 'pdflatex',
                 'scripts/pdflatex.sh $in $out',
