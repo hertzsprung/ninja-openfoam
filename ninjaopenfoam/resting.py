@@ -40,8 +40,7 @@ class RestingCollated:
 
     def write(self, generator):
         self.collator.write(generator, Paths.maxw)
-        self.collator.write(generator, Paths.meanw)
-        self.collator.s3upload(generator, [Paths.maxw, Paths.meanw])
+        self.collator.s3upload(generator, [Paths.maxw])
 
     def __str__(self):
         return self.case.name
@@ -83,19 +82,12 @@ class Resting:
         )
         g.w.newline()
 
-        g.w.build(
-                outputs=case.meanw,
-                rule='meanw',
-                inputs=case.energy
-        )
-        g.w.newline()
-
         self.dynamicsExecution.write(generator)
 
         g.w.build(self.case.mountainHeight, 'echo', variables={'string': str(self.mountainHeight)})
 
         if not self.fast:
-            g.s3uploadCase(case, [case.maxw, case.meanw])
+            g.s3uploadCase(case, [case.maxw])
 
     def __str__(self):
         return self.case.name

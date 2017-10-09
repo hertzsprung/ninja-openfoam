@@ -26,7 +26,6 @@ class Case:
         self.fvSolution = self.path("system/fvSolution")
         self.gmtConf = self.path("gmt.conf")
         self.maxw = self.path(Paths.maxw)
-        self.meanw = self.path(Paths.meanw)
         self.meshQualityDict = self.path("system/meshQualityDict")
         self.mountainDict = self.path("system/mountainDict")
         self.mountainHeight = self.path(Paths.mountainHeight)

@@ -128,12 +128,6 @@ class Rules:
                 description='maxw $out')
         g.w.newline()
 
-        g.w.rule(
-                'meanw',
-                "tr -s ' ' < $in | cut -d' ' -f6 | tail -n +2 | datamash mean 1 > $out",
-                description='maxw $out')
-        g.w.newline()
-
         g.scriptRule(
                 'pdflatex',
                 'scripts/pdflatex.sh $in $out',
