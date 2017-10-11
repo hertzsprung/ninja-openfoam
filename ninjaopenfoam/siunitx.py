@@ -12,6 +12,9 @@ def Num(name, case, file):
 def Timestep(name, case, file=Paths.timestep):
     return SIunitx(name, case, file, 'siunitx-timestep')
 
+def Velocity(name, case, file):
+    return SIunitx(name, case, file, 'siunitx-velocity')
+
 class SIunitx:
     def __init__(self, name, case, file, rule):
         self.name = name
