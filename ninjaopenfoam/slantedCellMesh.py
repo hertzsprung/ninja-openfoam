@@ -55,6 +55,8 @@ class SlantedCellMesh:
         g.copy(self.fvSolution, case.fvSolution)
         g.copy(self.controlDict, case.controlDict)
 
+        g.s3uploadCase(case, case.polyMesh)
+
     def __str__(self):
         return self.case.name
 

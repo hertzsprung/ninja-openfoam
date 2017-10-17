@@ -11,6 +11,8 @@ class CutCellMesh:
             extrudeMeshDict=os.path.join('src/cutCellMesh/extrudeMeshDict'),
             meshQualityDict=os.path.join('src/mesh/meshQualityDict'),
             patchSets=os.path.join('src/cutCellMesh/patchSets'),
+            fvSchemes=os.path.join('src/fvSchemes'),
+            fvSolution=os.path.join('src/fvSolution'),
             controlDict=os.path.join('src/controlDict')):
         self.case = Case(name)
         self.asamCase = Case(name + '-asam')
@@ -19,6 +21,8 @@ class CutCellMesh:
         self.extrudeMeshDict = extrudeMeshDict
         self.meshQualityDict = meshQualityDict
         self.patchSets = patchSets
+        self.fvSchemes = fvSchemes
+        self.fvSolution = fvSolution
         self.controlDict = controlDict
 
     def write(self, generator):
@@ -54,7 +58,11 @@ class CutCellMesh:
         g.copy(self.extrudeMeshDict, case.extrudeMeshDict)
         g.copy(self.meshQualityDict, case.meshQualityDict)
         g.copy(self.createPatchDict, case.createPatchDict)
+        g.copy(self.fvSchemes, case.fvSchemes)
+        g.copy(self.fvSolution, case.fvSolution)
         g.copy(self.controlDict, case.controlDict)
+
+        g.s3uploadCase(case, case.polyMesh)
 
     def __str__(self):
         return self.case.name

@@ -57,9 +57,7 @@ class GeodesicHexMesh:
         g.copy(self.fvSolution, case.fvSolution)
 
         if not self.fast:
-            g.s3uploadCase(
-                    case,
-                    case.polyMesh)
+            g.s3uploadCase(case, case.polyMesh)
 
     def __str__(self):
         return self.case.name
