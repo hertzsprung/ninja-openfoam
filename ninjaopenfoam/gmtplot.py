@@ -61,8 +61,8 @@ class GmtPlotCopyCase:
 
         self.copyCase.write(g)
 
-        g.copy(os.path.join('src/thesis/fvSchemes.plotMesh'), self.targetCase.fvSchemes)
-        g.copy(os.path.join('src/thesis/fvSolution.plotMesh'), self.targetCase.fvSolution)
+        g.copy(os.path.join('src/fvSchemes.gmtPlot'), self.targetCase.fvSchemes)
+        g.copy(os.path.join('src/fvSolution.gmtPlot'), self.targetCase.fvSolution)
 
         for p in self.plots:
             sourcePlot = p
