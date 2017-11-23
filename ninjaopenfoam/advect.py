@@ -36,7 +36,10 @@ class Advect:
                 os.path.join("src/advect/decomposeParDict.template")
         )
         solver.solve(
-                outputs=[case.path(str(self.timing.endTime), staggering.T)],
+                outputs=[
+                    case.path(str(self.timing.endTime), staggering.T),
+                    case.energy
+                ],
                 rule=staggering.advectionSolverRule,
                 implicit=[case.path('0', staggering.T), case.path('0/phi')]
         )
@@ -83,12 +86,13 @@ class Advect:
         g = generator
         case = self.case
         endTime = str(self.timing.endTime)
+        staggering = self.staggering
 
-        errors = Errors(self.case, endTime)
+        errors = Errors(self.case, endTime, staggering.T)
         errors.write(g)
 
         g.w.build(
-                self.case.path(endTime, 'T_analytic'),
+                self.case.path(endTime, staggering.T_analytic),
                 'setAnalyticTracerField',
                 implicit=case.polyMesh + case.systemFiles + \
                 [

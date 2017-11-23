@@ -1,6 +1,7 @@
 class Lorenz:
     theta = 'theta'
     T = 'T'
+    T_analytic = 'T_analytic'
 
     advectionSolverRule = 'advectionFoam'
     dynamicsSolverRule = 'exnerFoamH'
@@ -44,6 +45,7 @@ class Lorenz:
 class CharneyPhillips:
     theta = 'thetaf'
     T = 'Tf'
+    T_analytic = 'Tf_analytic'
 
     advectionSolverRule = 'advectiveFoamF'
     dynamicsSolverRule = 'exnerFoamCP'

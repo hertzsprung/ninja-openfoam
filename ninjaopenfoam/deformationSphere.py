@@ -98,7 +98,7 @@ class DeformationSphere:
     def lperrors(self, generator):
         endTime = str(self.timing.endTime)
 
-        errors = Errors(self.case, endTime)
+        errors = Errors(self.case, endTime, 'T')
         errors.write(generator)
 
         generator.copy(self.case.path('0/T'), self.case.path(endTime, 'T_analytic'))

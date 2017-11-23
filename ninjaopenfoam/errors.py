@@ -1,5 +1,5 @@
 class Errors:
-    def __init__(self, case, time, field='T'):
+    def __init__(self, case, time, field):
         self.case = case
         self.time = str(time)
         self.field = field
