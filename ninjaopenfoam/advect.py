@@ -6,13 +6,14 @@ from .timing import Timing
 import os
 
 class Advect:
-    def __init__(self, name, dx, mountainHeight, mesh, 
+    def __init__(self, name, dx, mountainHeight, mesh, staggering,
             tracerFieldDict, velocityFieldDict, T_init, timing,
             fvSchemes, parallel, fast):
         self.case = Case(name)
         self.dx = dx
         self.mountainHeight = mountainHeight
         self.mesh = mesh
+        self.staggering = staggering
         self.tracerFieldDict = tracerFieldDict
         self.velocityFieldDict = velocityFieldDict
         self.T_init = T_init

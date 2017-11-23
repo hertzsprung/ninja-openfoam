@@ -27,6 +27,7 @@ class SchaerAdvectBuilder:
             fvSchemes = os.path.join('src/schaerAdvect/linearUpwind')
 
         return Advect(name, dx, self.mountainHeight, mesh, 
+                None, # TODO: staggering
                 os.path.join('src/schaerAdvect/tracerField'),
                 self.velocityField,
                 os.path.join('src/schaerAdvect/T_init'),

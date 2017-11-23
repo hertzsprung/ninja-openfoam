@@ -15,13 +15,11 @@ class ArakawaKonorAdvect:
         else:
             self.timing = Timing(60000, 30000, 25)
 
-        self.staggering = staggering
-
         tracerFieldDict = os.path.join('src/arakawaKonorAdvect/tracerFieldDict')
         velocityFieldDict = os.path.join('src/arakawaKonorAdvect/velocityFieldDict')
         T_init = os.path.join('src/arakawaKonorAdvect/T_init')
 
-        self.advect = Advect(name, 0, 0, mesh, 
+        self.advect = Advect(name, 0, 0, mesh, staggering,
             tracerFieldDict, velocityFieldDict, T_init, self.timing,
             fvSchemes, parallel, fast)
 

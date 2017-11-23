@@ -19,7 +19,9 @@ class ThermalAdvect:
         self.timing = Timing(18000, 3600, timestep)
         self.sampleDict = os.path.join('src/thermalAdvect/sampleLine')
 
-        self.advect = Advect(name, dx, 250, mesh, tracerField, velocityField,
+        self.advect = Advect(name, dx, 250, mesh,
+                None, # TODO: staggering
+                tracerField, velocityField,
                 T_init, self.timing, fvSchemes, parallel, fast)
 
     def write(self, generator):

@@ -29,7 +29,8 @@ class MountainAdvectBuilder:
             timestep = 40
             fvSchemes = os.path.join('src/schaerAdvect/linearUpwind')
 
-        return Advect(name, dx, mountainHeight, mesh, 
+        return Advect(name, dx, mountainHeight, mesh,
+                None, # TODO: staggering
                 os.path.join('src/mountainAdvect/tracerField'),
                 velocityField,
                 os.path.join('src/schaerAdvect/T_init'),
