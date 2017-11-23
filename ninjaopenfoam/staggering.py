@@ -1,7 +1,9 @@
 class Lorenz:
     theta = 'theta'
+    T = 'T'
 
-    solverRule = 'exnerFoamH'
+    advectionSolverRule = 'advectionFoam'
+    dynamicsSolverRule = 'exnerFoamH'
     exnerRule = 'setExnerBalancedH'
     stratifiedThetaRule = 'setTheta'
     perturbedThetaRule = 'setPerturbedTheta'
@@ -41,8 +43,10 @@ class Lorenz:
 
 class CharneyPhillips:
     theta = 'thetaf'
+    T = 'Tf'
 
-    solverRule = 'exnerFoamCP'
+    advectionSolverRule = 'advectiveFoamF'
+    dynamicsSolverRule = 'exnerFoamCP'
     exnerRule = 'setExnerBalancedCP'
     stratifiedThetaRule = 'setThetaCP'
     perturbedThetaRule = 'setPerturbedThetaCP'

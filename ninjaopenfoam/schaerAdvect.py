@@ -31,7 +31,6 @@ class SchaerAdvectBuilder:
                 Lorenz.advect(os.path.join('src/schaerAdvect/T_init')),
                 os.path.join('src/schaerAdvect/tracerField'),
                 self.velocityField,
-                os.path.join('src/schaerAdvect/T_init'),
                 Timing(10000, 5000, timestep),
                 fvSchemes, self.parallel, self.fast)
 

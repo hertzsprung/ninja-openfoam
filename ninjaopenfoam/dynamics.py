@@ -62,7 +62,7 @@ class DynamicsExecution:
                 case.path(endTime, 'Uf')
             ] + \
             [case.path(endTime, theta) for theta in staggering.thetaOutputs()],
-            rule=staggering.solverRule,
+            rule=staggering.dynamicsSolverRule,
             implicit=implicit
         )
 

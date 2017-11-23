@@ -7,7 +7,7 @@ import os
 
 class Advect:
     def __init__(self, name, dx, mountainHeight, mesh, staggering,
-            tracerFieldDict, velocityFieldDict, T_init, timing,
+            tracerFieldDict, velocityFieldDict, timing,
             fvSchemes, parallel, fast):
         self.case = Case(name)
         self.dx = dx
@@ -16,7 +16,6 @@ class Advect:
         self.staggering = staggering
         self.tracerFieldDict = tracerFieldDict
         self.velocityFieldDict = velocityFieldDict
-        self.T_init = T_init
         self.timing = timing
         self.fvSchemes = fvSchemes
         self.fvSolution = os.path.join('src/fvSolution')
@@ -26,6 +25,7 @@ class Advect:
     def write(self, generator):
         g = generator
         case = self.case
+        staggering = self.staggering
 
         self.lperrors(g)
 
@@ -36,15 +36,15 @@ class Advect:
                 os.path.join("src/advect/decomposeParDict.template")
         )
         solver.solve(
-                outputs=[case.path(str(self.timing.endTime), "T")],
-                rule="advectionFoam",
-                implicit=[case.path("0/T"), case.path("0/phi")]
+                outputs=[case.path(str(self.timing.endTime), staggering.T)],
+                rule=staggering.advectionSolverRule,
+                implicit=[case.path('0', staggering.T), case.path('0/phi')]
         )
 
         g.initialTracer(
                 case,
                 self.tracerFieldDict,
-                self.T_init
+                staggering
         )
 
         g.w.build(

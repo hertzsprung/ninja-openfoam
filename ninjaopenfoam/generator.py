@@ -38,17 +38,18 @@ class Generator:
         self.w.comment("at {}".format(datetime.datetime.utcnow().isoformat()))
         self.w.newline()
 
-    def initialTracer(self, case, tracerFieldDict, T_init):
+    def initialTracer(self, case, tracerFieldDict, staggering):
         self.w.build(
-                outputs=case.path("0", "T"),
+                outputs=case.path('0', staggering.T),
                 rule="setInitialTracerField",
-                implicit=case.polyMesh + case.systemFiles +
-                        [case.tracerFieldDict, case.T_init],
+                implicit=case.polyMesh + case.systemFiles + 
+                         staggering.T_inits(case) +
+                        [case.tracerFieldDict],
                 variables={"case": case}
         )
         self.w.newline()
         self.copy(tracerFieldDict, case.tracerFieldDict)
-        self.copy(T_init, case.T_init)
+        staggering.copyT_Inits(self, case)
         self.w.newline()
 
     def s3uploadCase(self, case, implicit=[]):

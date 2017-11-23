@@ -23,7 +23,7 @@ class ThermalAdvect:
         self.advect = Advect(name, dx, 250, mesh,
                 Lorenz.advect(T_init),
                 tracerField, velocityField,
-                T_init, self.timing, fvSchemes, parallel, fast)
+                self.timing, fvSchemes, parallel, fast)
 
     def write(self, generator):
         self.advect.write(generator)

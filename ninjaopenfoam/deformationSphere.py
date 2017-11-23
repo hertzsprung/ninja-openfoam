@@ -6,6 +6,7 @@ from .collator import Collator
 from .errors import Errors
 from .paths import Paths
 from .solver import SolverExecution
+from .staggering import Lorenz
 from .timing import Timing
 
 class DeformationSphereBuilder:
@@ -77,7 +78,7 @@ class DeformationSphere:
         g.initialTracer(
                 case,
                 self.tracerFieldDict,
-                os.path.join("src/deformationSphere/T_init")
+                Lorenz.advect(os.path.join("src/deformationSphere/T_init"))
         )
 
         g.copy(os.path.join("src/deformationSphere/nonDivergent"), case.advectionDict)
