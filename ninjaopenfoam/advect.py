@@ -22,6 +22,14 @@ class Advect:
         self.parallel = parallel
         self.fast = fast
 
+        self.solverDependencies = [
+                self.case.path('0', staggering.T),
+                self.case.path('0/phi')] + \
+                self.staggering.advectionSolverDependencies(self.case)
+
+    def addSolverDependency(self, dependency):
+        self.solverDependencies += dependency
+
     def write(self, generator):
         g = generator
         case = self.case
@@ -41,8 +49,9 @@ class Advect:
                     case.energy
                 ],
                 rule=staggering.advectionSolverRule,
-                implicit=[case.path('0', staggering.T), case.path('0/phi')]
+                implicit=self.solverDependencies
         )
+        staggering.copyAdvectionSolverDependencies(g, case)
 
         g.initialTracer(
                 case,

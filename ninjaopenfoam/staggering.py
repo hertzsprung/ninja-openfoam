@@ -42,6 +42,12 @@ class Lorenz:
 
         generator.copy(self.T_init, case.T_init)
 
+    def advectionSolverDependencies(self, case):
+        return []
+
+    def copyAdvectionSolverDependencies(self, generator, case):
+        pass
+
 class CharneyPhillips:
     theta = 'thetaf'
     T = 'Tf'
@@ -53,11 +59,13 @@ class CharneyPhillips:
     stratifiedThetaRule = 'setThetaCP'
     perturbedThetaRule = 'setPerturbedThetaCP'
 
-    def __init__(self, thetaInit, thetafInit, T_init=None, Tf_init=None):
+    def __init__(self, thetaInit, thetafInit,
+            T_init=None, Tf_init=None, environmentalProperties=None):
         self.thetaInit = thetaInit
         self.thetafInit = thetafInit
         self.T_init = T_init
         self.Tf_init = Tf_init
+        self.environmentalProperties = environmentalProperties
 
     def thetaInits(self, case):
         return [case.thetaInit, case.thetafInit]
@@ -87,3 +95,12 @@ class CharneyPhillips:
 
         generator.copy(self.T_init, case.T_init)
         generator.copy(self.Tf_init, case.Tf_init)
+
+    def advectionSolverDependencies(self, case):
+        return [case.environmentalProperties]
+
+    def copyAdvectionSolverDependencies(self, generator, case):
+        if self.environmentalProperties is None:
+            raise ValueError('environmentalProperties not specified')
+
+        generator.copy(self.environmentalProperties, case.environmentalProperties) 

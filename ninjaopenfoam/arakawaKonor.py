@@ -16,7 +16,8 @@ class ArakawaKonor:
             os.path.join('src/arakawaKonor/theta_init'),
             os.path.join('src/arakawaKonor/thetaf_init'),
             os.path.join('src/arakawaKonor/T_init'),
-            os.path.join('src/arakawaKonor/Tf_init'))
+            os.path.join('src/arakawaKonor/Tf_init'),
+            os.path.join('src/arakawaKonor/environmentalProperties'))
 
     def __init__(self, name, mesh, staggering, fvSchemes, parallel, fast, fastMesh):
         self.case = Case(name)
