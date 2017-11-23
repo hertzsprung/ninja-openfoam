@@ -1,5 +1,6 @@
 from .advect import Advect
 from .arakawaKonor import ArakawaKonor
+from .arakawaKonorAdvect import ArakawaKonorAdvect
 from .blockMesh import BlockMesh
 from .build import Build
 from .case import Case, CopyCase

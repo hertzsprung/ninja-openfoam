@@ -24,9 +24,9 @@ class ArakawaKonor:
 
         if self.fast:
             mesh = fastMesh
-            self.timing = Timing(172800, 43200, 400);
+            self.timing = Timing(172800, 43200, 400)
         else:
-            self.timing = Timing(172800, 43200, 25);
+            self.timing = Timing(172800, 43200, 25)
 
         self.staggering = staggering
 
