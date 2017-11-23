@@ -61,7 +61,7 @@ class Resting:
                 self.case,
                 mesh,
                 timing,
-                Lorenz(os.path.join('src/resting/theta_init')),
+                Lorenz.dynamics(os.path.join('src/resting/theta_init')),
                 StratifiedThermalField(),
                 os.path.join('src/resting/Uf'),
                 os.path.join('src/resting/Exner_init'),

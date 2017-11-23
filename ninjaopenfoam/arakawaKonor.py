@@ -8,7 +8,7 @@ from .thermalField import PerturbedThermalField
 import os
 
 class ArakawaKonor:
-    lorenz = Lorenz(
+    lorenz = Lorenz.dynamics(
             os.path.join('src/arakawaKonor/theta_init'),
             os.path.join('src/arakawaKonor/T_init'))
 

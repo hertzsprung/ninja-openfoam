@@ -1,6 +1,7 @@
 from .advect import Advect
-from .timing import Timing
 from .sample import Sample
+from .staggering import Lorenz
+from .timing import Timing
 
 import os
 
@@ -20,7 +21,7 @@ class ThermalAdvect:
         self.sampleDict = os.path.join('src/thermalAdvect/sampleLine')
 
         self.advect = Advect(name, dx, 250, mesh,
-                None, # TODO: staggering
+                Lorenz.advect(T_init),
                 tracerField, velocityField,
                 T_init, self.timing, fvSchemes, parallel, fast)
 

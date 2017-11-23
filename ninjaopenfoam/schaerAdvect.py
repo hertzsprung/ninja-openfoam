@@ -5,6 +5,7 @@ from .advect import Advect
 from .case import Case
 from .collator import Collator
 from .paths import Paths
+from .staggering import Lorenz
 from .timing import Timing
 
 class SchaerAdvectBuilder:
@@ -27,7 +28,7 @@ class SchaerAdvectBuilder:
             fvSchemes = os.path.join('src/schaerAdvect/linearUpwind')
 
         return Advect(name, dx, self.mountainHeight, mesh, 
-                None, # TODO: staggering
+                Lorenz.advect(os.path.join('src/schaerAdvect/T_init')),
                 os.path.join('src/schaerAdvect/tracerField'),
                 self.velocityField,
                 os.path.join('src/schaerAdvect/T_init'),

@@ -6,9 +6,17 @@ class Lorenz:
     stratifiedThetaRule = 'setTheta'
     perturbedThetaRule = 'setPerturbedTheta'
 
-    def __init__(self, thetaInit, T_init=None):
+    def __init__(self, thetaInit, T_init):
         self.thetaInit = thetaInit
         self.T_init = T_init
+
+    @classmethod
+    def advect(cls, T_init):
+        return cls(None, T_init)
+
+    @classmethod
+    def dynamics(cls, thetaInit, T_init=None):
+        return cls(thetaInit, T_init)
 
     def thetaInits(self, case):
         return [case.thetaInit]
@@ -20,6 +28,9 @@ class Lorenz:
         return [case.T_init]
 
     def copyThetaInits(self, generator, case):
+        if self.thetaInit is None:
+            raise ValueError('thetaInit not specified')
+
         generator.copy(self.thetaInit, case.thetaInit)
 
     def copyT_Inits(self, generator, case):
@@ -52,6 +63,12 @@ class CharneyPhillips:
         return [case.T_init, case.Tf_init]
 
     def copyThetaInits(self, generator, case):
+        if self.thetaInit is None:
+            raise ValueError('thetaInit not specified')
+
+        if self.thetafInit is None:
+            raise ValueError('thetafInit not specified')
+
         generator.copy(self.thetaInit, case.thetaInit)
         generator.copy(self.thetafInit, case.thetafInit)
 

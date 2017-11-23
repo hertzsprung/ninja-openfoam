@@ -12,7 +12,7 @@ class SchaerWaves:
     charneyPhillips = CharneyPhillips(
             os.path.join('src/schaerWaves/theta_init'),
             os.path.join('src/schaerWavesCP/thetaf_init'))
-    lorenz = Lorenz(os.path.join('src/schaerWaves/theta_init'))
+    lorenz = Lorenz.dynamics(os.path.join('src/schaerWaves/theta_init'))
 
     def __init__(self, name, mesh, timestep, staggering, fvSchemes, parallel, fast, fastMesh):
         self.case = Case(name)
