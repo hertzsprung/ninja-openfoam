@@ -16,23 +16,28 @@ class SchaerAdvectBuilder:
         self.fast = fast
         self.fastMesh = fastMesh
 
-    def collated(self, name, fvSchemes, tests):
-        tests = [self.test(t.name, t.dx, t.mesh, t.timestep, fvSchemes)
+    def collated(self, name, fvSchemes, tests,
+            controlDict=Paths.defaultControlDict, solverRule=None):
+        tests = [self.test(t.name, t.dx, t.mesh, t.timestep,
+                        fvSchemes, controlDict, solverRule)
                 for t in tests]
         return SchaerAdvectCollated(name, tests, self.fast)
 
-    def test(self, name, dx, mesh, timestep, fvSchemes):
+    def test(self, name, dx, mesh, timestep,
+            fvSchemes, controlDict, solverRule):
         if self.fast:
             mesh = self.fastMesh
             timestep = 40
             fvSchemes = os.path.join('src/schaerAdvect/linearUpwind')
+            controlDict = Paths.defaultControlDict
+            solverRule = None
 
         return Advect(name, dx, self.mountainHeight, mesh, 
                 Lorenz.advect(os.path.join('src/schaerAdvect/T_init')),
                 os.path.join('src/schaerAdvect/tracerField'),
                 self.velocityField,
                 Timing(10000, 5000, timestep),
-                fvSchemes, self.parallel, self.fast)
+                fvSchemes, self.parallel, self.fast, controlDict, solverRule)
 
 class SchaerAdvectCollated:
     Test = collections.namedtuple('SchaerAdvectCollatedTest', ['name', 'dx', 'mesh', 'timestep'])
