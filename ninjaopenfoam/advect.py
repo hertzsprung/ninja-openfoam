@@ -9,7 +9,8 @@ import os
 class Advect:
     def __init__(self, name, dx, mountainHeight, mesh, staggering,
             tracerFieldDict, velocityFieldDict, timing,
-            fvSchemes, parallel, fast, controlDict=Paths.defaultControlDict):
+            fvSchemes, parallel, fast, controlDict=Paths.defaultControlDict,
+            solverRule=None):
         self.case = Case(name)
         self.dx = dx
         self.mountainHeight = mountainHeight
@@ -23,6 +24,7 @@ class Advect:
         self.controlDict = controlDict
         self.parallel = parallel
         self.fast = fast
+        self.solverRule = solverRule or self.staggering.advectionSolverRule
 
         self.solverDependencies = [
                 self.case.path('0', staggering.T),
@@ -50,7 +52,7 @@ class Advect:
                     case.path(str(self.timing.endTime), staggering.T),
                     case.energy
                 ],
-                rule=staggering.advectionSolverRule,
+                rule=self.solverRule,
                 implicit=self.solverDependencies
         )
         staggering.copyAdvectionSolverDependencies(g, case)
