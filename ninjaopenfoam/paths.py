@@ -3,6 +3,7 @@ import os
 class Paths:
     averageEquatorialSpacing = 'averageEquatorialSpacing.txt'
     courantNumber = 'co.txt'
+    defaultControlDict = os.path.join('src/controlDict.template')
     dx = 'dx.txt'
     maxw = 'maxw.txt'
     maxKE = 'maxKE.txt'

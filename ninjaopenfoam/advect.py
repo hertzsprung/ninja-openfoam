@@ -1,4 +1,5 @@
 from .case import Case
+from .paths import Paths
 from .errors import Errors
 from .solver import SolverExecution
 from .timing import Timing
@@ -8,7 +9,7 @@ import os
 class Advect:
     def __init__(self, name, dx, mountainHeight, mesh, staggering,
             tracerFieldDict, velocityFieldDict, timing,
-            fvSchemes, parallel, fast):
+            fvSchemes, parallel, fast, controlDict=Paths.defaultControlDict):
         self.case = Case(name)
         self.dx = dx
         self.mountainHeight = mountainHeight
@@ -19,6 +20,7 @@ class Advect:
         self.timing = timing
         self.fvSchemes = fvSchemes
         self.fvSolution = os.path.join('src/fvSolution')
+        self.controlDict = controlDict
         self.parallel = parallel
         self.fast = fast
 
@@ -83,7 +85,7 @@ class Advect:
         g.copy(self.velocityFieldDict, case.velocityFieldDict)
         g.copy(self.fvSchemes, case.fvSchemes)
         g.copy(self.fvSolution, case.fvSolution)
-        g.controlDict(case, self.timing)
+        g.controlDict(case, self.timing, self.controlDict)
 
         if not self.fast:
             g.s3uploadCase(

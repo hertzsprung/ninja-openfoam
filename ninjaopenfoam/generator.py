@@ -10,11 +10,15 @@ class Generator:
     def __init__(self, out):
         self.w = syntax.Writer(out)
 
-    def controlDict(self, case, timing):
+    def controlDict(
+            self,
+            case,
+            timing,
+            filename=Paths.defaultControlDict):
         self.w.build(
                 outputs=case.controlDict,
                 rule="gen-controlDict",
-                inputs=os.path.join("src", "controlDict.template"),
+                inputs=filename,
                 variables={
                     "endTime": timing.endTime,
                     "writeInterval": timing.writeInterval,
