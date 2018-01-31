@@ -19,15 +19,16 @@ class ArakawaKonor:
             os.path.join('src/arakawaKonor/Tf_init'),
             os.path.join('src/arakawaKonor/environmentalProperties'))
 
-    def __init__(self, name, mesh, staggering, fvSchemes, parallel, fast, fastMesh):
+    def __init__(self, name, mesh, staggering, fvSchemes, parallel, fast, fastMesh, endTime=172800):
         self.case = Case(name)
         self.fast = fast
+        writeInterval = min(endTime, 43200)
 
         if self.fast:
             mesh = fastMesh
-            self.timing = Timing(172800, 43200, 400)
+            self.timing = Timing(endTime, writeInterval, 400)
         else:
-            self.timing = Timing(172800, 43200, 25)
+            self.timing = Timing(endTime, writeInterval, 25)
 
         self.staggering = staggering
 
