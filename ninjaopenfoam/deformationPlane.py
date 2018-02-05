@@ -69,7 +69,7 @@ class DeformationPlaneAdvect:
         self.controlDict = controlDict or os.path.join('src/deformationPlane/controlDict.template')
         self.setGaussiansDict = os.path.join('src/deformationPlane/setGaussiansDict')
         self.deformationalAdvectionDict = os.path.join('src/deformationPlane/deformationalAdvectionDict')
-        self.solverRule = solverRule or 'scalarDeformationWithGhosts'
+        self.solverRule = solverRule or 'scalarDeformation'
 
     def write(self, generator):
         g = generator

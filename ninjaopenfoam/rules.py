@@ -160,7 +160,7 @@ class Rules:
         g.w.rule('scalarDeformationHighOrderFit', 'scalarDeformationHighOrderFit -case $case', pool='console')
         g.w.newline()
 
-        g.w.rule('scalarDeformationWithGhosts', 'scalarDeformationWithGhosts -case $case explicit', pool='console')
+        g.w.rule('scalarDeformation', 'scalarDeformation -case $case', pool='console')
         g.w.newline()
 
         g.w.rule('setAnalyticTracerField', 'setAnalyticTracerField -case $case -time $time')
