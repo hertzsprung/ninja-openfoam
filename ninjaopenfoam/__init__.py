@@ -7,6 +7,7 @@ from .case import Case, CopyCase
 from .collator import Collator
 from .cubedSphereMesh import CubedSphereMesh
 from .cutCellMesh import CutCellMesh
+from .deformationPlane import DeformationPlaneBuilder, DeformationPlaneCollated
 from .deformationSphere import DeformationSphereBuilder, DeformationSphereCollated
 from .dynamics import DynamicsExecution
 from .errors import Errors
