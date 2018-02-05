@@ -21,7 +21,7 @@ class GhostMesh:
         case = self.case
 
         g.w.build(
-                outputs=case.polyMesh,
+                outputs=case.polyMesh + case.ghostPolyMesh,
                 rule="ghostMesh",
                 inputs=case.blockMeshDict,
                 implicit=[

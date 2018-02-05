@@ -17,6 +17,7 @@ class Case:
         self.courantNumber = self.path(Paths.courantNumber)
         self.createPatchDict = self.path("system/createPatchDict")
         self.decomposeParDict = self.path("system/decomposeParDict")
+        self.deformationalAdvectionDict = self.path("system/deformationalAdvectionDict")
         self.dx = self.path(Paths.dx)
         self.energy = self.path('energy.dat')
         self.environmentalProperties = self.path("constant/environmentalProperties")
@@ -24,6 +25,7 @@ class Case:
         self.extrudeMeshDict = self.path("system/extrudeMeshDict")
         self.fvSchemes = self.path(Paths.fvSchemes)
         self.fvSolution = self.path("system/fvSolution")
+        self.ghostPolyMesh = [self.path(f) for f in Paths.ghostPolyMesh]
         self.gmtConf = self.path("gmt.conf")
         self.maxw = self.path(Paths.maxw)
         self.maxKE = self.path(Paths.maxKE)
@@ -32,6 +34,7 @@ class Case:
         self.mountainHeight = self.path(Paths.mountainHeight)
         self.s3Uploaded = self.path("s3.uploaded")
         self.sampleDict = self.path("system/sampleDict")
+        self.setGaussiansDict = self.path(Paths.setGaussiansDict)
         self.sponge = self.path("constant/muSponge")
         self.T_init = self.path("constant/T_init")
         self.Tf_init = self.path("constant/Tf_init")

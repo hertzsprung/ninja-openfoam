@@ -157,6 +157,9 @@ class Rules:
         g.w.rule('sample', 'postProcess -case $case -time $time -func sampleDict')
         g.w.newline()
 
+        g.w.rule('scalarDeformationWithGhosts', 'scalarDeformationWithGhosts -case $case explicit', pool='console')
+        g.w.newline()
+
         g.w.rule('setAnalyticTracerField', 'setAnalyticTracerField -case $case -time $time')
         g.w.newline()
 
@@ -164,6 +167,9 @@ class Rules:
         g.w.newline()
 
         g.w.rule('setExnerBalancedCP', 'setExnerBalancedH -case $case -noInterpolate')
+        g.w.newline()
+
+        g.w.rule('setGaussians', 'setGaussians -case $case setGaussiansDict')
         g.w.newline()
 
         g.w.rule('setInitialTracerField', 'setInitialTracerField -case $case')
