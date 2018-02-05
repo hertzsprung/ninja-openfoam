@@ -22,7 +22,7 @@ class Case:
         self.environmentalProperties = self.path("constant/environmentalProperties")
         self.exnerInit = self.path("constant/Exner_init")
         self.extrudeMeshDict = self.path("system/extrudeMeshDict")
-        self.fvSchemes = self.path("system/fvSchemes")
+        self.fvSchemes = self.path(Paths.fvSchemes)
         self.fvSolution = self.path("system/fvSolution")
         self.gmtConf = self.path("gmt.conf")
         self.maxw = self.path(Paths.maxw)

@@ -5,6 +5,7 @@ class Paths:
     courantNumber = 'co.txt'
     defaultControlDict = os.path.join('src/controlDict.template')
     dx = 'dx.txt'
+    fvSchemes = 'system/fvSchemes'
     maxw = 'maxw.txt'
     maxKE = 'maxKE.txt'
     mountainHeight = 'mountainHeight.txt'
