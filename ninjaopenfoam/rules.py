@@ -157,6 +157,9 @@ class Rules:
         g.w.rule('sample', 'postProcess -case $case -time $time -func sampleDict')
         g.w.newline()
 
+        g.w.rule('scalarDeformationHighOrderFit', 'scalarDeformationHighOrderFit -case $case', pool='console')
+        g.w.newline()
+
         g.w.rule('scalarDeformationWithGhosts', 'scalarDeformationWithGhosts -case $case explicit', pool='console')
         g.w.newline()
 
