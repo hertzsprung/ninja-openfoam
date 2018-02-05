@@ -12,6 +12,7 @@ from .dynamics import DynamicsExecution
 from .errors import Errors
 from .generator import Generator
 from .geodesicHexMesh import GeodesicHexMesh
+from .ghostMesh import GhostMesh
 from .gnuplot import Gnuplot
 from .gmtplot import GmtPlot, GmtPlotCopyCase
 from .latexSubstitution import LaTeXSubstitution

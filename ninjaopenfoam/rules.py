@@ -94,6 +94,11 @@ class Rules:
         g.w.pool('globalSum_pool', 1)
 
         g.scriptRule(
+                'ghostMesh',
+                'scripts/ghostMesh.sh $case',
+                description='ghostMesh $case')
+
+        g.scriptRule(
                 'gnuplot',
                 'scripts/gnuplot.sh $in $out',
                 description='gnuplot $in $out')
