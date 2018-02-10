@@ -9,8 +9,9 @@ from .staggering import Lorenz
 from .timing import Timing
 
 class SchaerAdvectBuilder:
-    def __init__(self, mountainHeight, velocityField, parallel, fast, fastMesh):
+    def __init__(self, mountainHeight, tracerField, velocityField, parallel, fast, fastMesh):
         self.mountainHeight = mountainHeight
+        self.tracerField = tracerField
         self.velocityField = velocityField
         self.parallel = parallel
         self.fast = fast
@@ -34,7 +35,7 @@ class SchaerAdvectBuilder:
 
         return Advect(name, dx, self.mountainHeight, mesh, 
                 Lorenz.advect(os.path.join('src/schaerAdvect/T_init')),
-                os.path.join('src/schaerAdvect/tracerField'),
+                self.tracerField,
                 self.velocityField,
                 Timing(10000, 5000, timestep),
                 fvSchemes, self.parallel, self.fast, controlDict, solverRule)
