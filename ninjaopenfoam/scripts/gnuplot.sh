@@ -12,7 +12,6 @@ then
 fi
 
 srcdir=$(dirname $1)
-builddir=$(dirname $2)
 document=$(basename $1 .tex)
 gnuplot="gnuplot --persist"
 
