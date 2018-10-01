@@ -228,6 +228,11 @@ class Rules:
                 description='sumFields $out')
 
         g.scriptRule(
+                'swepc',
+                'scripts/swepc.sh $testCase $solver $degree $elements $endTime $dt > $out',
+                description='swepc $out')
+
+        g.scriptRule(
                 'terrainFollowingMesh',
                 'scripts/terrainFollowingMesh.sh $blockMeshCase $terrainFollowingMeshCase',
                 description='terrainFollowingMesh $terrainFollowingMeshCase')
