@@ -233,6 +233,11 @@ class Rules:
                 description='swepc $out')
 
         g.scriptRule(
+                'swemc',
+                'scripts/swemc.sh $testCase $solver $iterations $sampleIndex $elements $endTime $dt 1> $out 2> $out.convergence',
+                description='swemc $out')
+
+        g.scriptRule(
                 'terrainFollowingMesh',
                 'scripts/terrainFollowingMesh.sh $blockMeshCase $terrainFollowingMeshCase',
                 description='terrainFollowingMesh $terrainFollowingMeshCase')
