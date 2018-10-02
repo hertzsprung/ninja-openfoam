@@ -234,7 +234,7 @@ class Rules:
 
         g.scriptRule(
                 'swemc',
-                'scripts/swemc.sh $testCase $solver $iterations $sampleIndex $elements $endTime $dt 1> $out 2> $out.convergence',
+                'scripts/swemc.sh $outputDir $testCase $solver $iterations $sampleIndex $elements $endTime $dt',
                 description='swemc $out')
 
         g.scriptRule(

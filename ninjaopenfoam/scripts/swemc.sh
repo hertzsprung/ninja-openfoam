@@ -2,22 +2,23 @@
 set -e
 
 display_usage() {
-	echo -e "Usage: swemc.sh <testCase> <solver> <iterations> <sampleIndex> <elements> <endTime> <dt>\n"
+	echo -e "Usage: swemc.sh <outputDir> <testCase> <solver> <iterations> <sampleIndex> <elements> <endTime> <dt>\n"
 }
 
-if [ $# -lt 6 ]
+if [ $# -lt 8 ]
 then
 	display_usage
 	exit 1
 fi
 
-export testCase=$1
-export solver=$2
-export iterations=$3
-export sampleIndex=$4
-export elements=$5
-export endTime=$6
-export dt=$7
+export outputDir=$1
+export testCase=$2
+export solver=$3
+export iterations=$4
+export sampleIndex=$5
+export elements=$6
+export endTime=$7
+export dt=$8
 
-swepc --monte-carlo --mc-iterations $iterations --mc-sample-index $sampleIndex $testCase $solver -M $elements --end-time $endTime --dt $dt
+swepc --monte-carlo --mc-output-dir $outputDir --mc-iterations $iterations --mc-sample-index $sampleIndex $testCase $solver -M $elements --end-time $endTime --dt $dt
 
