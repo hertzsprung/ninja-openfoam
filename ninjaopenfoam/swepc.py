@@ -44,22 +44,23 @@ class SWEMonteCarlo:
 
     def write(self, generator):
         generator.w.build(
-                os.path.join(self.output, 'flow.dat'),
-                'swemc',
-                implicit_outputs=[os.path.join(self.output, 'convergence.dat'),
-                                  os.path.join(self.output, 'sample.dat')],
-                variables={
-                    'outputDir': self.output,
-                    'testCase': self.testCase,
-                    'solver': self.solver,
-                    'iterations': self.iterations,
-                    'sampleIndex': self.sampleIndex,
-                    'elements': self.elements,
-                    'endTime': self.endTime,
-                    'dt': self.dt})
+            os.path.join(self.output, 'flow.dat'),
+            'swemc',
+            implicit_outputs=[os.path.join(self.output, 'convergence.dat'),
+                os.path.join(self.output, 'sample'+str(self.sampleIndex)+'.dat')],
+            variables={
+                'outputDir': self.output,
+                'testCase': self.testCase,
+                'solver': self.solver,
+                'iterations': self.iterations,
+                'sampleIndex': self.sampleIndex,
+                'elements': self.elements,
+                'endTime': self.endTime,
+                'dt': self.dt})
     def outputs(self):
         return [os.path.join(self.output, file)
-                for file in ['flow.dat', 'convergence.dat', 'sample.dat']]
+                for file in ['flow.dat', 'convergence.dat',
+                    'sample'+str(self.sampleIndex)+'.dat']]
 
     def __str__(self):
         return self.name
