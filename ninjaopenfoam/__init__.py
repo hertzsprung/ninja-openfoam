@@ -32,7 +32,7 @@ from .solver import SolverExecution, SolverRule
 from .sphericalMesh import SphericalMesh
 from .staggering import CharneyPhillips, Lorenz
 from . import syntax
-from .swepc import SWEPC, SWEMonteCarlo
+from .swepc import SWEPC, SWEMonteCarlo, SWEPDF
 from .terrainFollowingMesh import TerrainFollowingMesh
 from .thermalAdvect import ThermalAdvect
 from .thermalField import PerturbedThermalField, StratifiedThermalField

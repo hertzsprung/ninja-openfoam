@@ -233,6 +233,11 @@ class Rules:
                 description='swepc $out')
 
         g.scriptRule(
+                'swepdf',
+                'scripts/swepdf.sh $in $variable $min $max $samples $line > $out',
+                description='swepc $out')
+
+        g.scriptRule(
                 'swemc',
                 'scripts/swemc.sh $outputDir $testCase $solver $iterations $sampleIndex $elements $endTime $dt',
                 description='swemc $out')

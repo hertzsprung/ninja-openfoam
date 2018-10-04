@@ -60,6 +60,7 @@ class SWEMonteCarlo:
                 'elements': self.elements,
                 'endTime': self.endTime,
                 'dt': self.dt})
+
     def outputs(self):
         return [os.path.join(self.output, file)
                 for file in ['statistics.dat', 'convergence.dat',
@@ -68,3 +69,32 @@ class SWEMonteCarlo:
     def __str__(self):
         return self.name
 
+class SWEPDF:
+    def __init__(self, name, output, coefficientsFile, variable, sampleIndex,
+            min, max, samples):
+        self.name = name
+        self.output = os.path.join('$builddir', output + '.dat')
+        self.coefficientsFile = os.path.join('$builddir', coefficientsFile)
+        self.variable = variable
+        self.sampleIndex = sampleIndex
+        self.min = min
+        self.max = max
+        self.samples = samples
+
+    def write(self, generator):
+        generator.w.build(
+                self.output,
+                'swepdf',
+                inputs=[self.coefficientsFile],
+                variables={
+                    'variable': self.variable,
+                    'min': self.min,
+                    'max': self.max,
+                    'samples': self.samples,
+                    'line': self.sampleIndex+2})
+
+    def outputs(self):
+        return [self.output]
+
+    def __str__(self):
+        return self.name
