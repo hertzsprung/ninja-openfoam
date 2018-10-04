@@ -13,9 +13,11 @@ class SWEPC:
 
     def write(self, generator):
         generator.w.build(
-                self.output + '.dat',
+                os.path.join(self.output, 'coefficients.dat'),
                 'swepc',
+                implicit_outputs=[os.path.join(self.output, 'statistics.dat')],
                 variables={
+                    'outputDir': self.output,
                     'testCase': self.testCase,
                     'solver': self.solver,
                     'degree': self.degree,
@@ -24,7 +26,8 @@ class SWEPC:
                     'dt': self.dt})
 
     def outputs(self):
-        return [self.output + '.dat']
+        return [os.path.join(self.output, file)
+                for file in ['statistics.dat', 'coefficients.dat']]
 
     def __str__(self):
         return self.name
@@ -44,7 +47,7 @@ class SWEMonteCarlo:
 
     def write(self, generator):
         generator.w.build(
-            os.path.join(self.output, 'flow.dat'),
+            os.path.join(self.output, 'statistics.dat'),
             'swemc',
             implicit_outputs=[os.path.join(self.output, 'convergence.dat'),
                 os.path.join(self.output, 'sample'+str(self.sampleIndex)+'.dat')],
@@ -59,7 +62,7 @@ class SWEMonteCarlo:
                 'dt': self.dt})
     def outputs(self):
         return [os.path.join(self.output, file)
-                for file in ['flow.dat', 'convergence.dat',
+                for file in ['statistics.dat', 'convergence.dat',
                     'sample'+str(self.sampleIndex)+'.dat']]
 
     def __str__(self):

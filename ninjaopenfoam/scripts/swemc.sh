@@ -20,5 +20,5 @@ export elements=$6
 export endTime=$7
 export dt=$8
 
-swepc --monte-carlo --mc-output-dir $outputDir --mc-iterations $iterations --mc-sample-index $sampleIndex $testCase $solver -M $elements --end-time $endTime --dt $dt
+swepc --monte-carlo --mc-iterations $iterations --mc-sample-index $sampleIndex $testCase $solver -M $elements --end-time $endTime --dt $dt -o $outputDir
 
