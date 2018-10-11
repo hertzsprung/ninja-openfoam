@@ -15,7 +15,10 @@ class SWEPC:
         generator.w.build(
                 os.path.join(self.output, 'coefficients.dat'),
                 'swepc',
-                implicit_outputs=[os.path.join(self.output, 'statistics.dat')],
+                implicit_outputs=[
+                    os.path.join(self.output, 'statistics.dat'),
+                    os.path.join(self.output, 'derived-statistics.dat')
+                ],
                 variables={
                     'outputDir': self.output,
                     'testCase': self.testCase,
@@ -27,7 +30,8 @@ class SWEPC:
 
     def outputs(self):
         return [os.path.join(self.output, file)
-                for file in ['statistics.dat', 'coefficients.dat']]
+                for file in ['statistics.dat', 'derived-statistics.dat',
+                    'coefficients.dat']]
 
     def __str__(self):
         return self.name
