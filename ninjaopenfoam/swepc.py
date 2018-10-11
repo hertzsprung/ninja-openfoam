@@ -53,7 +53,9 @@ class SWEMonteCarlo:
         generator.w.build(
             os.path.join(self.output, 'statistics.dat'),
             'swemc',
-            implicit_outputs=[os.path.join(self.output, 'convergence.dat'),
+            implicit_outputs=[
+                os.path.join(self.output, 'derived-statistics.dat'),
+                os.path.join(self.output, 'convergence.dat'),
                 os.path.join(self.output, 'sample'+str(self.sampleIndex)+'.dat')],
             variables={
                 'outputDir': self.output,
@@ -67,7 +69,8 @@ class SWEMonteCarlo:
 
     def outputs(self):
         return [os.path.join(self.output, file)
-                for file in ['statistics.dat', 'convergence.dat',
+                for file in ['statistics.dat', 'derived-statistics.dat',
+                    'convergence.dat',
                     'sample'+str(self.sampleIndex)+'.dat']]
 
     def __str__(self):
