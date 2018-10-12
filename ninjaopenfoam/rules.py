@@ -229,7 +229,7 @@ class Rules:
 
         g.scriptRule(
                 'swepc',
-                'scripts/swepc.sh $outputDir $testCase $solver $degree $elements $endTime $dt',
+                'scripts/swepc.sh $outputDir $testCase $solver $degree $elements $endTime $dt $topographyMean',
                 description='swepc $out')
 
         g.scriptRule(

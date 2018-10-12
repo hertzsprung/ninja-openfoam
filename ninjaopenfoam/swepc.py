@@ -1,7 +1,8 @@
 import os
 
 class SWEPC:
-    def __init__(self, name, output, testCase, solver, degree, elements, endTime, dt):
+    def __init__(self, name, output, testCase, solver, degree, elements,
+            endTime, dt, topographyMean=0.6):
         self.name = name
         self.output = os.path.join('$builddir', output)
         self.testCase = testCase
@@ -10,6 +11,7 @@ class SWEPC:
         self.elements = elements
         self.endTime = endTime
         self.dt = dt
+        self.topographyMean = topographyMean
 
     def write(self, generator):
         generator.w.build(
@@ -26,7 +28,8 @@ class SWEPC:
                     'degree': self.degree,
                     'elements': self.elements,
                     'endTime': self.endTime,
-                    'dt': self.dt})
+                    'dt': self.dt,
+                    'topographyMean' : self.topographyMean})
 
     def outputs(self):
         return [os.path.join(self.output, file)
