@@ -149,6 +149,14 @@ class Rules:
                 'scripts/pdflatex-figure.sh $in $out',
                 description='pdflatex-figure $out')
 
+        g.w.rule('pysgswe-intrusive',
+                'pysgswe-intrusive $root $basis --max-basis $max_basis',
+                description='pysgswe-intrusive $root')
+
+        g.w.rule('pysgswe-intrusive-sample-points',
+                'pysgswe-intrusive $root $basis --max-basis $max_basis --sample-points $sample_points',
+                description='pysgswe-intrusive $root')
+
         g.scriptRule(
                 's3-upload',
                 'scripts/s3-upload.sh $source $s3uri > $out',
