@@ -157,6 +157,14 @@ class Rules:
                 'pysgswe-intrusive $root $basis --max-basis $max_basis --sample-points $sample_points',
                 description='pysgswe-intrusive $root')
 
+        g.w.rule('pysgswe-nonintrusive',
+                'pysgswe-nonintrusive $root --max-level $max_level',
+                description='pysgswe-nonintrusive $root')
+
+        g.w.rule('pysgswe-nonintrusive-sample-uniform',
+                'pysgswe-nonintrusive $root --sample-uniform $sample_uniform',
+                description='pysgswe-nonintrusive $root')
+
         g.scriptRule(
                 's3-upload',
                 'scripts/s3-upload.sh $source $s3uri > $out',
