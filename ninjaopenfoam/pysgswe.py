@@ -49,7 +49,8 @@ class Intrusive:
 
     def outputs(self):
         outputs = [os.path.join(self.output, file)
-                for file in ['statistics.initial.dat', 'statistics.end.dat']]
+                for file in ['statistics.initial.dat', 'statistics.end.dat',
+                    'cfl.dat', 'quadrature-point-solutions.dat']]
 
         for i in self.sample_indices:
             outputs.append(os.path.join(self.output,
