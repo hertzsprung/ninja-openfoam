@@ -4,7 +4,7 @@ class Intrusive:
     def __init__(self, name, output, testcase, basis, max_basis,
             basis_dimensions = 1, truncate_basis = False, sample_indices = [],
             sample_points_min = None, sample_points_max = None,
-            sample_points_num = None):
+            sample_points_num = None, end_time = None):
         self.name = name
         self.output = os.path.join('$builddir', output)
         self.testcase = testcase
@@ -16,6 +16,7 @@ class Intrusive:
         self.sample_points_min = sample_points_min
         self.sample_points_max = sample_points_max
         self.sample_points_num = sample_points_num
+        self.end_time = end_time
 
     def write(self, generator):
         variables = {
@@ -27,6 +28,9 @@ class Intrusive:
 
         if self.truncate_basis:
             variables['truncate_basis'] = '--truncate-basis'
+
+        if self.end_time:
+            variables['end_time'] = '--end-time ' + str(self.end_time)
 
         if not self.sample_indices:
             rule = 'pysgswe-intrusive'
