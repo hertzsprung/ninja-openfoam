@@ -150,11 +150,15 @@ class Rules:
                 description='pdflatex-figure $out')
 
         g.w.rule('pysgswe-intrusive',
-                'pysgswe-intrusive $root $basis --max-basis $max_basis',
+                'pysgswe-intrusive $root $testcase $basis --max-basis $max_basis --basis-dimensions $basis_dimensions $truncate_basis',
                 description='pysgswe-intrusive $root')
 
-        g.w.rule('pysgswe-intrusive-sample-points',
-                'pysgswe-intrusive $root $basis --max-basis $max_basis --sample-points $sample_points',
+        g.w.rule('pysgswe-intrusive-sample-quadrature-points',
+                'pysgswe-intrusive $root $testcase $basis --max-basis $max_basis --basis-dimensions $basis_dimensions $truncate_basis --response-curves $sample_indices',
+                description='pysgswe-intrusive $root')
+
+        g.w.rule('pysgswe-intrusive-sample-smooth-points',
+                'pysgswe-intrusive $root $testcase $basis --max-basis $max_basis --basis-dimensions $basis_dimensions $truncate_basis --response-curves $sample_indices --sample-points $sample_points',
                 description='pysgswe-intrusive $root')
 
         g.w.rule('pysgswe-nonintrusive',

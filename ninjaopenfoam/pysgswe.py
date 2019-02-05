@@ -1,14 +1,18 @@
 import os
 
 class Intrusive:
-    def __init__(self, name, output, basis, sample_indices, max_basis,
+    def __init__(self, name, output, testcase, basis, max_basis,
+            basis_dimensions = 1, truncate_basis = False, sample_indices = [],
             sample_points_min = None, sample_points_max = None,
             sample_points_num = None):
         self.name = name
         self.output = os.path.join('$builddir', output)
+        self.testcase = testcase
         self.basis = basis
-        self.sample_indices = sample_indices
         self.max_basis = max_basis
+        self.basis_dimensions = basis_dimensions
+        self.truncate_basis = truncate_basis
+        self.sample_indices = [str(i) for i in sample_indices]
         self.sample_points_min = sample_points_min
         self.sample_points_max = sample_points_max
         self.sample_points_num = sample_points_num
@@ -16,17 +20,27 @@ class Intrusive:
     def write(self, generator):
         variables = {
                 'root': self.output,
+                'testcase': self.testcase,
                 'basis': self.basis,
-                'max_basis': self.max_basis}
+                'max_basis': self.max_basis,
+                'basis_dimensions': self.basis_dimensions}
 
-        if self.sample_points_min is not None:
-            rule = 'pysgswe-intrusive-sample-points'
-            variables['sample_points'] = ' '.join([
-                str(self.sample_points_min),
-                str(self.sample_points_max),
-                str(self.sample_points_num)])
-        else:
+        if self.truncate_basis:
+            variables['truncate_basis'] = '--truncate-basis'
+
+        if not self.sample_indices:
             rule = 'pysgswe-intrusive'
+        else:
+            variables['sample_indices'] = ' '.join(self.sample_indices)
+
+            if self.sample_points_min is None:
+                rule = 'pysgswe-intrusive-sample-quadrature-points'
+            else:
+                rule = 'pysgswe-intrusive-sample-smooth-points'
+                variables['sample_points'] = ' '.join([
+                    str(self.sample_points_min),
+                    str(self.sample_points_max),
+                    str(self.sample_points_num)])
 
         generator.w.build(
                 self.outputs(),
@@ -34,14 +48,15 @@ class Intrusive:
                 variables=variables)
 
     def outputs(self):
-        outputs = []
+        outputs = [os.path.join(self.output, file)
+                for file in ['statistics.initial.dat', 'statistics.end.dat']]
 
         for i in self.sample_indices:
             outputs.append(os.path.join(self.output,
-                'response-curve.quadrature-points.' + str(i) + '.dat'))
+                'response-curve.quadrature-points.' + i + '.dat'))
             if self.sample_points_min is not None:
                 outputs.append(os.path.join(self.output,
-                    'response-curve.smooth.' + str(i) + '.dat'))
+                    'response-curve.smooth.' + i + '.dat'))
 
         return outputs
 
