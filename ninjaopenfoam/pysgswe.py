@@ -63,6 +63,8 @@ class Intrusive:
         for i in self.sample_indices:
             outputs.append(os.path.join(self.output,
                 'response-curve.quadrature-points.' + i + '.dat'))
+            outputs.append(os.path.join(self.output,
+                'quadrature-point-time-series.' + i + '.dat'))
             if self.sample_points_min is not None:
                 outputs.append(os.path.join(self.output,
                     'response-curve.smooth.' + i + '.dat'))
