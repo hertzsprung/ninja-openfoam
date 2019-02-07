@@ -1,10 +1,11 @@
 import os
 
 class Intrusive:
-    def __init__(self, name, output, testcase, basis, max_basis,
+    def __init__(self, name, output, testcase, basis, max_basis = 1,
             basis_dimensions = 1, truncate_basis = False, sample_indices = [],
             sample_points_min = None, sample_points_max = None,
-            sample_points_num = None, end_time = None, elements = None):
+            sample_points_num = None, end_time = None, elements = None,
+            topography_peak = None):
         self.name = name
         self.output = os.path.join('$builddir', output)
         self.testcase = testcase
@@ -18,6 +19,7 @@ class Intrusive:
         self.sample_points_num = sample_points_num
         self.end_time = end_time
         self.elements = elements
+        self.topography_peak = topography_peak
 
     def write(self, generator):
         variables = {
@@ -35,6 +37,10 @@ class Intrusive:
 
         if self.elements:
             variables['elements'] = '--elements ' + str(self.elements)
+
+        if self.topography_peak is not None:
+            variables['topography_peak'] = '--topography-peak ' + \
+                    str(self.topography_peak)
 
         if not self.sample_indices:
             rule = 'pysgswe-intrusive'

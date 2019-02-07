@@ -150,15 +150,15 @@ class Rules:
                 description='pdflatex-figure $out')
 
         g.w.rule('pysgswe-intrusive',
-                'pysgswe-intrusive $root $testcase $basis --max-basis $max_basis --basis-dimensions $basis_dimensions $truncate_basis $end_time $elements',
+                'pysgswe-intrusive $root $testcase $basis --max-basis $max_basis --basis-dimensions $basis_dimensions $truncate_basis $end_time $elements $topography_peak',
                 description='pysgswe-intrusive $root')
 
         g.w.rule('pysgswe-intrusive-sample-quadrature-points',
-                'pysgswe-intrusive $root $testcase $basis --max-basis $max_basis --basis-dimensions $basis_dimensions $truncate_basis $end_time $elements --response-curves $sample_indices',
+                'pysgswe-intrusive $root $testcase $basis --max-basis $max_basis --basis-dimensions $basis_dimensions $truncate_basis $end_time $elements $topography_peak --response-curves $sample_indices',
                 description='pysgswe-intrusive $root')
 
         g.w.rule('pysgswe-intrusive-sample-smooth-points',
-                'pysgswe-intrusive $root $testcase $basis --max-basis $max_basis --basis-dimensions $basis_dimensions $truncate_basis $end_time $elements --response-curves $sample_indices --sample-points $sample_points',
+                'pysgswe-intrusive $root $testcase $basis --max-basis $max_basis --basis-dimensions $basis_dimensions $truncate_basis $end_time $elements $topography_peak --response-curves $sample_indices --sample-points $sample_points',
                 description='pysgswe-intrusive $root')
 
         g.w.rule('pysgswe-nonintrusive',
