@@ -149,6 +149,10 @@ class Rules:
                 'scripts/pdflatex-figure.sh $in $out',
                 description='pdflatex-figure $out')
 
+        g.w.rule('pysg-basis',
+                "pysg-basis $output $max_level",
+                description='pysg-basis $output')
+
         g.w.rule('pysgswe-intrusive',
                 'pysgswe-intrusive $root $testcase $basis --max-basis $max_basis --basis-dimensions $basis_dimensions $truncate_basis $end_time $elements $topography_peak',
                 description='pysgswe-intrusive $root')
