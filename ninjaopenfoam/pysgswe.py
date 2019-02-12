@@ -64,7 +64,7 @@ class Intrusive:
     def outputs(self):
         outputs = [os.path.join(self.output, file)
                 for file in ['statistics.initial.dat', 'statistics.end.dat',
-                    'cfl.dat', 'quadrature-point-solutions.dat']]
+                    'cfl.dat', 'cpu.dat', 'quadrature-point-solutions.dat']]
 
         for i in self.sample_indices:
             outputs.append(os.path.join(self.output,
@@ -81,11 +81,12 @@ class Intrusive:
         return self.name
 
 class Nonintrusive:
-    def __init__(self, name, output, sample_indices = [], max_level = None,
-            sample_uniform_min = None, sample_uniform_max = None,
-            sample_uniform_num = None):
+    def __init__(self, name, output, testcase, sample_indices = [],
+            max_level = None, sample_uniform_min = None,
+            sample_uniform_max = None, sample_uniform_num = None):
         self.name = name
         self.output = os.path.join('$builddir', output)
+        self.testcase = testcase
         self.sample_indices = [str(i) for i in sample_indices]
         self.max_level = max_level
         self.sample_uniform_min = sample_uniform_min
@@ -93,7 +94,10 @@ class Nonintrusive:
         self.sample_uniform_num = sample_uniform_num
 
     def write(self, generator):
-        variables = {'root': self.output}
+        variables = {
+                'root': self.output,
+                'testcase': self.testcase
+        }
 
         if self.sample_uniform_min is not None:
             rule = 'pysgswe-nonintrusive-sample-uniform'
@@ -115,7 +119,7 @@ class Nonintrusive:
                 variables=variables)
 
     def outputs(self):
-        outputs = []
+        outputs = [os.path.join(self.output, 'cpu.dat')]
 
         for i in self.sample_indices:
             outputs.append(os.path.join(self.output,
