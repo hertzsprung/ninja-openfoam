@@ -81,12 +81,12 @@ class Intrusive:
         return self.name
 
 class Nonintrusive:
-    def __init__(self, name, output, sample_indices, max_level = None,
+    def __init__(self, name, output, sample_indices = [], max_level = None,
             sample_uniform_min = None, sample_uniform_max = None,
             sample_uniform_num = None):
         self.name = name
         self.output = os.path.join('$builddir', output)
-        self.sample_indices = sample_indices
+        self.sample_indices = [str(i) for i in sample_indices]
         self.max_level = max_level
         self.sample_uniform_min = sample_uniform_min
         self.sample_uniform_max = sample_uniform_max
@@ -105,6 +105,10 @@ class Nonintrusive:
             rule = 'pysgswe-nonintrusive'
             variables['max_level'] = self.max_level
 
+        if self.sample_indices:
+            variables['sample_indices'] = '--response-curves ' + \
+                    ' '.join(self.sample_indices)
+
         generator.w.build(
                 self.outputs(),
                 rule,
@@ -115,7 +119,7 @@ class Nonintrusive:
 
         for i in self.sample_indices:
             outputs.append(os.path.join(self.output,
-                'response-curve.quadrature-points.' + str(i) + '.dat'))
+                'response-curve.quadrature-points.' + i + '.dat'))
 
         return outputs
 
