@@ -166,11 +166,11 @@ class Rules:
                 description='pysgswe-intrusive $root')
 
         g.w.rule('pysgswe-nonintrusive',
-                'pysgswe-nonintrusive $root $testcase --max-level $max_level $sample_indices',
+                'pysgswe-nonintrusive $root $testcase --max-level $max_level --basis-dimensions $basis_dimensions $sample_indices $elements',
                 description='pysgswe-nonintrusive $root')
 
         g.w.rule('pysgswe-nonintrusive-sample-uniform',
-                'pysgswe-nonintrusive $root $testcase $sample_indices --sample-uniform $sample_uniform',
+                'pysgswe-nonintrusive $root $testcase $sample_indices --sample-uniform $sample_uniform $elements',
                 description='pysgswe-nonintrusive $root')
 
         g.scriptRule(

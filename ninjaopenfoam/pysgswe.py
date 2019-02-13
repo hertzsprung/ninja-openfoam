@@ -82,22 +82,27 @@ class Intrusive:
 
 class Nonintrusive:
     def __init__(self, name, output, testcase, sample_indices = [],
-            max_level = None, sample_uniform_min = None,
-            sample_uniform_max = None, sample_uniform_num = None):
+            max_level = None, basis_dimensions = 1, sample_uniform_min = None,
+            sample_uniform_max = None, sample_uniform_num = None,
+            elements = None):
         self.name = name
         self.output = os.path.join('$builddir', output)
         self.testcase = testcase
         self.sample_indices = [str(i) for i in sample_indices]
         self.max_level = max_level
+        self.basis_dimensions = basis_dimensions
         self.sample_uniform_min = sample_uniform_min
         self.sample_uniform_max = sample_uniform_max
         self.sample_uniform_num = sample_uniform_num
+        self.elements = elements
 
     def write(self, generator):
         variables = {
                 'root': self.output,
-                'testcase': self.testcase
-        }
+                'testcase': self.testcase}
+
+        if self.elements:
+            variables['elements'] = '--elements ' + str(self.elements)
 
         if self.sample_uniform_min is not None:
             rule = 'pysgswe-nonintrusive-sample-uniform'
@@ -108,6 +113,7 @@ class Nonintrusive:
         else:
             rule = 'pysgswe-nonintrusive'
             variables['max_level'] = self.max_level
+            variables['basis_dimensions'] = self.basis_dimensions
 
         if self.sample_indices:
             variables['sample_indices'] = '--response-curves ' + \
