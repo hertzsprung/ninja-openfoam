@@ -267,6 +267,11 @@ class Rules:
                 description='swemc $out')
 
         g.scriptRule(
+                'tabulate',
+                'scripts/tabulate.sh $out $entries',
+                description='tabulate $out')
+
+        g.scriptRule(
                 'terrainFollowingMesh',
                 'scripts/terrainFollowingMesh.sh $blockMeshCase $terrainFollowingMeshCase',
                 description='terrainFollowingMesh $terrainFollowingMeshCase')
