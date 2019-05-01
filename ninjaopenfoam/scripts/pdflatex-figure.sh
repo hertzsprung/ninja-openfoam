@@ -12,6 +12,6 @@ then
 fi
 
 builddir=$(dirname $2)
-pdflatex="pdflatex -interaction=nonstopmode -halt-on-error -output-directory=$builddir"
+pdflatex="xelatex -interaction=nonstopmode -halt-on-error -output-directory=$builddir"
 
 $pdflatex $1
