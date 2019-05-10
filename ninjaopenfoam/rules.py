@@ -154,11 +154,11 @@ class Rules:
                 description='pysg-basis $output')
 
         g.w.rule('pysgswe-intrusive',
-                'pysgswe-intrusive $root $testcase $basis --max-basis $max_basis --basis-dimensions $basis_dimensions $truncate_basis $end_time $elements $topography_peak',
+                'pysgswe-intrusive $root $testcase $basis --max-basis $max_basis --basis-dimensions $basis_dimensions $truncate_basis $end_time $elements $topography_peak $negative_h_index $negative_h_time',
                 description='pysgswe-intrusive $root')
 
         g.w.rule('pysgswe-intrusive-sample-quadrature-points',
-                'pysgswe-intrusive $root $testcase $basis --max-basis $max_basis --basis-dimensions $basis_dimensions $truncate_basis $end_time $elements $topography_peak --response-curves $sample_indices',
+                'pysgswe-intrusive $root $testcase $basis --max-basis $max_basis --basis-dimensions $basis_dimensions $truncate_basis $end_time $elements $topography_peak --response-curves $sample_indices $negative_h_index $negative_h_time',
                 description='pysgswe-intrusive $root')
 
         g.w.rule('pysgswe-intrusive-sample-smooth-points',

@@ -5,7 +5,8 @@ class Intrusive:
             basis_dimensions = 1, truncate_basis = False, sample_indices = [],
             sample_points_min = None, sample_points_max = None,
             sample_points_num = None, end_time = None, elements = None,
-            topography_peak = None):
+            topography_peak = None, negative_h_index = None,
+            negative_h_time = None):
         self.name = name
         self.output = os.path.join('$builddir', output)
         self.testcase = testcase
@@ -20,6 +21,8 @@ class Intrusive:
         self.end_time = end_time
         self.elements = elements
         self.topography_peak = topography_peak
+        self.negative_h_index = negative_h_index
+        self.negative_h_time = negative_h_time
 
     def write(self, generator):
         variables = {
@@ -41,6 +44,12 @@ class Intrusive:
         if self.topography_peak is not None:
             variables['topography_peak'] = '--topography-peak ' + \
                     str(self.topography_peak)
+
+        if self.negative_h_index is not None:
+            variables['negative_h_index'] = '--negative-h-index ' + \
+                    str(self.negative_h_index)
+            variables['negative_h_time'] = '--negative-h-time ' + \
+                    str(self.negative_h_time)
 
         if not self.sample_indices:
             rule = 'pysgswe-intrusive'
@@ -74,6 +83,10 @@ class Intrusive:
             if self.sample_points_min is not None:
                 outputs.append(os.path.join(self.output,
                     'response-curve.smooth.' + i + '.dat'))
+
+        if self.negative_h_index is not None:
+            outputs.append(os.path.join(self.output,
+                'stochastic-element.' + str(self.negative_h_index) + '.dat'))
 
         return outputs
 
