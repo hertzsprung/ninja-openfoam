@@ -71,9 +71,7 @@ class Intrusive:
                 variables=variables)
 
     def outputs(self):
-        outputs = [os.path.join(self.output, file)
-                for file in ['statistics.initial.dat', 'statistics.end.dat',
-                    'cfl.dat', 'cpu.dat', 'quadrature-point-solutions.dat']]
+        outputs = [os.path.join(self.output, 'statistics.initial.dat')]
 
         for i in self.sample_indices:
             outputs.append(os.path.join(self.output,
@@ -84,7 +82,11 @@ class Intrusive:
                 outputs.append(os.path.join(self.output,
                     'response-curve.smooth.' + i + '.dat'))
 
-        if self.negative_h_index is not None:
+        if self.negative_h_index is None:
+            outputs.extend(os.path.join(self.output, file)
+                for file in ['statistics.end.dat', 'cfl.dat', 'cpu.dat',
+                    'quadrature-point-solutions.dat'])
+        else:
             outputs.append(os.path.join(self.output,
                 'stochastic-element.' + str(self.negative_h_index) + '.dat'))
 
