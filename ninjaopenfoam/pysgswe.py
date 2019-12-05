@@ -6,7 +6,7 @@ class Intrusive:
             sample_points_min = None, sample_points_max = None,
             sample_points_num = None, end_time = None, elements = None,
             topography_peak = None, negative_h_index = None,
-            negative_h_time = None):
+            negative_h_time = None, max_discharge = False):
         self.name = name
         self.output = os.path.join('$builddir', output)
         self.testcase = testcase
@@ -23,6 +23,7 @@ class Intrusive:
         self.topography_peak = topography_peak
         self.negative_h_index = negative_h_index
         self.negative_h_time = negative_h_time
+        self.max_discharge = max_discharge
 
     def write(self, generator):
         variables = {
@@ -34,6 +35,9 @@ class Intrusive:
 
         if self.truncate_basis:
             variables['truncate_basis'] = '--truncate-basis'
+
+        if self.max_discharge:
+            variables['max_discharge'] = '--max-discharge'
 
         if self.end_time:
             variables['end_time'] = '--end-time ' + str(self.end_time)
